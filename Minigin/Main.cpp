@@ -6,10 +6,7 @@
 #include <vld.h>
 #endif
 #endif
-#pragma warning (push)
-#pragma warning (disable: 4996)
-#include "steam_api.h"
-#pragma warning (pop)
+
 #include "Base/Minigin.h"
 #include "Singletons/SceneManager.h"
 #include "Singletons/InputManager.h"
@@ -22,14 +19,12 @@
 
 #include "Components/FPSComponent.h"
 #include "Components/TextComponent.h"
-#include "Wrappers/SteamAchievement.h"
 #include "Components/TextureComponent.h"
 #include "Components/HealthComponent.h"
 #include "Components/DisplayComponent.h"
 #include "Windows.h"
 #include "Xinput.h"
 #include <iostream>
-#include "Wrappers/SteamAchievement.h"
 namespace fs = std::filesystem;
 
 // Defining our achievements
@@ -40,18 +35,6 @@ enum EAchievements
 	ACH_TRAVEL_FAR_ACCUM = 2,
 	ACH_TRAVEL_FAR_SINGLE = 3,
 };
-
-// Achievement array which will hold data about the achievements and their state
-amu::Achievement_t g_Achievements[] =
-{
-	_ACH_ID(ACH_WIN_ONE_GAME, "Winner"),
-	_ACH_ID(ACH_WIN_100_GAMES, "Champion"),
-	_ACH_ID(ACH_TRAVEL_FAR_ACCUM, "Interstellar"),
-	_ACH_ID(ACH_TRAVEL_FAR_SINGLE, "Orbiter"),
-};
-
-// Global access to Achievements object
-amu::CSteamAchievements* g_SteamAchievements = NULL;
 
 void load()
 {
@@ -110,7 +93,6 @@ void load()
 	pacmanUPtr->AddComponent<amu::ScoreComponent>(pacmanUPtr.get(), 0);
 	pacmanUPtr->GetComponent<amu::HealthComponent>()->AddObserver(livesDisplayPacmanUPtr->GetComponent<amu::DisplayComponent>());
 	pacmanUPtr->GetComponent<amu::ScoreComponent>()->AddObserver(scoreDisplayPacmanUPtr->GetComponent<amu::DisplayComponent>());
-	pacmanUPtr->GetComponent<amu::ScoreComponent>()->AddObserver(g_SteamAchievements);
 
 	scene.Add(std::move(livesDisplayPacmanUPtr));
 	scene.Add(std::move(scoreDisplayPacmanUPtr));
@@ -236,6 +218,7 @@ void load()
 
 int main(int, char*[]) 
 {
+	//thx mat for the console fix
 #ifdef WIN32
 	if (AllocConsole()) 
 	{
@@ -244,18 +227,7 @@ int main(int, char*[])
 		freopen_s(&pEmpty, "CONOUT$", "w", stderr);
 	}
 #endif
-	if (!SteamAPI_Init())
-	{
-		std::cerr << "Fatal Error - Steam must be running to play this game (SteamAPI_Init() failed)." << std::endl;
-		return 1;
-	}
-	else
-	{
-		g_SteamAchievements = new amu::CSteamAchievements(g_Achievements, 4);
-
-		std::cout << "Successfully initialized steam." << std::endl;
-	}
-
+	
 #if __EMSCRIPTEN__
 	fs::path data_location = "";
 #else
@@ -266,11 +238,6 @@ int main(int, char*[])
 
 	amu::Minigin engine(data_location);
 	engine.Run(load);
-
-	SteamAPI_Shutdown();
-
-	if (g_SteamAchievements)
-		delete g_SteamAchievements;
 
     return 0;
 }

@@ -13,10 +13,6 @@
 #include "Minigin.h"
 
 #include <thread>
-#pragma warning (push)
-#pragma warning (disable: 4996)
-#include "steam_api.h"
-#pragma warning (pop)
 
 #include "Singletons/Time.h"
 #include "Singletons/InputManager.h"
@@ -121,8 +117,6 @@ void amu::Minigin::Run(const std::function<void()>& load)
 
 void amu::Minigin::RunOneFrame()
 {
-	SteamAPI_RunCallbacks();
-	
 	GameTime::GetInstance().Update();
 
 	GUI::GetInstance().BeginFrame();
