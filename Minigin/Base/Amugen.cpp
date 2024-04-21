@@ -10,18 +10,14 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
-#include "Minigin.h"
-
+#include "Amugen.h"
 #include <thread>
-
 #include "Singletons/Time.h"
 #include "Singletons/InputManager.h"
 #include "Singletons/SceneManager.h"
 #include "Singletons/Renderer.h"
 #include "Singletons/ResourceManager.h"
 #include "Singletons/GUI.h"
-#include "Parameters.h"
-SDL_Window* g_window{};
 
 void LogSDLVersion(const std::string& message, const SDL_version& v)
 {
@@ -39,7 +35,7 @@ void LogSDLVersion(const std::string& message, const SDL_version& v)
 
 void LoopCallback(void* arg)
 {
-	static_cast<amu::Minigin*>(arg)->RunOneFrame();
+	static_cast<amu::Amugen*>(arg)->RunOneFrame();
 }
 #endif
 
@@ -68,7 +64,7 @@ void PrintSDLVersion()
 	LogSDLVersion("We linked against SDL_ttf version ", version);
 }
 
-amu::Minigin::Minigin(const std::filesystem::path &dataPath)
+amu::Amugen::Amugen(const std::filesystem::path &dataPath, int width, int height)
 {
 	PrintSDLVersion();
 	
@@ -77,36 +73,36 @@ amu::Minigin::Minigin(const std::filesystem::path &dataPath)
 		throw std::runtime_error(std::string("SDL_Init Error: ") + SDL_GetError());
 	}
 	
-	g_window = SDL_CreateWindow(
+	m_WindowPtr = SDL_CreateWindow(
 		"Programming 4 assignment",
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
-		WINDOW_WIDTH,
-		WINDOW_HEIGHT,
+		width,
+		height,
 		SDL_WINDOW_OPENGL
 	);
-	if (g_window == nullptr) 
+
+	if (m_WindowPtr == nullptr) 
 	{
 		throw std::runtime_error(std::string("SDL_CreateWindow Error: ") + SDL_GetError());
 	}
 
-	Renderer::GetInstance().Init(g_window);
+	Renderer::GetInstance().Init(m_WindowPtr);
 	ResourceManager::GetInstance().Init(dataPath);
-	GUI::GetInstance().Initialize(g_window, Renderer::GetInstance().GetSDLRenderer());
+	GUI::GetInstance().Initialize(m_WindowPtr, Renderer::GetInstance().GetSDLRenderer());
 }
 
-amu::Minigin::~Minigin()
+amu::Amugen::~Amugen()
 {
 	Renderer::GetInstance().Destroy();
 	GUI::GetInstance().Destroy();
-	SDL_DestroyWindow(g_window);
-	g_window = nullptr;
+	SDL_DestroyWindow(m_WindowPtr);
+	m_WindowPtr = nullptr;
 	SDL_Quit();
 }
 
-void amu::Minigin::Run(const std::function<void()>& load)
+void amu::Amugen::Run()
 {
-	load();
 #ifndef __EMSCRIPTEN__
 	while (!m_Quit)
 		RunOneFrame();
@@ -115,7 +111,7 @@ void amu::Minigin::Run(const std::function<void()>& load)
 #endif
 }
 
-void amu::Minigin::RunOneFrame()
+void amu::Amugen::RunOneFrame()
 {
 	GameTime::GetInstance().Update();
 

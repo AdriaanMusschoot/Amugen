@@ -1,15 +1,15 @@
 cmake_minimum_required(VERSION 3.26)
-project(Minigin)
+project(Amugen)
 
 if(EMSCRIPTEN)
   message("Using Emscripten!")
 endif()
 
 if(EMSCRIPTEN) 
-  set(TARGET_NAME minigin_web)
+  set(TARGET_NAME Amugen_web)
   set(TARGET_PARAM)
 else()
-  set(TARGET_NAME minigin)
+  set(TARGET_NAME Amugen)
   set(TARGET_PARAM WIN32)
 endif() 
 
@@ -17,11 +17,12 @@ endif()
 add_executable(${TARGET_NAME} ${TARGET_PARAM}
   "${TARGET_NAME}/Main.cpp"
   "${TARGET_NAME}/Base/Scene.cpp"
-  "${TARGET_NAME}/Base/Minigin.cpp"
+  "${TARGET_NAME}/Base/Amugen.cpp"
   "${TARGET_NAME}/Base/GameObject.cpp"
   "${TARGET_NAME}/Base/Subject.h"
   "${TARGET_NAME}/Base/Observer.h"
-  "${TARGET_NAME}/Commands/Command.h" 
+  "${TARGET_NAME}/Base/TransformComponent.cpp"
+  "${TARGET_NAME}/Commands/Command.h"
   "${TARGET_NAME}/Commands/GameObjectCommands.h" 
   "${TARGET_NAME}/Singletons/Time.cpp"
   "${TARGET_NAME}/Wrappers/Font.cpp"
@@ -30,15 +31,8 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
   "${TARGET_NAME}/Singletons/InputManager.cpp"
   "${TARGET_NAME}/Singletons/ResourceManager.cpp"
   "${TARGET_NAME}/Singletons/SceneManager.cpp"
-  "${TARGET_NAME}/Singletons/GUI.cpp" 
-  "${TARGET_NAME}/Components/TransformComponent.cpp"
-  "${TARGET_NAME}/Components/TextureComponent.cpp"
-  "${TARGET_NAME}/Components/TextComponent.cpp"
-  "${TARGET_NAME}/Components/FPSComponent.cpp"
-  "${TARGET_NAME}/Components/HealthComponent.cpp"
+  "${TARGET_NAME}/Singletons/GUI.cpp"
   "${TARGET_NAME}/Wrappers/Controller.cpp"
-  "${TARGET_NAME}/Components/DisplayComponent.cpp"
-  "Minigin/Components/ScoreComponent.cpp" 
   )
 
 
@@ -211,7 +205,7 @@ elseif(NOT EMSCRIPTEN)
 endif()
 
 target_include_directories(${TARGET_NAME} PRIVATE
-  ${CMAKE_SOURCE_DIR}/Minigin/
+  ${CMAKE_SOURCE_DIR}/Amugen/
   ${glm_SOURCE_DIR}
   3rdParty/imgui
 )
@@ -253,7 +247,7 @@ elseif(WIN32)
   add_custom_command(TARGET ${TARGET_NAME} POST_BUILD
       COMMAND "${CMAKE_COMMAND}" -E copy "${SDL2_TTF_LIBRARY_DLL}" "$<TARGET_FILE_DIR:${TARGET_NAME}>"
   )
-  add_custom_command(TARGET ${TARGET_NAME} POST_BUILD
-    COMMAND "${CMAKE_COMMAND}" -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/Data" "$<TARGET_FILE_DIR:${TARGET_NAME}>/Data"
-  )
+  #add_custom_command(TARGET ${TARGET_NAME} POST_BUILD
+  #  COMMAND "${CMAKE_COMMAND}" -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/Data" "$<TARGET_FILE_DIR:${TARGET_NAME}>/Data"
+  #)
 endif()
