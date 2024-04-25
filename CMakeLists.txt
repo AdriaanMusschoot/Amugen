@@ -13,30 +13,37 @@ else()
   set(TARGET_PARAM WIN32)
 endif() 
 
+Set(SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/EngineFiles)
+
 # list source files here
-add_executable(${TARGET_NAME} ${TARGET_PARAM}
-  "${TARGET_NAME}/Main.cpp"
-  "${TARGET_NAME}/Base/Scene.cpp"
-  "${TARGET_NAME}/Base/Amugen.cpp"
-  "${TARGET_NAME}/Base/GameObject.cpp"
-  "${TARGET_NAME}/Base/Subject.h"
-  "${TARGET_NAME}/Base/Observer.h"
-  "${TARGET_NAME}/Base/TransformComponent.cpp"
-  "${TARGET_NAME}/Commands/Command.h"
-  "${TARGET_NAME}/Commands/GameObjectCommands.h" 
-  "${TARGET_NAME}/Singletons/Time.cpp"
-  "${TARGET_NAME}/Wrappers/Font.cpp"
-  "${TARGET_NAME}/Wrappers/Texture2D.cpp"
-  "${TARGET_NAME}/Singletons/Renderer.cpp"
-  "${TARGET_NAME}/Singletons/InputManager.cpp"
-  "${TARGET_NAME}/Singletons/ResourceManager.cpp"
-  "${TARGET_NAME}/Singletons/SceneManager.cpp"
-  "${TARGET_NAME}/Singletons/GUI.cpp"
-  "${TARGET_NAME}/Wrappers/Controller.cpp"
+Set(ENGINE_SOURCE_FILES
+  "${SOURCE_DIR}/Base/Scene.cpp"
+  "${SOURCE_DIR}/Base/Amugen.cpp"
+  "${SOURCE_DIR}/Base/GameObject.cpp"
+  "${SOURCE_DIR}/Base/Subject.h"
+  "${SOURCE_DIR}/Base/Observer.h"
+
+  "${SOURCE_DIR}/Components/TransformComponent.cpp"
+  "${SOURCE_DIR}/Components/TextComponent.cpp"
+  "${SOURCE_DIR}/Components/TextureComponent.cpp"
+
+  "${SOURCE_DIR}/Commands/Command.h"
+  "${SOURCE_DIR}/Commands/GameObjectCommands.h" 
+
+  "${SOURCE_DIR}/Singletons/Singleton.h"
+  "${SOURCE_DIR}/Singletons/GameTime.cpp"
+  "${SOURCE_DIR}/Singletons/Renderer.cpp"
+  "${SOURCE_DIR}/Singletons/InputManager.cpp"
+  "${SOURCE_DIR}/Singletons/ResourceManager.cpp"
+  "${SOURCE_DIR}/Singletons/SceneManager.cpp"
+  "${SOURCE_DIR}/Singletons/GUI.cpp"
+
+  "${SOURCE_DIR}/Wrappers/Texture2D.cpp"
+  "${SOURCE_DIR}/Wrappers/Font.cpp"
+  "${SOURCE_DIR}/Wrappers/Controller.cpp"
   )
 
-
-add_library(imgui OBJECT
+Set(IMGUI_SOURCE_FILES
   3rdParty/imgui/imgui.cpp
   3rdParty/imgui/imgui_draw.cpp
   3rdParty/imgui/imgui_widgets.cpp
@@ -46,16 +53,36 @@ add_library(imgui OBJECT
   3rdParty/imgui/imgui_plot.cpp
 )
 
-target_include_directories(imgui PRIVATE 3rdParty/imgui)
-
-target_link_libraries(${TARGET_NAME} PRIVATE imgui)
+add_library(${TARGET_NAME} STATIC
+    ${IMGUI_SOURCE_FILES}
+    ${ENGINE_SOURCE_FILES}
+)
 
 target_link_libraries(${TARGET_NAME} PUBLIC XInput)
 
+target_include_directories(${TARGET_NAME} PUBLIC
+    ${SOURCE_DIR}/Base
+    ${SOURCE_DIR}/Commands
+    ${SOURCE_DIR}/Singletons
+    ${SOURCE_DIR}/Wrappers
+    ${SOURCE_DIR}/Components
+
+    ${CMAKE_CURRENT_SOURCE_DIR}/3rdParty
+    ${CMAKE_CURRENT_SOURCE_DIR}/3rdParty/imgui
+)
+
 # enable c++20 features
 target_compile_features(${TARGET_NAME} PUBLIC cxx_std_20)
-# set minigin as the default startup project
-set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${TARGET_NAME})
+# compile at max warning level + treat warnings as errors
+target_compile_options(${TARGET_NAME} PRIVATE
+  $<$<CXX_COMPILER_ID:MSVC>:/W4 /WX>
+  $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra -Wpedantic -Werror>
+)
+set_property(TARGET ${TARGET_NAME} PROPERTY
+    CXX_STANDARD 20
+    CXX_STANDARD_REQUIRED TRUE
+    CXX_EXTENSIONS FALSE
+)
 
 include(FetchContent)
 # add glm
@@ -65,6 +92,8 @@ FetchContent_Declare(
   DOWNLOAD_NO_PROGRESS ON
   DOWNLOAD_DIR ${CMAKE_BINARY_DIR}/downloads
 )
+FetchContent_MakeAvailable(glm)
+target_link_libraries(${TARGET_NAME} PUBLIC glm::glm)
 
 FetchContent_GetProperties(glm)
 if(NOT glm_POPULATED)
@@ -110,7 +139,7 @@ endif()
     set(SDL2_IMAGE_LIBRARIES "${sdl2_image_SOURCE_DIR}/lib/x86/SDL2_image.lib")
     set(SDL2_IMAGE_LIBRARY_DLL "${sdl2_image_SOURCE_DIR}/lib/x86/SDL2_image.dll")
   endif()
-  endif()
+endif()
 
   # add SDL2_ttf
   FetchContent_Declare(
@@ -148,13 +177,7 @@ endif()
     ${SDL2_INCLUDE_DIR} 
     ${SDL2_IMAGE_INCLUDE_DIR} 
     ${SDL2_TTF_INCLUDE_DIR})
-
-  target_include_directories(imgui PRIVATE
-    ${VLD_INCLUDE_DIR}
-    ${SDL2_INCLUDE_DIR} 
-    ${SDL2_IMAGE_INCLUDE_DIR} 
-    ${SDL2_TTF_INCLUDE_DIR})
-  
+      
   # set libraries to link with
   target_link_libraries(${TARGET_NAME} PUBLIC
     ${SDL2_LIBRARIES} 
@@ -197,24 +220,12 @@ elseif(NOT EMSCRIPTEN)
   target_include_directories("${TARGET_NAME}" PUBLIC 
     ${sdl2_SOURCE_DIR}/include
     ${sdl2_image_SOURCE_DIR}/include
-    ${sdl2_ttf_SOURCE_DIR}
+    ${sdl2_ttf_SOURCE_DIR}/include
   )
   target_link_libraries("${TARGET_NAME}" PUBLIC 
     SDL2::SDL2main SDL2::SDL2 SDL2_image::SDL2_image SDL2_ttf::SDL2_ttf
   )
 endif()
-
-target_include_directories(${TARGET_NAME} PRIVATE
-  ${CMAKE_SOURCE_DIR}/Amugen/
-  ${glm_SOURCE_DIR}
-  3rdParty/imgui
-)
-
-# compile at max warning level + treat warnings as errors
-target_compile_options(${TARGET_NAME} PRIVATE
-  $<$<CXX_COMPILER_ID:MSVC>:/W4 /WX>
-  $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra -Wpedantic -Werror>
-)
 
 if(EMSCRIPTEN)
   set(EMSCRIPTEN_COMPILE_FLAGS "${EMSCRIPTEN_LINK_FLAGS} -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -g")
@@ -234,20 +245,19 @@ if(EMSCRIPTEN)
 
   # Have emscripten generate a html page too.
   set(CMAKE_EXECUTABLE_SUFFIX ".html")
-  
-elseif(WIN32)
 
-  # add post build commands
-  add_custom_command(TARGET ${TARGET_NAME} POST_BUILD
-      COMMAND "${CMAKE_COMMAND}" -E copy "${SDL2_LIBRARY_DLL}" "$<TARGET_FILE_DIR:${TARGET_NAME}>"
-  )
-  add_custom_command(TARGET ${TARGET_NAME} POST_BUILD
-      COMMAND "${CMAKE_COMMAND}" -E copy "${SDL2_IMAGE_LIBRARY_DLL}" "$<TARGET_FILE_DIR:${TARGET_NAME}>"
-  )
-  add_custom_command(TARGET ${TARGET_NAME} POST_BUILD
-      COMMAND "${CMAKE_COMMAND}" -E copy "${SDL2_TTF_LIBRARY_DLL}" "$<TARGET_FILE_DIR:${TARGET_NAME}>"
-  )
-  #add_custom_command(TARGET ${TARGET_NAME} POST_BUILD
-  #  COMMAND "${CMAKE_COMMAND}" -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/Data" "$<TARGET_FILE_DIR:${TARGET_NAME}>/Data"
-  #)
 endif()
+
+add_custom_command(TARGET ${TARGET_NAME} POST_BUILD
+    COMMAND "${CMAKE_COMMAND}" -E copy_directory "${CMAKE_SOURCE_DIR}/Resources" "${CMAKE_BINARY_DIR}/Resources"
+	)
+# add post build commands
+add_custom_command(TARGET ${TARGET_NAME} POST_BUILD
+    COMMAND "${CMAKE_COMMAND}" -E copy "${SDL2_LIBRARY_DLL}" ${CMAKE_BINARY_DIR}
+)
+add_custom_command(TARGET ${TARGET_NAME} POST_BUILD
+    COMMAND "${CMAKE_COMMAND}" -E copy "${SDL2_IMAGE_LIBRARY_DLL}" ${CMAKE_BINARY_DIR}
+)
+add_custom_command(TARGET ${TARGET_NAME} POST_BUILD
+    COMMAND "${CMAKE_COMMAND}" -E copy "${SDL2_TTF_LIBRARY_DLL}" ${CMAKE_BINARY_DIR}
+)

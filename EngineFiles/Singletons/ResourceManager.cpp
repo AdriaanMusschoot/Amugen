@@ -1,10 +1,10 @@
 #include <stdexcept>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
-#include "Singletons/ResourceManager.h"
-#include "Singletons/Renderer.h"
-#include "Wrappers/Texture2D.h"
-#include "Wrappers/Font.h"
+#include "ResourceManager.h"
+#include "Renderer.h"
+#include "Texture2D.h"
+#include "Font.h"
 
 void amu::ResourceManager::Init(const std::filesystem::path& dataPath)
 {

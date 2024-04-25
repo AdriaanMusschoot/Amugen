@@ -1,5 +1,5 @@
-#include "Base/GameObject.h"
-#include "Base/TransformComponent.h"
+#include "GameObject.h"
+#include "TransformComponent.h"
 
 amu::TransformComponent::TransformComponent(GameObject* ownerObjectPtr, const glm::vec2& pos)
 	: Component(ownerObjectPtr)

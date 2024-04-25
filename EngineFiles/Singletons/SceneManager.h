@@ -5,7 +5,7 @@
 #include <string>
 #include <memory>
 #include "Singleton.h"
-#include "Base/Scene.h"
+#include "Scene.h"
 #include <functional>
 
 namespace amu
@@ -14,7 +14,7 @@ namespace amu
 	class SceneManager final : public Singleton<SceneManager>
 	{
 	public:
-		Scene& CreateScene(const std::string& name, const std::function<void(Scene*)>& loadScene);
+		void CreateScene(const std::string& name, const std::function<void(Scene*)>& loadScene);
 
 		void Update();
 		void Render();

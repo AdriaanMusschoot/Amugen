@@ -12,12 +12,12 @@
 #include <SDL_ttf.h>
 #include "Amugen.h"
 #include <thread>
-#include "Singletons/Time.h"
-#include "Singletons/InputManager.h"
-#include "Singletons/SceneManager.h"
-#include "Singletons/Renderer.h"
-#include "Singletons/ResourceManager.h"
-#include "Singletons/GUI.h"
+#include "GameTime.h"
+#include "InputManager.h"
+#include "SceneManager.h"
+#include "Renderer.h"
+#include "ResourceManager.h"
+#include "GUI.h"
 
 void LogSDLVersion(const std::string& message, const SDL_version& v)
 {

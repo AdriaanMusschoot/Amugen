@@ -1,4 +1,4 @@
-#include "Singletons/GUI.h"
+#include "GUI.h"
 
 #include <SDL_events.h>
 #include <SDL_render.h>

@@ -1,8 +1,8 @@
 #pragma once
 #include "Command.h"
-#include "Base/GameObject.h"
+#include "GameObject.h"
 #include "glm/glm.hpp"
-#include "Singletons/Time.h"
+#include "Time.h"
 
 namespace amu
 {

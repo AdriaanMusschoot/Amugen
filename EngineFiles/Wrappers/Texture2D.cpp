@@ -1,5 +1,5 @@
 #include <SDL.h>
-#include "Wrappers/Texture2D.h"
+#include "Texture2D.h"
 
 amu::Texture2D::~Texture2D()
 {

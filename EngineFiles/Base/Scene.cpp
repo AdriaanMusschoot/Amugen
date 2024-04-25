@@ -1,4 +1,4 @@
-#include "Base/Scene.h"
+#include "Scene.h"
 #include <string>
 
 using namespace amu;

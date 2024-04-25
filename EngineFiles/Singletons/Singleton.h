@@ -1,4 +1,6 @@
-#pragma once
+#ifndef AMU_SINGLETON_IMPL
+#define AMU_SINGLETON_IMPL
+
 namespace amu
 {
 	template <typename T>
@@ -21,3 +23,5 @@ namespace amu
 		Singleton() = default;
 	};
 }
+
+#endif 

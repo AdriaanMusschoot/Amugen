@@ -1,9 +1,9 @@
 #include <SDL.h>
-#include "Singletons/InputManager.h"
-#include "Singletons/GUI.h"
-#include "Wrappers/Controller.h"
+#include "InputManager.h"
+#include "GUI.h"
+#include "Controller.h"
 
-#include "Wrappers/Controller.h"
+#include "Controller.h"
 
 amu::InputManager::InputManager()
 	: m_ControllerArr{ std::make_unique<Controller>(0), std::make_unique<Controller>(1) }

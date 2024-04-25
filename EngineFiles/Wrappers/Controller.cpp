@@ -1,5 +1,5 @@
 #include "Controller.h"
-#include "Singletons/InputManager.h"
+#include "InputManager.h"
 
 namespace amu
 {

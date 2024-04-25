@@ -1,9 +1,9 @@
 #include <stdexcept>
 #include <cstring>
-#include "Singletons/Renderer.h"
-#include "Singletons/SceneManager.h"
-#include "Wrappers/Texture2D.h"
-#include "Singletons/GUI.h"
+#include "Renderer.h"
+#include "SceneManager.h"
+#include "Texture2D.h"
+#include "GUI.h"
 
 int GetOpenGLDriverIndex()
 {

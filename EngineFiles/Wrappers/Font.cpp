@@ -1,6 +1,6 @@
 #include <stdexcept>
 #include <SDL_ttf.h>
-#include "Wrappers/Font.h"
+#include "Font.h"
 
 TTF_Font* amu::Font::GetFont() const
 {

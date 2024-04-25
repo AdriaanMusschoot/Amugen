@@ -5,8 +5,8 @@
 #include "Xinput.h"
 #include <vector>
 #include <tuple>
-#include "Commands/GameObjectCommands.h"
-#include "Singletons/InputManager.h"
+#include "GameObjectCommands.h"
+#include "InputManager.h"
 
 namespace amu
 {

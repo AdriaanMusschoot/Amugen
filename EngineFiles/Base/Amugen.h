@@ -3,8 +3,11 @@
 #include <functional>
 #include <filesystem>
 
+struct SDL_Window;
+
 namespace amu
 {
+
 	class Amugen final
 	{
 	public:

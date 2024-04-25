@@ -1,7 +1,7 @@
 #pragma once
 #include <glm/glm.hpp>
 
-#include "Base/Component.h"
+#include "Component.h"
 
 namespace amu
 {

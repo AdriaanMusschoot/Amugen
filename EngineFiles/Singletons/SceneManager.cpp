@@ -1,5 +1,5 @@
-#include "Singletons/SceneManager.h"
-#include "Base/Scene.h"
+#include "SceneManager.h"
+#include "Scene.h"
 void amu::SceneManager::Update()
 {
 	for(auto& scene : m_ScenesUPtrVec)
@@ -16,10 +16,9 @@ void amu::SceneManager::Render()
 	}
 }
 
-amu::Scene& amu::SceneManager::CreateScene(const std::string& name, const std::function<void(Scene*)>& loadScene)
+void amu::SceneManager::CreateScene(const std::string& name, const std::function<void(Scene*)>& loadScene)
 {
 	std::unique_ptr sceneUPtr = std::make_unique<Scene>(name);
 	loadScene(sceneUPtr.get());
 	m_ScenesUPtrVec.emplace_back(std::move(sceneUPtr));
-	return *m_ScenesUPtrVec[m_ScenesUPtrVec.size() - 1];
 }

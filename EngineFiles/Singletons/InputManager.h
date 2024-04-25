@@ -2,7 +2,7 @@
 
 #define _INPUT_MANAGER_
 #include "Singleton.h"
-#include "Commands/GameObjectCommands.h"
+#include "GameObjectCommands.h"
 #include <map>
 #include <array>
 

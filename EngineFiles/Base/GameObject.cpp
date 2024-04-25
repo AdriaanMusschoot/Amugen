@@ -1,6 +1,6 @@
-#include "Base/GameObject.h"
+#include "GameObject.h"
 #include <algorithm>
-#include "Base/TransformComponent.h"
+#include "TransformComponent.h"
 void amu::GameObject::Update()
 {
     for (const auto& component : m_ComponentUPtrVec)
