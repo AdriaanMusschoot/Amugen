@@ -76,7 +76,7 @@ target_compile_features(${TARGET_NAME} PUBLIC cxx_std_20)
 # compile at max warning level + treat warnings as errors
 target_compile_options(${TARGET_NAME} PRIVATE
   $<$<CXX_COMPILER_ID:MSVC>:/W4 /WX>
-  $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra -Wpedantic -Werror>
+  $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:-Wall -Wextra -Wpedantic -Werror -Wno-volatile>
 )
 set_property(TARGET ${TARGET_NAME} PROPERTY
     CXX_STANDARD 20
