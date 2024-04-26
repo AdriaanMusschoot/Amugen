@@ -2,8 +2,11 @@
 #include "Command.h"
 #include "GameObject.h"
 
+#pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wvolatile"
 #include <glm/glm.hpp>
+#pragma clang diagnostic pop
+
 
 namespace amu
 {
