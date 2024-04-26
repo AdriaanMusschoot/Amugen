@@ -38,4 +38,4 @@ namespace amu
 
 }
 
-#endif _INPUT_MANAGER_
+#endif
