@@ -1,7 +1,9 @@
 #pragma once
 #include "Command.h"
 #include "GameObject.h"
-#include "glm/glm.hpp"
+
+#pragma clang diagnostic ignored "-Wvolatile"
+#include <glm/glm.hpp>
 
 namespace amu
 {
