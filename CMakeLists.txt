@@ -1,17 +1,8 @@
 cmake_minimum_required(VERSION 3.6)
 project(Amugen)
 
-if(EMSCRIPTEN)
-  message("Using Emscripten!")
-endif()
-
-if(EMSCRIPTEN) 
-  set(TARGET_NAME Amugen_web)
-  set(TARGET_PARAM)
-else()
-  set(TARGET_NAME Amugen)
-  set(TARGET_PARAM WIN32)
-endif() 
+set(TARGET_NAME Amugen)
+set(TARGET_PARAM WIN32)
 
 Set(SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/EngineFiles)
 
@@ -100,9 +91,9 @@ if(NOT glm_POPULATED)
   FetchContent_Populate(glm)
 endif()
 
-# add SDL2
+# add sdl libraries
 if (WIN32)
-  FetchContent_Declare(
+  FetchContent_Declare  (
     SDL2
     URL https://www.libsdl.org/release/SDL2-devel-2.28.5-VC.zip 
     DOWNLOAD_NO_PROGRESS ON
@@ -110,16 +101,16 @@ if (WIN32)
   )
   FetchContent_GetProperties(SDL2)
   if(NOT SDL2_POPULATED)
-    FetchContent_Populate(SDL2)
-    set(SDL2_INCLUDE_DIR ${sdl2_SOURCE_DIR}/include)
-  if (${CMAKE_SIZEOF_VOID_P} MATCHES 8)
-    set(SDL2_LIBRARIES "${sdl2_SOURCE_DIR}/lib/x64/SDL2.lib;${sdl2_SOURCE_DIR}/lib/x64/SDL2main.lib")
-    set(SDL2_LIBRARY_DLL "${sdl2_SOURCE_DIR}/lib/x64/SDL2.dll")
-  else()
-    set(SDL2_LIBRARIES "${sdl2_SOURCE_DIR}/lib/x86/SDL2.lib;${sdl2_SOURCE_DIR}/lib/x86/SDL2main.lib")
-    set(SDL2_LIBRARY_DLL "${sdl2_SOURCE_DIR}/lib/x86/SDL2.dll")
+      FetchContent_Populate(SDL2)
+      set(SDL2_INCLUDE_DIR ${sdl2_SOURCE_DIR}/include)
+    if (${CMAKE_SIZEOF_VOID_P} MATCHES 8)
+        set(SDL2_LIBRARIES "${sdl2_SOURCE_DIR}/lib/x64/SDL2.lib;${sdl2_SOURCE_DIR}/lib/x64/SDL2main.lib")
+        set(SDL2_LIBRARY_DLL "${sdl2_SOURCE_DIR}/lib/x64/SDL2.dll")
+    else()
+        set(SDL2_LIBRARIES "${sdl2_SOURCE_DIR}/lib/x86/SDL2.lib;${sdl2_SOURCE_DIR}/lib/x86/SDL2main.lib")
+        set(SDL2_LIBRARY_DLL "${sdl2_SOURCE_DIR}/lib/x86/SDL2.dll")
+    endif()
   endif()
-endif()
 
   # add SDL2_image
   FetchContent_Declare(
@@ -130,16 +121,16 @@ endif()
   )
   FetchContent_GetProperties(SDL2_image)
   if(NOT SDL2_image_POPULATED)
-    FetchContent_Populate(SDL2_image)
-    set(SDL2_IMAGE_INCLUDE_DIR ${sdl2_image_SOURCE_DIR}/include)
-  if (${CMAKE_SIZEOF_VOID_P} MATCHES 8)
-    set(SDL2_IMAGE_LIBRARIES "${sdl2_image_SOURCE_DIR}/lib/x64/SDL2_image.lib")
-    set(SDL2_IMAGE_LIBRARY_DLL "${sdl2_image_SOURCE_DIR}/lib/x64/SDL2_image.dll")
-  else()
+        FetchContent_Populate(SDL2_image)
+        set(SDL2_IMAGE_INCLUDE_DIR ${sdl2_image_SOURCE_DIR}/include)
+    if (${CMAKE_SIZEOF_VOID_P} MATCHES 8)
+        set(SDL2_IMAGE_LIBRARIES "${sdl2_image_SOURCE_DIR}/lib/x64/SDL2_image.lib")
+        set(SDL2_IMAGE_LIBRARY_DLL "${sdl2_image_SOURCE_DIR}/lib/x64/SDL2_image.dll")
+    else()
     set(SDL2_IMAGE_LIBRARIES "${sdl2_image_SOURCE_DIR}/lib/x86/SDL2_image.lib")
     set(SDL2_IMAGE_LIBRARY_DLL "${sdl2_image_SOURCE_DIR}/lib/x86/SDL2_image.dll")
+    endif()
   endif()
-endif()
 
   # add SDL2_ttf
   FetchContent_Declare(
@@ -149,16 +140,37 @@ endif()
     DOWNLOAD_DIR ${CMAKE_BINARY_DIR}/downloads
   )
   FetchContent_GetProperties(SDL2_ttf)
-  if(NOT sdl2_ttf_POPULATED)
-    FetchContent_Populate(SDL2_ttf)
-    set(SDL2_TTF_INCLUDE_DIR ${sdl2_ttf_SOURCE_DIR}/include)
-  if (${CMAKE_SIZEOF_VOID_P} MATCHES 8)
-    set(SDL2_TTF_LIBRARIES ${sdl2_ttf_SOURCE_DIR}/lib/x64/SDL2_ttf.lib)
-    set(SDL2_TTF_LIBRARY_DLL "${sdl2_ttf_SOURCE_DIR}/lib/x64/SDL2_ttf.dll")
-  else()
-    set(SDL2_TTF_LIBRARIES ${sdl2_ttf_SOURCE_DIR}/lib/x86/SDL2_ttf.lib)
-    set(SDL2_TTF_LIBRARY_DLL "${sdl2_ttf_SOURCE_DIR}/lib/x86/SDL2_ttf.dll")
+  if(NOT SDL2_TTF_POPULATED)
+        FetchContent_Populate(SDL2_ttf)
+        set(SDL2_TTF_INCLUDE_DIR ${sdl2_ttf_SOURCE_DIR}/include)
+    if (${CMAKE_SIZEOF_VOID_P} MATCHES 8)
+        set(SDL2_TTF_LIBRARIES ${sdl2_ttf_SOURCE_DIR}/lib/x64/SDL2_ttf.lib)
+        set(SDL2_TTF_LIBRARY_DLL "${sdl2_ttf_SOURCE_DIR}/lib/x64/SDL2_ttf.dll")
+    else()
+        set(SDL2_TTF_LIBRARIES ${sdl2_ttf_SOURCE_DIR}/lib/x86/SDL2_ttf.lib)
+        set(SDL2_TTF_LIBRARY_DLL "${sdl2_ttf_SOURCE_DIR}/lib/x86/SDL2_ttf.dll")
+    endif()
   endif()
+
+  # add SDL2_mixer
+  FetchContent_Declare(
+    SDL2_mixer
+    URL https://github.com/libsdl-org/SDL_mixer/releases/download/release-2.8.0/SDL2_mixer-devel-2.8.0-VC.zip
+    DOWNLOAD_NO_PROGRESS ON
+    DOWNLOAD_DIR ${CMAKE_BINARY_DIR}/downloads
+  )
+
+  FetchContent_GetProperties(SDL2_mixer)
+  if(NOT SDL2_MIXER_POPULATED)
+        FetchContent_Populate(SDL2_mixer)
+        set(SDL2_MIXER_INCLUDE_DIR ${sdl2_mixer_SOURCE_DIR}/include)
+    if (${CMAKE_SIZEOF_VOID_P} MATCHES 8)
+        set(SDL2_MIXER_LIBRARIES ${sdl2_mixer_SOURCE_DIR}/lib/x64/SDL2_mixer.lib)
+        set(SDL2_MIXER_LIBRARY_DLL "${sdl2_mixer_SOURCE_DIR}/lib/x64/SDL2_mixer.dll")
+    else()       
+        set(SDL2_MIXER_LIBRARIES ${sdl2_mixer_SOURCE_DIR}/lib/x86/SDL2_mixer.lib)
+        set(SDL2_MIXER_LIBRARY_DLL "${sdl2_mixer_SOURCE_DIR}/lib/x86/SDL2_mixer.dll")
+    endif()
   endif()
 
   set(VLD_DIR "$ENV{ProgramFiles\(x86\)}/Visual Leak Detector")
@@ -176,82 +188,26 @@ endif()
     ${VLD_INCLUDE_DIR}
     ${SDL2_INCLUDE_DIR} 
     ${SDL2_IMAGE_INCLUDE_DIR} 
-    ${SDL2_TTF_INCLUDE_DIR})
+    ${SDL2_TTF_INCLUDE_DIR}
+    ${SDL2_MIXER_INCLUDE_DIR}
+  )
       
   # set libraries to link with
   target_link_libraries(${TARGET_NAME} PUBLIC
     ${SDL2_LIBRARIES} 
     ${SDL2_IMAGE_LIBRARIES} 
     ${SDL2_TTF_LIBRARIES} 
+    ${SDL2_MIXER_LIBRARIES}
     ${VLD_LIBRARY}
   )
-
-elseif(NOT EMSCRIPTEN)
-
-  FetchContent_Declare(
-    SDL2
-    GIT_REPOSITORY https://github.com/libsdl-org/SDL.git
-    GIT_TAG release-2.28.5
-    GIT_SHALLOW TRUE
-    GIT_PROGRESS TRUE
-  )
-  FetchContent_MakeAvailable(SDL2)
-
-  FetchContent_Declare(
-    SDL2_image
-    GIT_REPOSITORY https://github.com/libsdl-org/SDL_image.git
-    GIT_TAG release-2.8.2
-    GIT_SHALLOW TRUE
-    GIT_PROGRESS TRUE
-  )
-  set(SDL2IMAGE_INSTALL OFF)
-  FetchContent_MakeAvailable(SDL2_image)
-
-  FetchContent_Declare(
-    SDL2_ttf
-    GIT_REPOSITORY https://github.com/libsdl-org/SDL_ttf.git
-    GIT_TAG release-2.20.2
-    GIT_SHALLOW TRUE
-    GIT_PROGRESS TRUE
-  )
-  set(SDL2TTF_INSTALL OFF)
-  FetchContent_MakeAvailable(SDL2_ttf)
-
-  target_include_directories("${TARGET_NAME}" PUBLIC 
-    ${sdl2_SOURCE_DIR}/include
-    ${sdl2_image_SOURCE_DIR}/include
-    ${sdl2_ttf_SOURCE_DIR}/include
-  )
-  target_link_libraries("${TARGET_NAME}" PUBLIC 
-    SDL2::SDL2main SDL2::SDL2 SDL2_image::SDL2_image SDL2_ttf::SDL2_ttf
-  )
 endif()
 
-if(EMSCRIPTEN)
-  set(EMSCRIPTEN_COMPILE_FLAGS "${EMSCRIPTEN_LINK_FLAGS} -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -g")
-  set(EMSCRIPTEN_LINK_FLAGS "${EMSCRIPTEN_LINK_FLAGS} -sUSE_SDL=2 -sUSE_SDL_IMAGE=2 -sUSE_SDL_TTF=2 -g -sALLOW_MEMORY_GROWTH --preload-file \"${CMAKE_SOURCE_DIR}/Data@/\" -sSDL2_IMAGE_FORMATS=['tga','png']")
-
-  # work around https://github.com/emscripten-core/emscripten/issues/11513
-  set(EMSCRIPTEN_LINK_FLAGS "${EMSCRIPTEN_LINK_FLAGS} -fno-stack-protector")
-
-  # Use the Emscripten toolchain
-  set(CMAKE_TOOLCHAIN_FILE ${CMAKE_CURRENT_SOURCE_DIR}/EmscriptenToolchain.cmake)
-
-  # Additional settings for Emscripten build
-  set_target_properties(${TARGET_NAME} PROPERTIES
-      COMPILE_FLAGS "${EMSCRIPTEN_COMPILE_FLAGS}"
-      LINK_FLAGS "${EMSCRIPTEN_LINK_FLAGS}"
-  )
-
-  # Have emscripten generate a html page too.
-  set(CMAKE_EXECUTABLE_SUFFIX ".html")
-
-endif()
-
+#copy resources directory
 add_custom_command(TARGET ${TARGET_NAME} POST_BUILD
     COMMAND "${CMAKE_COMMAND}" -E copy_directory "${CMAKE_SOURCE_DIR}/Resources" "${CMAKE_BINARY_DIR}/Resources"
 	)
-# add post build commands
+
+# add post build commands for dlls
 add_custom_command(TARGET ${TARGET_NAME} POST_BUILD
     COMMAND "${CMAKE_COMMAND}" -E copy "${SDL2_LIBRARY_DLL}" ${CMAKE_BINARY_DIR}
 )
@@ -260,4 +216,7 @@ add_custom_command(TARGET ${TARGET_NAME} POST_BUILD
 )
 add_custom_command(TARGET ${TARGET_NAME} POST_BUILD
     COMMAND "${CMAKE_COMMAND}" -E copy "${SDL2_TTF_LIBRARY_DLL}" ${CMAKE_BINARY_DIR}
+)
+add_custom_command(TARGET ${TARGET_NAME} POST_BUILD
+    COMMAND "${CMAKE_COMMAND}" -E copy "${SDL2_MIXER_LIBRARY_DLL}" ${CMAKE_BINARY_DIR}
 )
