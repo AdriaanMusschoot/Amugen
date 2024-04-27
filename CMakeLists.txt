@@ -27,7 +27,7 @@ Set(ENGINE_SOURCE_FILES
   "${SOURCE_DIR}/Singletons/InputManager.cpp"
   "${SOURCE_DIR}/Singletons/ResourceManager.cpp"
   "${SOURCE_DIR}/Singletons/SceneManager.cpp"
-  
+  "${SOURCE_DIR}/Singletons/SoundSystem.cpp"
 
   "${SOURCE_DIR}/Wrappers/Texture2D.cpp"
   "${SOURCE_DIR}/Wrappers/Font.cpp"
@@ -36,7 +36,7 @@ Set(ENGINE_SOURCE_FILES
 
 add_library(${TARGET_NAME} STATIC
     ${ENGINE_SOURCE_FILES}
-)
+ )
 
 target_link_libraries(${TARGET_NAME} PUBLIC XInput)
 

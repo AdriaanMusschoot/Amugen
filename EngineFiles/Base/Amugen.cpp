@@ -10,6 +10,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
+#include <SDL_mixer.h>
 #include "Amugen.h"
 #include <thread>
 #include "GameTime.h"
@@ -21,9 +22,7 @@
 void LogSDLVersion(const std::string& message, const SDL_version& v)
 {
 #if WIN32
-	std::stringstream ss;
-	ss << message << (int)v.major << "." << (int)v.minor << "." << (int)v.patch << "\n";
-	OutputDebugString(ss.str().c_str());
+	std::cout << message << (int)v.major << "." << (int)v.minor << "." << (int)v.patch << "\n";
 #else
 	std::cout << message << (int)v.major << "." << (int)v.minor << "." << (int)v.patch << "\n";
 #endif
@@ -61,6 +60,12 @@ void PrintSDLVersion()
 
 	version = *TTF_Linked_Version();
 	LogSDLVersion("We linked against SDL_ttf version ", version);
+
+	SDL_MIXER_VERSION(&version)
+	LogSDLVersion("We compiled against SDL_mixer version ", version);
+
+	version = *Mix_Linked_Version();
+	LogSDLVersion("We linked against SDL_mixer version ", version);
 }
 
 amu::Amugen::Amugen(const std::filesystem::path &dataPath, int width, int height)
