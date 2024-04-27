@@ -4,6 +4,7 @@
 struct SDL_Texture;
 namespace amu
 {
+
 	/**
 	 * Simple RAII wrapper for an SDL_Texture
 	 */
@@ -21,6 +22,7 @@ namespace amu
 		Texture2D & operator= (const Texture2D &) = delete;
 		Texture2D & operator= (const Texture2D &&) = delete;
 	private:
-		SDL_Texture* m_texture = nullptr;
+		SDL_Texture* m_TexturePtr = nullptr;
 	};
+
 }

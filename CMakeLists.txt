@@ -28,10 +28,12 @@ Set(ENGINE_SOURCE_FILES
   "${SOURCE_DIR}/Singletons/ResourceManager.cpp"
   "${SOURCE_DIR}/Singletons/SceneManager.cpp"
   "${SOURCE_DIR}/Singletons/SoundSystem.cpp"
+  "${SOURCE_DIR}/Singletons/ServiceLocator.cpp"
 
   "${SOURCE_DIR}/Wrappers/Texture2D.cpp"
   "${SOURCE_DIR}/Wrappers/Font.cpp"
   "${SOURCE_DIR}/Wrappers/Controller.cpp"
+  "${SOURCE_DIR}/Wrappers/Sound.cpp"
   )
 
 add_library(${TARGET_NAME} STATIC
@@ -182,11 +184,11 @@ if (WIN32)
       
   # set libraries to link with
   target_link_libraries(${TARGET_NAME} PUBLIC
+    ${VLD_LIBRARY}
     ${SDL2_LIBRARIES} 
     ${SDL2_IMAGE_LIBRARIES} 
     ${SDL2_TTF_LIBRARIES} 
     ${SDL2_MIXER_LIBRARIES}
-    ${VLD_LIBRARY}
   )
 endif()
 

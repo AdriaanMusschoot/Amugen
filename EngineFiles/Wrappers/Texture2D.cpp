@@ -3,7 +3,7 @@
 
 amu::Texture2D::~Texture2D()
 {
-	SDL_DestroyTexture(m_texture);
+	SDL_DestroyTexture(m_TexturePtr);
 }
 
 glm::ivec2 amu::Texture2D::GetSize() const
@@ -15,10 +15,10 @@ glm::ivec2 amu::Texture2D::GetSize() const
 
 SDL_Texture* amu::Texture2D::GetSDLTexture() const
 {
-	return m_texture;
+	return m_TexturePtr;
 }
 
 amu::Texture2D::Texture2D(SDL_Texture* texture)
 {
-	m_texture = texture;
+	m_TexturePtr = texture;
 }

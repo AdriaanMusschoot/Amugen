@@ -3,6 +3,7 @@
 #include <string>
 #include <memory>
 #include "Singleton.h"
+#include "Sound.h"
 
 namespace amu
 {
@@ -14,9 +15,10 @@ namespace amu
 		void Init(const std::filesystem::path& data);
 		std::unique_ptr<Texture2D> LoadTexture(const std::string& file) const;
 		std::unique_ptr<Font> LoadFont(const std::string& file, unsigned int size) const;
+		std::unique_ptr<SoundEffect> LoadSoundEffect(const std::string& file) const;
 	private:
 		friend class Singleton<ResourceManager>;
 		ResourceManager() = default;
-		std::filesystem::path m_dataPath = "";
+		std::filesystem::path m_DataPath = "";
 	};
 }

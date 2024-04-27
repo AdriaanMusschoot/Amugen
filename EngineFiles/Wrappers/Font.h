@@ -2,6 +2,7 @@
 #include <string>
 
 struct _TTF_Font;
+
 namespace amu
 {
 
@@ -20,7 +21,7 @@ namespace amu
 		Font & operator= (const Font &) = delete;
 		Font & operator= (const Font &&) = delete;
 	private:
-		_TTF_Font* m_font = nullptr;
+		_TTF_Font* m_FontPtr = nullptr;
 	};
 
 }

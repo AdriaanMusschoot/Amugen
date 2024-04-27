@@ -7,6 +7,12 @@
 #include <windows.h>
 #endif
 
+#if _DEBUG
+#if __has_include(<vld.h>)
+#include <vld.h>
+#endif
+#endif
+
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>

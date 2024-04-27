@@ -8,7 +8,7 @@
 
 void amu::ResourceManager::Init(const std::filesystem::path& dataPath)
 {
-	m_dataPath = dataPath;
+	m_DataPath = dataPath;
 
 	if (TTF_Init() != 0)
 	{
@@ -18,7 +18,7 @@ void amu::ResourceManager::Init(const std::filesystem::path& dataPath)
 
 std::unique_ptr<amu::Texture2D> amu::ResourceManager::LoadTexture(const std::string& file) const
 {
-	const auto fullPath = m_dataPath/file;
+	const auto fullPath = m_DataPath/file;
 	auto texture = IMG_LoadTexture(Renderer::GetInstance().GetSDLRenderer(), fullPath.string().c_str());
 	if (texture == nullptr)
 	{
@@ -29,6 +29,12 @@ std::unique_ptr<amu::Texture2D> amu::ResourceManager::LoadTexture(const std::str
 
 std::unique_ptr<amu::Font> amu::ResourceManager::LoadFont(const std::string& file, unsigned int size) const
 {
-	const auto fullPath = m_dataPath/file;
+	const auto fullPath = m_DataPath/file;
 	return std::make_unique<Font>(fullPath.string(), size);
+}
+
+std::unique_ptr<amu::SoundEffect> amu::ResourceManager::LoadSoundEffect(const std::string& file) const
+{
+	const auto fullPath = m_DataPath/file;
+	return std::make_unique<SoundEffect>(fullPath.string());
 }
