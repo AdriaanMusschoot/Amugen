@@ -14,7 +14,7 @@ amu::InputManager::~InputManager()
 {
 }
 
-void amu::InputManager::AddCommandController(unsigned int controllerIdx, unsigned int button, InputState state, std::unique_ptr<GameObjectCommand> commandPtr)
+void amu::InputManager::AddCommandController(unsigned int controllerIdx, unsigned int button, InputState state, std::unique_ptr<Command> commandPtr)
 {
 	for (size_t idx{}; idx < m_ControllerArr.size(); ++idx)
 	{
@@ -25,9 +25,9 @@ void amu::InputManager::AddCommandController(unsigned int controllerIdx, unsigne
 	}
 }
 
-void amu::InputManager::AddCommandKeyboard(unsigned int button, InputState state, std::unique_ptr<GameObjectCommand> commandPtr)
+void amu::InputManager::AddCommandKeyboard(Key key, InputState state, std::unique_ptr<Command> commandPtr)
 {
-	m_KeyboardCommandPtrVec.emplace_back(std::make_tuple(button, state, std::move(commandPtr)));
+	m_KeyboardCommandPtrVec.emplace_back(std::make_tuple(static_cast<unsigned int>(key), state, std::move(commandPtr)));
 }
 
 bool amu::InputManager::ProcessInput()

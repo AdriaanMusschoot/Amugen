@@ -7,7 +7,7 @@ namespace amu
 	class Controller::ControllerImpl
 	{
 	public:
-		void AddCommand(unsigned int button, amu::InputManager::InputState state, std::unique_ptr<amu::GameObjectCommand> commandPtr)
+		void AddCommand(unsigned int button, amu::InputManager::InputState state, std::unique_ptr<amu::Command> commandPtr)
 		{
 			m_ControllerCommandPtrVec.emplace_back(std::make_tuple(button, state, std::move(commandPtr)));
 		}
@@ -51,7 +51,7 @@ namespace amu
 		XINPUT_STATE m_PreviousStateController;
 		XINPUT_STATE m_CurrentStateController;
 	
-		std::vector<std::tuple<unsigned int, amu::InputManager::InputState, std::unique_ptr<amu::GameObjectCommand>>> m_ControllerCommandPtrVec;
+		std::vector<std::tuple<unsigned int, amu::InputManager::InputState, std::unique_ptr<amu::Command>>> m_ControllerCommandPtrVec;
 	};
 
 }
@@ -67,7 +67,7 @@ amu::Controller::~Controller()
 
 }
 
-void amu::Controller::AddCommand(unsigned int button, amu::InputManager::InputState state, std::unique_ptr<GameObjectCommand> commandPtr)
+void amu::Controller::AddCommand(unsigned int button, amu::InputManager::InputState state, std::unique_ptr<Command> commandPtr)
 {
 	m_ControllerImplPtr->AddCommand(button, state, std::move(commandPtr));
 }

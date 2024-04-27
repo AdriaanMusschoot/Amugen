@@ -12,7 +12,7 @@ amu::SDLSoundSystem::~SDLSoundSystem()
 	Mix_CloseAudio();
 }
 
-void amu::SDLSoundSystem::PlaySoundEffect(SoundID id, int volume)
+void amu::SDLSoundSystem::PlaySoundEffect(int id, int volume)
 {
 	if (m_SoundMap.contains(id))
 	{
@@ -22,7 +22,7 @@ void amu::SDLSoundSystem::PlaySoundEffect(SoundID id, int volume)
 	}
 }
 
-void amu::SDLSoundSystem::AddSound(SoundID id, const std::string& filePath)
+void amu::SDLSoundSystem::AddSound(int id, const std::string& filePath)
 {
 	if (not m_SoundMap.contains(id))
 	{

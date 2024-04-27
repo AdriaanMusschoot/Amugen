@@ -2,11 +2,10 @@
 #define AMU_SERVICE_LOCATOR
 #include <memory>
 #include <Singleton.h>
+#include "SoundSystem.h"
 
 namespace amu
 {
-
-	class SoundSystem;
 
 	class ServiceLocator final : public Singleton<ServiceLocator>
 	{

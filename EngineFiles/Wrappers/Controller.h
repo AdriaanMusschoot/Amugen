@@ -22,7 +22,7 @@ namespace amu
 		Controller(Controller&&) = delete;
 		Controller& operator= (const Controller&&) = delete;
 
-		void AddCommand(unsigned int button, InputManager::InputState state, std::unique_ptr<GameObjectCommand> commandPtr);
+		void AddCommand(unsigned int button, InputManager::InputState state, std::unique_ptr<Command> commandPtr);
 		void ProcessControllerInput();
 
 	private:

@@ -8,18 +8,13 @@
 
 namespace amu
 {
-	enum class SoundID
-	{
-		PacmanDeath
-	};
-
 	class SoundSystem //interface
 	{
 	public:
 		virtual ~SoundSystem() = default;
 
-		virtual void PlaySoundEffect(SoundID id, int volume) = 0;
-		virtual void AddSound(SoundID id, const std::string& filePath) = 0;
+		virtual void PlaySoundEffect(int id, int volume) = 0;
+		virtual void AddSound(int id, const std::string& filePath) = 0;
 	private:
 	};
 
@@ -28,8 +23,8 @@ namespace amu
 	public:
 		~NullSoundSystem() override = default;
 
-		void PlaySoundEffect(SoundID, int) override{};
-		virtual void AddSound(SoundID, const std::string&) override{};
+		void PlaySoundEffect(int, int) override{};
+		void AddSound(int, const std::string&) override{};
 	private:
 	};
 
@@ -39,10 +34,10 @@ namespace amu
 		SDLSoundSystem();
 		~SDLSoundSystem() override;
 
-		void PlaySoundEffect(SoundID id, int volume) override;
-		virtual void AddSound(SoundID id, const std::string& filePath) override;
+		void PlaySoundEffect(int id, int volume) override;
+		virtual void AddSound(int id, const std::string& filePath) override;
 	private:
-		std::map<SoundID, std::unique_ptr<SoundEffect>> m_SoundMap;
+		std::map<int, std::unique_ptr<SoundEffect>> m_SoundMap;
 	};
 
 }

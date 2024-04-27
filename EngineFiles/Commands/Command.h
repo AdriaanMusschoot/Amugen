@@ -1,4 +1,5 @@
-#pragma once
+#ifndef AMU_COMMANDS_H
+#define AMU_COMMANDS_H
 
 namespace amu
 {
@@ -11,3 +12,5 @@ namespace amu
 	};
 
 }
+
+#endif //AMU_COMMANDS_H
