@@ -1,6 +1,6 @@
 #include "TextComponent.h"
 #include <stdexcept>
-#include <../3rdParty/SDL2_ttf/include/SDL_ttf.h>
+#include <SDL_ttf.h>
 
 #include "ResourceManager.h"
 #include "Renderer.h"

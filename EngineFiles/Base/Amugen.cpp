@@ -115,8 +115,6 @@ void amu::Amugen::RunOneFrame()
 {
 	GameTime::GetInstance().Update();
 
-	GUI::GetInstance().BeginFrame();
-
 	m_Quit = !InputManager::GetInstance().ProcessInput();
 
 	SceneManager::GetInstance().Update();

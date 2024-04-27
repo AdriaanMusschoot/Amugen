@@ -13,7 +13,7 @@ namespace amu
 	{
 		SDL_Renderer* m_RendererPtr = nullptr;
 		SDL_Window* m_WindowPtr = nullptr;
-		SDL_Color m_clearColor = SDL_Color{};
+		SDL_Color m_ClearColor = SDL_Color{};
 	public:
 		void Init(SDL_Window* window);
 		void Render() const;
@@ -24,8 +24,8 @@ namespace amu
 
 		SDL_Renderer* GetSDLRenderer() const;
 
-		const SDL_Color& GetBackgroundColor() const { return m_clearColor; }
-		void SetBackgroundColor(const SDL_Color& color) { m_clearColor = color; }
+		const SDL_Color& GetBackgroundColor() const { return m_ClearColor; }
+		void SetBackgroundColor(const SDL_Color& color) { m_ClearColor = color; }
 	};
 
 }

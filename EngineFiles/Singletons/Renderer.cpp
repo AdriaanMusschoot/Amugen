@@ -40,8 +40,6 @@ void amu::Renderer::Render() const
 
 	SceneManager::GetInstance().Render();
 
-	GUI::GetInstance().EndFrame();
-
 	SDL_RenderPresent(m_RendererPtr);
 }
 
