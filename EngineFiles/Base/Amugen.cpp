@@ -17,7 +17,6 @@
 #include "SceneManager.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
-#include "GUI.h"
 
 void LogSDLVersion(const std::string& message, const SDL_version& v)
 {
@@ -89,13 +88,11 @@ amu::Amugen::Amugen(const std::filesystem::path &dataPath, int width, int height
 
 	Renderer::GetInstance().Init(m_WindowPtr);
 	ResourceManager::GetInstance().Init(dataPath);
-	GUI::GetInstance().Initialize(m_WindowPtr, Renderer::GetInstance().GetSDLRenderer());
 }
 
 amu::Amugen::~Amugen()
 {
 	Renderer::GetInstance().Destroy();
-	GUI::GetInstance().Destroy();
 	SDL_DestroyWindow(m_WindowPtr);
 	m_WindowPtr = nullptr;
 	SDL_Quit();

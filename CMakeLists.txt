@@ -27,25 +27,14 @@ Set(ENGINE_SOURCE_FILES
   "${SOURCE_DIR}/Singletons/InputManager.cpp"
   "${SOURCE_DIR}/Singletons/ResourceManager.cpp"
   "${SOURCE_DIR}/Singletons/SceneManager.cpp"
-  "${SOURCE_DIR}/Singletons/GUI.cpp"
+  
 
   "${SOURCE_DIR}/Wrappers/Texture2D.cpp"
   "${SOURCE_DIR}/Wrappers/Font.cpp"
   "${SOURCE_DIR}/Wrappers/Controller.cpp"
   )
 
-Set(IMGUI_SOURCE_FILES
-  3rdParty/imgui/imgui.cpp
-  3rdParty/imgui/imgui_draw.cpp
-  3rdParty/imgui/imgui_widgets.cpp
-  3rdParty/imgui/imgui_tables.cpp
-  3rdParty/imgui/imgui_impl_sdl2.cpp
-  3rdParty/imgui/imgui_impl_sdlrenderer2.cpp
-  3rdParty/imgui/imgui_plot.cpp
-)
-
 add_library(${TARGET_NAME} STATIC
-    ${IMGUI_SOURCE_FILES}
     ${ENGINE_SOURCE_FILES}
 )
 
@@ -59,7 +48,6 @@ target_include_directories(${TARGET_NAME} PUBLIC
     ${SOURCE_DIR}/Components
 
     ${CMAKE_CURRENT_SOURCE_DIR}/3rdParty
-    ${CMAKE_CURRENT_SOURCE_DIR}/3rdParty/imgui
 )
 
 # enable c++20 features

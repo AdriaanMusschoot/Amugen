@@ -1,6 +1,5 @@
 #include <SDL.h>
 #include "InputManager.h"
-#include "GUI.h"
 #include "Controller.h"
 
 #include "Controller.h"
@@ -60,10 +59,6 @@ bool amu::InputManager::ProcessInput()
 		if (e.type == SDL_KEYUP)
 		{
 			m_CurrentStateKeyboard[e.key.keysym.sym] = false;
-		}
-		if (GUI::GetInstance().ProcessEvent(&e))
-		{
-			continue;
 		}
 	}
 	
