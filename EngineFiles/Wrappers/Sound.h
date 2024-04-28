@@ -10,8 +10,8 @@ namespace amu
 	class SoundEffect final
 	{
 	public:
-		Mix_Chunk* GetSoundEffect() const;
 		explicit SoundEffect(const std::string& fullPath);
+		void PlaySoundEffect(int volume);
 		~SoundEffect();
 
 		SoundEffect(const SoundEffect&) = delete;

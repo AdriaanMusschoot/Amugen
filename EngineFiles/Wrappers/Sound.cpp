@@ -2,11 +2,6 @@
 #include "SDL_mixer.h"
 #include <stdexcept>
 
-Mix_Chunk* amu::SoundEffect::GetSoundEffect() const
-{
-	return m_SoundEffectPtr;
-}
-
 amu::SoundEffect::SoundEffect(const std::string& fullPath)
 {
 	m_SoundEffectPtr = Mix_LoadWAV(fullPath.c_str());
@@ -14,6 +9,13 @@ amu::SoundEffect::SoundEffect(const std::string& fullPath)
 	{
 		throw std::runtime_error(std::string("Failed to load sound effect: ") + SDL_GetError());
 	}
+}
+
+void amu::SoundEffect::PlaySoundEffect(int volume)
+{
+	Mix_VolumeChunk(m_SoundEffectPtr, volume);
+
+	Mix_PlayChannel(-1, m_SoundEffectPtr, 0);
 }
 
 amu::SoundEffect::~SoundEffect()

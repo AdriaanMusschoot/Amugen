@@ -16,7 +16,7 @@ namespace amu
 		enum class Key
 		{
 			W = 119,
-			A = 79,
+			A = 97,
 			S = 115,
 			D = 100
 		};

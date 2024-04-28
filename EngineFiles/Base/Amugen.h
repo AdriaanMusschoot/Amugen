@@ -22,6 +22,6 @@ namespace amu
 		Amugen& operator=(Amugen&& other) = delete;
 	private:
 		SDL_Window* m_WindowPtr{};
-		bool m_Quit{};
+		bool m_ShouldQuit{};
 	};
 }

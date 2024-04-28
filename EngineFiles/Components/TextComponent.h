@@ -3,7 +3,7 @@
 #include <string>
 
 #include "Component.h"
-#include "TextureComponent.h"
+#include "RenderComponent.h"
 #include "Font.h"
 #include "Texture2D.h"
 

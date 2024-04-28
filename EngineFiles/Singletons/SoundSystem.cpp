@@ -7,7 +7,9 @@
 /////////SDL SOUND SYSTEM
 //////////////////////////////
 
-amu::SDLSoundSystem::SDLSoundSystem()
+amu::SDLSoundSystem::SDLSoundSystem() 
+	: m_SoundPromise{ std::promise<void>() }
+	, m_SoundFuture{ m_SoundPromise.get_future() }
 {
 	Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096);
 }
@@ -19,16 +21,29 @@ amu::SDLSoundSystem::~SDLSoundSystem()
 
 void amu::SDLSoundSystem::Update()
 {
-	while (m_SoundRequestDeque.begin() != m_SoundRequestDeque.end())
+	while (not m_ShouldQuit)
 	{
-		auto [id, volume] = m_SoundRequestDeque.front();
-		PlaySoundEffect(id, volume);
-		m_SoundRequestDeque.pop_front();
+		m_SoundFuture.wait();
+		
+		std::lock_guard lockPlaying{ m_SoundMutex };
+
+		while (not m_SoundRequestDeque.empty())
+		{
+			auto [id, volume] = m_SoundRequestDeque.front();
+			PlaySoundEffect(id, volume);
+			m_SoundRequestDeque.pop_front();
+		}
+
+		m_SoundPromise = std::promise<void>();
+		m_SoundFuture = m_SoundPromise.get_future();
+		m_IsScheduled = false;
 	}
 }
 
 bool amu::SDLSoundSystem::RequestSoundEffect(int id, int volume)
 {
+	std::lock_guard lockPlaying{ m_SoundMutex };
+
 	if (bool hasFoundSimilar = std::any_of(m_SoundRequestDeque.begin(), m_SoundRequestDeque.end(),
 		[&](SoundRequest& req)
 		{
@@ -38,21 +53,39 @@ bool amu::SDLSoundSystem::RequestSoundEffect(int id, int volume)
 				return true;
 			}
 			return false;
-		}); hasFoundSimilar == true)
+		}); hasFoundSimilar)
 	{
 		return false;
 	}
 
 	m_SoundRequestDeque.emplace_back(SoundRequest{ id, volume });
 
+	if (not m_IsScheduled)
+	{
+		m_SoundPromise.set_value();
+		m_IsScheduled = true;
+	}
+
 	return true;
 }
 
 void amu::SDLSoundSystem::AddSoundEffect(int id, const std::string& filePath)
 {
+	std::lock_guard lockMap{ m_SoundMutex };
+
 	if (not m_SoundMap.contains(id))
 	{
 		m_SoundMap[id] = ResourceManager::GetInstance().LoadSoundEffect(filePath);
+	}
+}
+
+void amu::SDLSoundSystem::SignalEnd()
+{
+	m_ShouldQuit = true;
+	if (not m_IsScheduled)
+	{
+		m_SoundPromise.set_value();
+		m_IsScheduled = true;
 	}
 }
 
@@ -60,9 +93,7 @@ void amu::SDLSoundSystem::PlaySoundEffect(int id, int volume)
 {
 	if (m_SoundMap.contains(id))
 	{
-		Mix_VolumeChunk(m_SoundMap[id]->GetSoundEffect(), volume);
-
-		Mix_PlayChannel(-1, m_SoundMap[id]->GetSoundEffect(), 0);
+		m_SoundMap[id]->PlaySoundEffect(volume);
 	}
 }
 
@@ -87,6 +118,7 @@ bool amu::LogSoundSystem::RequestSoundEffect(int id, int volume)
 		std::cout << "Requested sound id: " << id << " at volume " << volume << "\n";
 		return true;
 	}
+	std::cout << "Requested sound id: " << id << " but already existed\n";
 	return false;
 }
 
@@ -96,8 +128,8 @@ void amu::LogSoundSystem::AddSoundEffect(int id, const std::string& filePath)
 	std::cout << "Sound added with id: " << id << " from dir " << filePath << "\n";
 }
 
-void amu::LogSoundSystem::PlaySoundEffect(int id, int volume)
+void amu::LogSoundSystem::SignalEnd()
 {
-	m_ActualSoundSystemUPtr->PlaySoundEffect(id, volume);
-	std::cout << "Played sound id: " << id << "at volume " << volume << "\n";
+	m_ActualSoundSystemUPtr->SignalEnd();
+	std::cout << "Sound execution should end\n";
 }

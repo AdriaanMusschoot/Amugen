@@ -16,7 +16,7 @@ Set(ENGINE_SOURCE_FILES
 
   "${SOURCE_DIR}/Components/TransformComponent.cpp"
   "${SOURCE_DIR}/Components/TextComponent.cpp"
-  "${SOURCE_DIR}/Components/TextureComponent.cpp"
+  "EngineFiles/Components/RenderComponent.cpp"
 
   "${SOURCE_DIR}/Commands/Command.h"
   "${SOURCE_DIR}/Commands/GameObjectCommands.h" 

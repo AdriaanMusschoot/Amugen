@@ -31,19 +31,8 @@ void LogSDLVersion(const std::string& message, const SDL_version& v)
 {
 #if WIN32
 	std::cout << message << (int)v.major << "." << (int)v.minor << "." << (int)v.patch << "\n";
-#else
-	std::cout << message << (int)v.major << "." << (int)v.minor << "." << (int)v.patch << "\n";
 #endif
 }
-
-#ifdef __EMSCRIPTEN__
-#include "emscripten.h"
-
-void LoopCallback(void* arg)
-{
-	static_cast<amu::Amugen*>(arg)->RunOneFrame();
-}
-#endif
 
 // Why bother with this? Because sometimes students have a different SDL version installed on their pc.
 // That is not a problem unless for some reason the dll's from this project are not copied next to the exe.
@@ -101,8 +90,8 @@ amu::Amugen::Amugen(const std::filesystem::path &dataPath, int width, int height
 
 	Renderer::GetInstance().Init(m_WindowPtr);
 	ResourceManager::GetInstance().Init(dataPath);
-	std::unique_ptr sdlSoundSystemUPtr{ std::make_unique<amu::LogSoundSystem>(std::make_unique<amu::SDLSoundSystem>()) };
 
+	std::unique_ptr sdlSoundSystemUPtr{ std::make_unique<amu::LogSoundSystem>(std::make_unique<amu::SDLSoundSystem>()) };
 	amu::ServiceLocator::GetInstance().RegisterSoundSystem(std::move(sdlSoundSystemUPtr));
 }
 
@@ -112,24 +101,28 @@ amu::Amugen::~Amugen()
 	SDL_DestroyWindow(m_WindowPtr);
 	m_WindowPtr = nullptr;
 	SDL_Quit();
+
 }
 
 void amu::Amugen::Run()
 {
-	while (!m_Quit)
+	std::jthread threadSound(&SoundSystem::Update, ServiceLocator::GetInstance().GetSoundSystem());
+
+	while (not m_ShouldQuit)
+	{
 		RunOneFrame();
+	}
+
+	ServiceLocator::GetInstance().GetSoundSystem()->SignalEnd();
 }
 
 void amu::Amugen::RunOneFrame()
 {
 	GameTime::GetInstance().Update();
 
-	m_Quit = !InputManager::GetInstance().ProcessInput();
+	m_ShouldQuit = !InputManager::GetInstance().ProcessInput();
 
 	SceneManager::GetInstance().Update();
 
-	ServiceLocator::GetInstance().GetSoundSystem()->Update();
-
 	Renderer::GetInstance().Render();
-
 }

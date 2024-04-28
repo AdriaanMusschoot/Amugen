@@ -1,4 +1,4 @@
-#include "TextureComponent.h"
+#include "RenderComponent.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
 #include "GameObject.h"
