@@ -24,6 +24,8 @@
 #include "SceneManager.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
+#include "ServiceLocator.h"
+#include "SoundSystem.h"
 
 void LogSDLVersion(const std::string& message, const SDL_version& v)
 {
@@ -99,6 +101,9 @@ amu::Amugen::Amugen(const std::filesystem::path &dataPath, int width, int height
 
 	Renderer::GetInstance().Init(m_WindowPtr);
 	ResourceManager::GetInstance().Init(dataPath);
+	std::unique_ptr sdlSoundSystemUPtr{ std::make_unique<amu::LogSoundSystem>(std::make_unique<amu::SDLSoundSystem>()) };
+
+	amu::ServiceLocator::GetInstance().RegisterSoundSystem(std::move(sdlSoundSystemUPtr));
 }
 
 amu::Amugen::~Amugen()
@@ -111,12 +116,8 @@ amu::Amugen::~Amugen()
 
 void amu::Amugen::Run()
 {
-#ifndef __EMSCRIPTEN__
 	while (!m_Quit)
 		RunOneFrame();
-#else
-	emscripten_set_main_loop_arg(&LoopCallback, this, 0, true);
-#endif
 }
 
 void amu::Amugen::RunOneFrame()
@@ -126,6 +127,8 @@ void amu::Amugen::RunOneFrame()
 	m_Quit = !InputManager::GetInstance().ProcessInput();
 
 	SceneManager::GetInstance().Update();
+
+	ServiceLocator::GetInstance().GetSoundSystem()->Update();
 
 	Renderer::GetInstance().Render();
 
