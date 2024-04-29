@@ -19,7 +19,8 @@ namespace amu
 		SoundEffect& operator= (const SoundEffect&) = delete;
 		SoundEffect& operator= (const SoundEffect&&) = delete;
 	private:
-		Mix_Chunk* m_SoundEffectPtr = nullptr;
+		const std::string m_FilePath{};
+		Mix_Chunk* m_SoundEffectPtr{};
 	};
 
 }

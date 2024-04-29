@@ -11,19 +11,18 @@
 
 namespace amu
 {
-	class SoundSystem //interface
+	class ISoundSystem //interface
 	{
 	public:
-		virtual ~SoundSystem() = default;
+		virtual ~ISoundSystem() = default;
 
 		virtual void Update() = 0;
-		virtual bool RequestSoundEffect(int id, int volume) = 0;
-		virtual void AddSoundEffect(int id, const std::string& filePath) = 0;
+		virtual bool RequestSoundEffect(int id, const std::string& filePath, int volume) = 0;
 		virtual void SignalEnd() = 0;
 	private:
 	};
 
-	class NullSoundSystem final : public SoundSystem
+	class NullSoundSystem final : public ISoundSystem
 	{
 	public:
 		NullSoundSystem() = default;
@@ -35,13 +34,12 @@ namespace amu
 		NullSoundSystem& operator= (const NullSoundSystem&&) = delete;
 
 		void Update() override {};
-		bool RequestSoundEffect(int, int) override { return false; };
-		void AddSoundEffect(int, const std::string&) override {};
+		bool RequestSoundEffect(int, const std::string&, int) override { return false; };
 	private:
 		void SignalEnd() override {};
 	};
 
-	class SDLSoundSystem final : public SoundSystem
+	class SDLSoundSystem final : public ISoundSystem
 	{
 	public:
 		SDLSoundSystem();
@@ -53,13 +51,13 @@ namespace amu
 		SDLSoundSystem& operator= (const SDLSoundSystem&&) = delete;
 
 		void Update() override;
-		bool RequestSoundEffect(int id, int volume) override;
-		void AddSoundEffect(int id, const std::string& filePath) override;
+		bool RequestSoundEffect(int id, const std::string& filePath, int volume) override;
 		void SignalEnd() override;
 	private:
 		struct SoundRequest 
 		{
 			int ID;
+			std::string FilePath;
 			int Volume;
 		};
 
@@ -74,13 +72,13 @@ namespace amu
 
 		bool m_IsScheduled{};
 
-		void PlaySoundEffect(int id, int volume);
+		void PlaySoundEffect(int id, const std::string& fileName, int volume);
 	};
 
-	class LogSoundSystem final : public SoundSystem
+	class LogSoundSystem final : public ISoundSystem
 	{
 	public:
-		LogSoundSystem(std::unique_ptr<SoundSystem>&& actualSoundSystemUPtr);
+		LogSoundSystem(std::unique_ptr<ISoundSystem>&& actualSoundSystemUPtr);
 		~LogSoundSystem() override = default;
 
 		LogSoundSystem(const LogSoundSystem&) = delete;
@@ -89,11 +87,10 @@ namespace amu
 		LogSoundSystem& operator= (const LogSoundSystem&&) = delete;
 
 		void Update() override;
-		bool RequestSoundEffect(int id, int volume) override;
-		void AddSoundEffect(int id, const std::string& filePath) override;
+		bool RequestSoundEffect(int id, const std::string& filePath, int volume) override;
 		void SignalEnd() override;
 	private:
-		std::unique_ptr<SoundSystem> m_ActualSoundSystemUPtr{};
+		std::unique_ptr<ISoundSystem> m_ActualSoundSystemUPtr{};
 	};
 
 }

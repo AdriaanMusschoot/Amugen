@@ -106,7 +106,7 @@ amu::Amugen::~Amugen()
 
 void amu::Amugen::Run()
 {
-	std::jthread threadSound(&SoundSystem::Update, ServiceLocator::GetInstance().GetSoundSystem());
+	std::jthread threadSound(&ISoundSystem::Update, ServiceLocator::GetInstance().GetSoundSystem());
 
 	while (not m_ShouldQuit)
 	{

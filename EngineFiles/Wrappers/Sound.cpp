@@ -3,16 +3,17 @@
 #include <stdexcept>
 
 amu::SoundEffect::SoundEffect(const std::string& fullPath)
+	: m_FilePath{ fullPath }
 {
-	m_SoundEffectPtr = Mix_LoadWAV(fullPath.c_str());
-	if (not m_SoundEffectPtr)
-	{
-		throw std::runtime_error(std::string("Failed to load sound effect: ") + SDL_GetError());
-	}
 }
 
 void amu::SoundEffect::PlaySoundEffect(int volume)
 {
+	if (not m_SoundEffectPtr)
+	{
+		m_SoundEffectPtr = Mix_LoadWAV(m_FilePath.c_str());
+	}
+
 	Mix_VolumeChunk(m_SoundEffectPtr, volume);
 
 	Mix_PlayChannel(-1, m_SoundEffectPtr, 0);
