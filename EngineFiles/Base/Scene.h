@@ -9,7 +9,7 @@ namespace amu
 	class Scene final
 	{
 	public:
-		explicit Scene(const std::string& name);
+		explicit Scene(std::string_view const& name);
 		~Scene();
 
 		Scene(const Scene& other) = delete;
@@ -24,7 +24,8 @@ namespace amu
 		void Render() const;
 
 	private:
-		std::string m_name = "";
+		//when storing data need string otherwise if string_view goes out of scope data becomes invalid
+		std::string const m_Name = "";
 		std::vector<std::unique_ptr<GameObject>> m_GameObjectUPtrVec{};
 
 		static unsigned int m_idCounter; 

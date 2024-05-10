@@ -12,7 +12,7 @@ namespace amu
 	class RenderComponent final : public Component
 	{
 	public:
-		explicit RenderComponent(GameObject *  ownerObjectPtr, const std::string& fileName = "");
+		explicit RenderComponent(GameObject *  ownerObjectPtr, const std::string_view& fileName = "");
 		virtual ~RenderComponent() override = default;
 	
 		RenderComponent(const RenderComponent&) = delete;
@@ -22,7 +22,9 @@ namespace amu
 	
 		void Render() const override;
 
-		void SetTexture(const std::string& fileName);
+		glm::ivec2 GetSize() const;
+
+		void SetTexture(std::string_view const& fileName);
 		void SetTexture(std::unique_ptr<Texture2D> textureUPtr);
 	private:
 		std::unique_ptr<amu::Texture2D> m_TextureUPtr = nullptr;

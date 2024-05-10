@@ -16,7 +16,7 @@ void amu::SceneManager::Render()
 	}
 }
 
-void amu::SceneManager::CreateScene(const std::string& name, const std::function<void(Scene*)>& loadScene)
+void amu::SceneManager::CreateScene(std::string_view const& name, std::function<void(Scene*)> const& loadScene)
 {
 	std::unique_ptr sceneUPtr = std::make_unique<Scene>(name);
 	loadScene(sceneUPtr.get());

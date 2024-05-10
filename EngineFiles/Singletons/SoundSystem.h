@@ -11,12 +11,13 @@
 
 namespace amu
 {
+	using SoundId = int;
 	class ISoundSystem //interface
 	{
 	public:
 		virtual ~ISoundSystem() = default;
 
-		virtual bool RequestSoundEffect(int id, const std::string& filePath, int volume) = 0;
+		virtual bool RequestSoundEffect(SoundId id, std::string_view const& filePath, int volume) = 0;
 		virtual void SignalStart() = 0;
 		virtual void SignalEnd() = 0;
 	private:
@@ -34,7 +35,7 @@ namespace amu
 		NullSoundSystem(NullSoundSystem&&) = delete;
 		NullSoundSystem& operator= (const NullSoundSystem&&) = delete;
 
-		bool RequestSoundEffect(int, const std::string&, int) override { return false; };
+		bool RequestSoundEffect(SoundId, std::string_view const&, int) override { return false; };
 		void SignalStart() override {};
 		void SignalEnd() override {};
 	private:
@@ -52,14 +53,14 @@ namespace amu
 		SDLSoundSystem& operator= (const SDLSoundSystem&&) = delete;
 
 		void Update();
-		bool RequestSoundEffect(int id, const std::string& filePath, int volume) override;
+		bool RequestSoundEffect(SoundId id, std::string_view const& filePath, int volume) override;
 		void SignalStart() override;
 		void SignalEnd() override;
 	private:
 		struct SoundRequest 
 		{
 			int ID;
-			std::string FilePath;
+			std::string_view FilePath;
 			int Volume;
 		};
 
@@ -75,7 +76,7 @@ namespace amu
 
 		bool m_IsScheduled{};
 
-		void PlaySoundEffect(int id, const std::string& fileName, int volume);
+		void PlaySoundEffect(SoundId id, std::string_view const& fileName, int volume);
 	};
 
 	class LogSoundSystem final : public ISoundSystem
@@ -89,7 +90,7 @@ namespace amu
 		LogSoundSystem(LogSoundSystem&&) = delete;
 		LogSoundSystem& operator= (const LogSoundSystem&&) = delete;
 
-		bool RequestSoundEffect(int id, const std::string& filePath, int volume) override;
+		bool RequestSoundEffect(SoundId id, std::string_view const& filePath, int volume) override;
 		void SignalStart() override;
 		void SignalEnd() override;
 	private:

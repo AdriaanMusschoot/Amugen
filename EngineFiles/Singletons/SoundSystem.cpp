@@ -42,14 +42,14 @@ void amu::SDLSoundSystem::Update()
 	
 		while (not soundDequeToPlay.empty())
 		{
-			auto [id, volume, fileName] = soundDequeToPlay.front();
-			PlaySoundEffect(id, volume, fileName);
+			auto [id, fileName, volume] = soundDequeToPlay.front();
+			PlaySoundEffect(id, fileName, volume);
 			soundDequeToPlay.pop_front();
 		}
 	}
 }
 
-bool amu::SDLSoundSystem::RequestSoundEffect(int id, const std::string& filePath, int volume)
+bool amu::SDLSoundSystem::RequestSoundEffect(SoundId id, std::string_view const& filePath, int volume)
 {
 	std::lock_guard lockPlaying{ m_SoundMutex };
 
@@ -97,7 +97,7 @@ void amu::SDLSoundSystem::SignalEnd()
 	}
 }
 
-void amu::SDLSoundSystem::PlaySoundEffect(int id, const std::string& fileName, int volume)
+void amu::SDLSoundSystem::PlaySoundEffect(SoundId id, std::string_view const& fileName, int volume)
 {
 	if (not m_SoundMap.contains(id))
 	{
@@ -116,7 +116,7 @@ amu::LogSoundSystem::LogSoundSystem(std::unique_ptr<ISoundSystem>&& actualSoundS
 {
 }
 
-bool amu::LogSoundSystem::RequestSoundEffect(int id, const std::string& filePath, int volume)
+bool amu::LogSoundSystem::RequestSoundEffect(SoundId id, std::string_view const& filePath, int volume)
 {
 	if (m_ActualSoundSystemUPtr->RequestSoundEffect(id, filePath, volume))
 	{

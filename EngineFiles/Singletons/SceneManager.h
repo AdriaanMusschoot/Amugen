@@ -14,7 +14,7 @@ namespace amu
 	class SceneManager final : public Singleton<SceneManager>
 	{
 	public:
-		void CreateScene(const std::string& name, const std::function<void(Scene*)>& loadScene);
+		void CreateScene(std::string_view const& name, std::function<void(Scene*)> const& loadScene);
 
 		void Update();
 		void Render();

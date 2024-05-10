@@ -3,7 +3,7 @@
 #include "ResourceManager.h"
 #include "GameObject.h"
 
-amu::RenderComponent::RenderComponent(GameObject* ownerObjectPtr, const std::string& fileName)
+amu::RenderComponent::RenderComponent(GameObject* ownerObjectPtr, std::string_view const& fileName)
 	: Component(ownerObjectPtr)
 	, m_TransformPtr{ GetComponentOwner()->GetComponent<TransformComponent>() }
 {
@@ -21,7 +21,12 @@ void amu::RenderComponent::Render() const
 	}
 }
 
-void amu::RenderComponent::SetTexture(const std::string& fileName)
+glm::ivec2 amu::RenderComponent::GetSize() const
+{
+	return m_TextureUPtr->GetSize();
+}
+
+void amu::RenderComponent::SetTexture(std::string_view const& fileName)
 {
 	m_TextureUPtr = amu::ResourceManager::GetInstance().LoadTexture(fileName);
 }

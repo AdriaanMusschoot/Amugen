@@ -5,7 +5,10 @@ using namespace amu;
 
 unsigned int Scene::m_idCounter = 0;
 
-Scene::Scene(const std::string& name) : m_name(name) {}
+Scene::Scene(std::string_view const& name) 
+	: m_Name{ name }
+{
+}
 
 Scene::~Scene() = default;
 

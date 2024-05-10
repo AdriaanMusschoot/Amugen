@@ -10,7 +10,7 @@ namespace amu
 	class SoundEffect final
 	{
 	public:
-		explicit SoundEffect(const std::string& fullPath);
+		explicit SoundEffect(std::string_view const& fullPath);
 		void PlaySoundEffect(int volume);
 		~SoundEffect();
 
@@ -19,7 +19,7 @@ namespace amu
 		SoundEffect& operator= (const SoundEffect&) = delete;
 		SoundEffect& operator= (const SoundEffect&&) = delete;
 	private:
-		const std::string m_FilePath{};
+		std::string const m_FilePath{};
 		//we still expose this type to whoever includes servicelocator who includes sound system which includes this 
 		Mix_Chunk* m_SoundEffectPtr{};
 	};

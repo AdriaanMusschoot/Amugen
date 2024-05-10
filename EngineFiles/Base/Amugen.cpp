@@ -27,7 +27,7 @@
 #include "ServiceLocator.h"
 #include "SoundSystem.h"
 
-void LogSDLVersion(const std::string& message, const SDL_version& v)
+void LogSDLVersion(const std::string_view& message, const SDL_version& v)
 {
 #if WIN32
 	std::cout << message << (int)v.major << "." << (int)v.minor << "." << (int)v.patch << "\n";
