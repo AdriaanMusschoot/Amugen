@@ -91,8 +91,8 @@ amu::Amugen::Amugen(const std::filesystem::path &dataPath, int width, int height
 	Renderer::GetInstance().Init(m_WindowPtr);
 	ResourceManager::GetInstance().Init(dataPath);
 
-	std::unique_ptr sdlSoundSystemUPtr{ std::make_unique<amu::LogSoundSystem>(std::make_unique<amu::SDLSoundSystem>()) };
-	amu::ServiceLocator::GetInstance().RegisterSoundSystem(std::move(sdlSoundSystemUPtr));
+	std::unique_ptr sdlLoggingSoundSystemUPtr{ std::make_unique<amu::LogSoundSystem>(std::make_unique<amu::SDLSoundSystem>()) };
+	amu::ServiceLocator::GetInstance().RegisterSoundSystem(std::move(sdlLoggingSoundSystemUPtr));
 }
 
 amu::Amugen::~Amugen()
@@ -101,12 +101,11 @@ amu::Amugen::~Amugen()
 	SDL_DestroyWindow(m_WindowPtr);
 	m_WindowPtr = nullptr;
 	SDL_Quit();
-
 }
 
 void amu::Amugen::Run()
 {
-	std::jthread threadSound(&ISoundSystem::Update, ServiceLocator::GetInstance().GetSoundSystem());
+	ServiceLocator::GetInstance().GetSoundSystem()->SignalStart();
 
 	while (not m_ShouldQuit)
 	{

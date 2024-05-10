@@ -16,10 +16,11 @@ namespace amu
 	public:
 		virtual ~ISoundSystem() = default;
 
-		virtual void Update() = 0;
 		virtual bool RequestSoundEffect(int id, const std::string& filePath, int volume) = 0;
+		virtual void SignalStart() = 0;
 		virtual void SignalEnd() = 0;
 	private:
+		//virtual void SignalEnd() = 0; //becomes a new method if you override private methods (unable to call)
 	};
 
 	class NullSoundSystem final : public ISoundSystem
@@ -33,10 +34,10 @@ namespace amu
 		NullSoundSystem(NullSoundSystem&&) = delete;
 		NullSoundSystem& operator= (const NullSoundSystem&&) = delete;
 
-		void Update() override {};
 		bool RequestSoundEffect(int, const std::string&, int) override { return false; };
-	private:
+		void SignalStart() override {};
 		void SignalEnd() override {};
+	private:
 	};
 
 	class SDLSoundSystem final : public ISoundSystem
@@ -50,8 +51,9 @@ namespace amu
 		SDLSoundSystem(SDLSoundSystem&&) = delete;
 		SDLSoundSystem& operator= (const SDLSoundSystem&&) = delete;
 
-		void Update() override;
+		void Update();
 		bool RequestSoundEffect(int id, const std::string& filePath, int volume) override;
+		void SignalStart() override;
 		void SignalEnd() override;
 	private:
 		struct SoundRequest 
@@ -64,6 +66,7 @@ namespace amu
 		std::map<int, std::unique_ptr<SoundEffect>> m_SoundMap{};
 		std::deque<SoundRequest> m_SoundRequestDeque{};
 
+		std::thread m_SoundThread{};
 		std::mutex m_SoundMutex{};
 		std::promise<void> m_SoundPromise{};
 		std::future<void> m_SoundFuture{};
@@ -86,8 +89,8 @@ namespace amu
 		LogSoundSystem(LogSoundSystem&&) = delete;
 		LogSoundSystem& operator= (const LogSoundSystem&&) = delete;
 
-		void Update() override;
 		bool RequestSoundEffect(int id, const std::string& filePath, int volume) override;
+		void SignalStart() override;
 		void SignalEnd() override;
 	private:
 		std::unique_ptr<ISoundSystem> m_ActualSoundSystemUPtr{};

@@ -13,6 +13,7 @@ amu::SDLSoundSystem::SDLSoundSystem()
 	, m_SoundFuture{ m_SoundPromise.get_future() }
 {
 	Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096);
+	Mix_AllocateChannels(100);
 }
 
 amu::SDLSoundSystem::~SDLSoundSystem()
@@ -26,28 +27,24 @@ void amu::SDLSoundSystem::Update()
 	while (not m_ShouldQuit)
 	{
 		m_SoundFuture.get();
-		
-		std::queue<SoundRequest> soundsToPlay{};
 
-		m_SoundMutex.lock();
+		std::deque<SoundRequest> soundDequeToPlay{};
 
-		while (not m_SoundRequestDeque.empty())
 		{
-			soundsToPlay.push(m_SoundRequestDeque.front());
-			m_SoundRequestDeque.pop_front();
+			std::lock_guard lock(m_SoundMutex);
+			soundDequeToPlay = m_SoundRequestDeque;
+			m_SoundRequestDeque.clear();
+
+			m_SoundPromise = std::promise<void>();
+			m_SoundFuture = m_SoundPromise.get_future();
+			m_IsScheduled = false;
 		}
-
-		m_SoundPromise = std::promise<void>();
-		m_SoundFuture = m_SoundPromise.get_future();
-		m_IsScheduled = false;
-
-		m_SoundMutex.unlock();
-
-		while (not soundsToPlay.empty())
+	
+		while (not soundDequeToPlay.empty())
 		{
-			auto [id, volume, fileName] = soundsToPlay.front();
+			auto [id, volume, fileName] = soundDequeToPlay.front();
 			PlaySoundEffect(id, volume, fileName);
-			soundsToPlay.pop();
+			soundDequeToPlay.pop_front();
 		}
 	}
 }
@@ -81,6 +78,13 @@ bool amu::SDLSoundSystem::RequestSoundEffect(int id, const std::string& filePath
 	return true;
 }
 
+void amu::SDLSoundSystem::SignalStart()
+{
+	std::lock_guard close{ m_SoundMutex };
+	m_SoundThread = std::thread(&SDLSoundSystem::Update, this);
+	m_SoundThread.detach();
+}
+
 void amu::SDLSoundSystem::SignalEnd()
 {
 	std::lock_guard close{ m_SoundMutex };
@@ -112,21 +116,21 @@ amu::LogSoundSystem::LogSoundSystem(std::unique_ptr<ISoundSystem>&& actualSoundS
 {
 }
 
-void amu::LogSoundSystem::Update()
-{
-	m_ActualSoundSystemUPtr->Update();
-}
-
 bool amu::LogSoundSystem::RequestSoundEffect(int id, const std::string& filePath, int volume)
 {
 	if (m_ActualSoundSystemUPtr->RequestSoundEffect(id, filePath, volume))
 	{
+		std::cout << "Requested sound id: " << id << " from dir " << filePath << "\n";
 		std::cout << "Requested sound id: " << id << " at volume " << volume << "\n";
 		return true;
 	}
-	std::cout << "Sound added with id: " << id << " from dir " << filePath << "\n";
-
 	return false;
+}
+
+void amu::LogSoundSystem::SignalStart()
+{
+	m_ActualSoundSystemUPtr->SignalStart();
+	std::cout << "Sound execution should start\n";
 }
 
 void amu::LogSoundSystem::SignalEnd()

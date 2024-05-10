@@ -20,6 +20,7 @@ namespace amu
 		SoundEffect& operator= (const SoundEffect&&) = delete;
 	private:
 		const std::string m_FilePath{};
+		//we still expose this type to whoever includes servicelocator who includes sound system which includes this 
 		Mix_Chunk* m_SoundEffectPtr{};
 	};
 
