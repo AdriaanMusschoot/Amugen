@@ -4,7 +4,7 @@
 #include <vector>
 #include "Component.h"
 
-namespace pacman
+namespace amu
 {
 	class GameObject final
 	{

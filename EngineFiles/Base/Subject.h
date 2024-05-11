@@ -1,10 +1,11 @@
 #ifndef AMU_SUBJECT_H
 #define AMU_SUBJECT_H
 
-#include "Observer.h"
+#include "IObserver.h"
 #include <vector>
 #include "GameObject.h"
-namespace pacman
+
+namespace amu
 {
 
 	class Subject

@@ -7,7 +7,7 @@
 
 struct SDL_Window;
 
-namespace pacman
+namespace amu
 {
 
 	class Amugen final

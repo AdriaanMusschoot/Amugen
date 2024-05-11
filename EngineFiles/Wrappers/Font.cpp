@@ -2,12 +2,12 @@
 #include <SDL_ttf.h>
 #include "Font.h"
 
-TTF_Font* pacman::Font::GetFont() const
+TTF_Font* amu::Font::GetFont() const
 {
 	return m_FontPtr;
 }
 
-pacman::Font::Font(std::string_view const& fullPath, unsigned int size) : m_FontPtr(nullptr)
+amu::Font::Font(std::string_view const& fullPath, unsigned int size) : m_FontPtr(nullptr)
 {
 	m_FontPtr = TTF_OpenFont(fullPath.data(), size);
 	if (not m_FontPtr) 
@@ -16,7 +16,7 @@ pacman::Font::Font(std::string_view const& fullPath, unsigned int size) : m_Font
 	}
 }
 
-pacman::Font::~Font()
+amu::Font::~Font()
 {
 	TTF_CloseFont(m_FontPtr);
 }

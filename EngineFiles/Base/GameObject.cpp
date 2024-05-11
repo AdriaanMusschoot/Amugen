@@ -1,7 +1,7 @@
 #include "GameObject.h"
 #include <algorithm>
 #include "TransformComponent.h"
-void pacman::GameObject::Update()
+void amu::GameObject::Update()
 {
     for (const auto& component : m_ComponentUPtrVec)
     {
@@ -14,7 +14,7 @@ void pacman::GameObject::Update()
         });
 }
 
-void pacman::GameObject::Render() const
+void amu::GameObject::Render() const
 {
     for(const auto & component: m_ComponentUPtrVec)
     {
@@ -22,7 +22,7 @@ void pacman::GameObject::Render() const
     }
 }
 
-void pacman::GameObject::EnableToBeDestroyed()
+void amu::GameObject::EnableToBeDestroyed()
 {
     m_ToBeDestroyed = true;
     for (const auto& childPtr : m_ChildObjectPtrVec)
@@ -31,7 +31,7 @@ void pacman::GameObject::EnableToBeDestroyed()
     }
 }
 
-void pacman::GameObject::SetParent(GameObject* newParentObjectPtr, bool keepWorldPosition)
+void amu::GameObject::SetParent(GameObject* newParentObjectPtr, bool keepWorldPosition)
 {
     if(IsChild(newParentObjectPtr) || newParentObjectPtr == this || m_ParentObjectPtr == newParentObjectPtr)
     {
@@ -68,7 +68,7 @@ void pacman::GameObject::SetParent(GameObject* newParentObjectPtr, bool keepWorl
     }
 }
 
-bool pacman::GameObject::IsChild(const GameObject* parentObjectPtr) const
+bool amu::GameObject::IsChild(const GameObject* parentObjectPtr) const
 {
     return std::ranges::any_of(m_ChildObjectPtrVec,
     [&](const GameObject* childObjectPtr)
@@ -77,12 +77,12 @@ bool pacman::GameObject::IsChild(const GameObject* parentObjectPtr) const
     });
 }
 
-void pacman::GameObject::RemoveChild(GameObject* gameObject)
+void amu::GameObject::RemoveChild(GameObject* gameObject)
 {
     std::erase(m_ChildObjectPtrVec, gameObject);
 }
 
-void pacman::GameObject::AddChild(GameObject* gameObjectPtr)
+void amu::GameObject::AddChild(GameObject* gameObjectPtr)
 {
     m_ChildObjectPtrVec.emplace_back(gameObjectPtr);
 }

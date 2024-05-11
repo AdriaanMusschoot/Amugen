@@ -1,7 +1,7 @@
 #include "Scene.h"
 #include <string>
 
-using namespace pacman;
+using namespace amu;
 
 unsigned int Scene::m_IdCounter = 0;
 

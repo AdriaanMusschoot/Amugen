@@ -3,7 +3,7 @@
 
 #include "Component.h"
 
-namespace pacman
+namespace amu
 {
 	class TransformComponent final : public Component
 	{

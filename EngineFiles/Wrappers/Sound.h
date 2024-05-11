@@ -5,7 +5,7 @@
 
 struct Mix_Chunk;
 
-namespace pacman
+namespace amu
 {
 
 	class SoundEffect final

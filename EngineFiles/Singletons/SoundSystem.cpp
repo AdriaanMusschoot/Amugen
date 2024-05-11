@@ -8,7 +8,7 @@
 /////////SDL SOUND SYSTEM
 //////////////////////////////
 
-pacman::SDLSoundSystem::SDLSoundSystem() 
+amu::SDLSoundSystem::SDLSoundSystem() 
 	: m_SoundPromise{ std::promise<void>() }
 	, m_SoundFuture{ m_SoundPromise.get_future() }
 {
@@ -16,13 +16,13 @@ pacman::SDLSoundSystem::SDLSoundSystem()
 	Mix_AllocateChannels(100);
 }
 
-pacman::SDLSoundSystem::~SDLSoundSystem()
+amu::SDLSoundSystem::~SDLSoundSystem()
 {
 	Mix_Quit();
 	Mix_CloseAudio();
 }
 
-void pacman::SDLSoundSystem::Update()
+void amu::SDLSoundSystem::Update()
 {
 	while (not m_ShouldQuit)
 	{
@@ -49,7 +49,7 @@ void pacman::SDLSoundSystem::Update()
 	}
 }
 
-bool pacman::SDLSoundSystem::RequestSoundEffect(SoundId id, std::string_view const& filePath, int volume)
+bool amu::SDLSoundSystem::RequestSoundEffect(SoundId id, std::string_view const& filePath, int volume)
 {
 	std::lock_guard lockPlaying{ m_SoundMutex };
 
@@ -78,14 +78,14 @@ bool pacman::SDLSoundSystem::RequestSoundEffect(SoundId id, std::string_view con
 	return true;
 }
 
-void pacman::SDLSoundSystem::SignalStart()
+void amu::SDLSoundSystem::SignalStart()
 {
 	std::lock_guard close{ m_SoundMutex };
 	m_SoundThread = std::thread(&SDLSoundSystem::Update, this);
 	m_SoundThread.detach();
 }
 
-void pacman::SDLSoundSystem::SignalEnd()
+void amu::SDLSoundSystem::SignalEnd()
 {
 	std::lock_guard close{ m_SoundMutex };
 
@@ -97,7 +97,7 @@ void pacman::SDLSoundSystem::SignalEnd()
 	}
 }
 
-void pacman::SDLSoundSystem::PlaySoundEffect(SoundId id, std::string_view const& fileName, int volume)
+void amu::SDLSoundSystem::PlaySoundEffect(SoundId id, std::string_view const& fileName, int volume)
 {
 	if (not m_SoundMap.contains(id))
 	{
@@ -111,12 +111,12 @@ void pacman::SDLSoundSystem::PlaySoundEffect(SoundId id, std::string_view const&
 /////////LOG SOUND SYSTEM
 //////////////////////////////
 
-pacman::LogSoundSystem::LogSoundSystem(std::unique_ptr<ISoundSystem>&& actualSoundSystemUPtr)
+amu::LogSoundSystem::LogSoundSystem(std::unique_ptr<ISoundSystem>&& actualSoundSystemUPtr)
 	: m_ActualSoundSystemUPtr{ std::move(actualSoundSystemUPtr) }
 {
 }
 
-bool pacman::LogSoundSystem::RequestSoundEffect(SoundId id, std::string_view const& filePath, int volume)
+bool amu::LogSoundSystem::RequestSoundEffect(SoundId id, std::string_view const& filePath, int volume)
 {
 	if (m_ActualSoundSystemUPtr->RequestSoundEffect(id, filePath, volume))
 	{
@@ -127,13 +127,13 @@ bool pacman::LogSoundSystem::RequestSoundEffect(SoundId id, std::string_view con
 	return false;
 }
 
-void pacman::LogSoundSystem::SignalStart()
+void amu::LogSoundSystem::SignalStart()
 {
 	m_ActualSoundSystemUPtr->SignalStart();
 	std::cout << "Sound execution should start\n";
 }
 
-void pacman::LogSoundSystem::SignalEnd()
+void amu::LogSoundSystem::SignalEnd()
 {
 	m_ActualSoundSystemUPtr->SignalEnd();
 	std::cout << "Sound execution should end\n";

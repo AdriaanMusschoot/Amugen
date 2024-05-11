@@ -1,7 +1,7 @@
 #ifndef AMU_COMMANDS_H
 #define AMU_COMMANDS_H
 
-namespace pacman
+namespace amu
 {
 
 	class Command

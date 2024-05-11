@@ -1,7 +1,7 @@
 #include "GameObject.h"
 #include "TransformComponent.h"
 
-pacman::TransformComponent::TransformComponent(GameObject* ownerObjectPtr, const glm::vec2& pos)
+amu::TransformComponent::TransformComponent(GameObject* ownerObjectPtr, const glm::vec2& pos)
 	: Component(ownerObjectPtr)
 	, m_LocalPosition{ pos }
 	, m_WorldPosition{ pos }
@@ -9,19 +9,19 @@ pacman::TransformComponent::TransformComponent(GameObject* ownerObjectPtr, const
 {
 }
 
-const glm::vec2& pacman::TransformComponent::GetLocalPosition() const
+const glm::vec2& amu::TransformComponent::GetLocalPosition() const
 {
 	return m_LocalPosition;
 }
 
-void pacman::TransformComponent::SetLocalPosition(const glm::vec2& newPosition)
+void amu::TransformComponent::SetLocalPosition(const glm::vec2& newPosition)
 {
 	m_LocalPosition = newPosition;
 
     SetTransformDirty();
 }
 
-const glm::vec2& pacman::TransformComponent::GetWorldPosition() const
+const glm::vec2& amu::TransformComponent::GetWorldPosition() const
 {
     if (m_TransformDirty)
     {
@@ -30,12 +30,12 @@ const glm::vec2& pacman::TransformComponent::GetWorldPosition() const
 	return m_WorldPosition;
 }
 
-void pacman::TransformComponent::Translate(const glm::vec2& offset)
+void amu::TransformComponent::Translate(const glm::vec2& offset)
 {
     SetLocalPosition(GetLocalPosition() + offset);
 }
 
-void pacman::TransformComponent::UpdateWorldPosition()
+void amu::TransformComponent::UpdateWorldPosition()
 {
 	if (const GameObject* parentPtr = GetComponentOwner()->GetParent(); parentPtr == nullptr)
     {
@@ -48,7 +48,7 @@ void pacman::TransformComponent::UpdateWorldPosition()
     m_TransformDirty = true;
 }
 
-void pacman::TransformComponent::SetTransformDirty()
+void amu::TransformComponent::SetTransformDirty()
 {
     m_TransformDirty = true;
     const GameObject* ownerPtr = GetComponentOwner();

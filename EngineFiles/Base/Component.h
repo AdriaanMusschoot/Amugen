@@ -2,7 +2,7 @@
 #define AMU_COMPONENT_H
 #include <memory>
 
-namespace pacman
+namespace amu
 {
 
 	class GameObject;

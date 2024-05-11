@@ -4,7 +4,7 @@
 #include <SDL.h>
 #include "Singleton.h"
 
-namespace pacman
+namespace amu
 {
 
 	class Texture2D;

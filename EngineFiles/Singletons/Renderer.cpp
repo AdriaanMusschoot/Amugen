@@ -18,7 +18,7 @@ int GetOpenGLDriverIndex()
 	return openglIndex;
 }
 
-void pacman::Renderer::Init(SDL_Window* window)
+void amu::Renderer::Init(SDL_Window* window)
 {
 	m_WindowPtr = window;
 	m_RendererPtr = SDL_CreateRenderer(window, GetOpenGLDriverIndex(), SDL_RENDERER_ACCELERATED);
@@ -30,7 +30,7 @@ void pacman::Renderer::Init(SDL_Window* window)
 	SDL_RenderSetVSync(m_RendererPtr, true);
 }
 
-void pacman::Renderer::Render() const
+void amu::Renderer::Render() const
 {
 
 	const auto& color = GetBackgroundColor();
@@ -42,7 +42,7 @@ void pacman::Renderer::Render() const
 	SDL_RenderPresent(m_RendererPtr);
 }
 
-void pacman::Renderer::Destroy()
+void amu::Renderer::Destroy()
 {
 	if (m_RendererPtr != nullptr)
 	{
@@ -51,7 +51,7 @@ void pacman::Renderer::Destroy()
 	}
 }
 
-void pacman::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y) const
+void amu::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y) const
 {
 	SDL_Rect dst{};
 	dst.x = static_cast<int>(x);
@@ -60,7 +60,7 @@ void pacman::Renderer::RenderTexture(const Texture2D& texture, const float x, co
 	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
 }
 
-void pacman::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y, const float width, const float height) const
+void amu::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y, const float width, const float height) const
 {
 	SDL_Rect dst{};
 	dst.x = static_cast<int>(x);
@@ -70,4 +70,4 @@ void pacman::Renderer::RenderTexture(const Texture2D& texture, const float x, co
 	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
 }
 
-SDL_Renderer* pacman::Renderer::GetSDLRenderer() const { return m_RendererPtr; }
+SDL_Renderer* amu::Renderer::GetSDLRenderer() const { return m_RendererPtr; }

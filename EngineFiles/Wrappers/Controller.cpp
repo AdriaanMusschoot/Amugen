@@ -1,13 +1,13 @@
 #include "Controller.h"
 #include "InputManager.h"
 
-namespace pacman
+namespace amu
 {
 
 	class Controller::ControllerImpl
 	{
 	public:
-		void AddCommand(unsigned int button, pacman::InputManager::InputState state, std::unique_ptr<pacman::Command> commandPtr)
+		void AddCommand(unsigned int button, amu::InputManager::InputState state, std::unique_ptr<amu::Command> commandPtr)
 		{
 			m_ControllerCommandPtrVec.emplace_back(std::make_tuple(button, state, std::move(commandPtr)));
 		}
@@ -26,19 +26,19 @@ namespace pacman
 			{
 				switch (state)
 				{
-				case pacman::InputManager::InputState::Pressed:
+				case amu::InputManager::InputState::Pressed:
 					if (buttonsPressedThisFrameController & button)
 					{
 						command->Execute();
 					}
 					break;
-				case pacman::InputManager::InputState::Released:
+				case amu::InputManager::InputState::Released:
 					if (buttonsReleasedThisFrameController & button)
 					{
 						command->Execute();
 					}
 					break;
-				case pacman::InputManager::InputState::Held:
+				case amu::InputManager::InputState::Held:
 					if (m_CurrentStateController.Gamepad.wButtons & button)
 					{
 						command->Execute();
@@ -51,28 +51,28 @@ namespace pacman
 		XINPUT_STATE m_PreviousStateController;
 		XINPUT_STATE m_CurrentStateController;
 	
-		std::vector<std::tuple<unsigned int, pacman::InputManager::InputState, std::unique_ptr<pacman::Command>>> m_ControllerCommandPtrVec;
+		std::vector<std::tuple<unsigned int, amu::InputManager::InputState, std::unique_ptr<amu::Command>>> m_ControllerCommandPtrVec;
 	};
 
 }
 
-pacman::Controller::Controller(int controllerIndex)
+amu::Controller::Controller(int controllerIndex)
 	: m_ControllerImplPtr{ std::make_unique<ControllerImpl>() }
 	, m_ControllerIndex{ controllerIndex }
 {
 }
 
-pacman::Controller::~Controller()
+amu::Controller::~Controller()
 {
 
 }
 
-void pacman::Controller::AddCommand(unsigned int button, pacman::InputManager::InputState state, std::unique_ptr<Command> commandPtr)
+void amu::Controller::AddCommand(unsigned int button, amu::InputManager::InputState state, std::unique_ptr<Command> commandPtr)
 {
 	m_ControllerImplPtr->AddCommand(button, state, std::move(commandPtr));
 }
 
-void pacman::Controller::ProcessControllerInput()
+void amu::Controller::ProcessControllerInput()
 {
 	m_ControllerImplPtr->ProcessControllerInput(m_ControllerIndex);
 }

@@ -1,7 +1,7 @@
 #ifndef AMU_SINGLETON_IMPL
 #define AMU_SINGLETON_IMPL
 
-namespace pacman
+namespace amu
 {
 	template <typename T>
 	class Singleton

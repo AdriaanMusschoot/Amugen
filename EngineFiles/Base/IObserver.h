@@ -1,6 +1,6 @@
 #ifndef AMU_IOBSERVER_H
 #define AMU_IOBSERVER_H
-namespace pacman
+namespace amu
 {
 	class Subject;
 

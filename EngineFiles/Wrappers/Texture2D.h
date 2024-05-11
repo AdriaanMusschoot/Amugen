@@ -4,7 +4,7 @@
 #include <glm/vec2.hpp>
 
 struct SDL_Texture;
-namespace pacman
+namespace amu
 {
 
 	/**

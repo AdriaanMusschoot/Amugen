@@ -5,7 +5,7 @@
 #include <memory>
 #include <string>
 
-namespace pacman
+namespace amu
 {
 	class Scene final
 	{

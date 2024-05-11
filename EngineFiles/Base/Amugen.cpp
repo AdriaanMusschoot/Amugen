@@ -65,7 +65,7 @@ void PrintSDLVersion()
 	LogSDLVersion("We linked against SDL_mixer version ", version);
 }
 
-pacman::Amugen::Amugen(const std::filesystem::path &dataPath, int width, int height)
+amu::Amugen::Amugen(const std::filesystem::path &dataPath, int width, int height)
 {
 	PrintSDLVersion();
 	
@@ -91,11 +91,11 @@ pacman::Amugen::Amugen(const std::filesystem::path &dataPath, int width, int hei
 	Renderer::GetInstance().Init(m_WindowPtr);
 	ResourceManager::GetInstance().Init(dataPath);
 
-	std::unique_ptr sdlLoggingSoundSystemUPtr{ std::make_unique<pacman::LogSoundSystem>(std::make_unique<pacman::SDLSoundSystem>()) };
-	pacman::ServiceLocator::GetInstance().RegisterSoundSystem(std::move(sdlLoggingSoundSystemUPtr));
+	std::unique_ptr sdlLoggingSoundSystemUPtr{ std::make_unique<amu::LogSoundSystem>(std::make_unique<amu::SDLSoundSystem>()) };
+	amu::ServiceLocator::GetInstance().RegisterSoundSystem(std::move(sdlLoggingSoundSystemUPtr));
 }
 
-pacman::Amugen::~Amugen()
+amu::Amugen::~Amugen()
 {
 	Renderer::GetInstance().Destroy();
 	SDL_DestroyWindow(m_WindowPtr);
@@ -103,7 +103,7 @@ pacman::Amugen::~Amugen()
 	SDL_Quit();
 }
 
-void pacman::Amugen::Run()
+void amu::Amugen::Run()
 {
 	ServiceLocator::GetInstance().GetSoundSystem()->SignalStart();
 
@@ -115,7 +115,7 @@ void pacman::Amugen::Run()
 	ServiceLocator::GetInstance().GetSoundSystem()->SignalEnd();
 }
 
-void pacman::Amugen::RunOneFrame()
+void amu::Amugen::RunOneFrame()
 {
 	GameTime::GetInstance().Update();
 

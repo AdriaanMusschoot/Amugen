@@ -6,7 +6,7 @@
 #include <map>
 #include <array>
 
-namespace pacman
+namespace amu
 {
 	class Controller;
 

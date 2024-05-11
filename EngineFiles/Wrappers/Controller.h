@@ -8,7 +8,7 @@
 #include "GameObjectCommands.h"
 #include "InputManager.h"
 
-namespace pacman
+namespace amu
 {
 
 	class Controller final
