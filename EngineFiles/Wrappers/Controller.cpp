@@ -1,13 +1,13 @@
 #include "Controller.h"
 #include "InputManager.h"
 
-namespace amu
+namespace pacman
 {
 
 	class Controller::ControllerImpl
 	{
 	public:
-		void AddCommand(unsigned int button, amu::InputManager::InputState state, std::unique_ptr<amu::Command> commandPtr)
+		void AddCommand(unsigned int button, pacman::InputManager::InputState state, std::unique_ptr<pacman::Command> commandPtr)
 		{
 			m_ControllerCommandPtrVec.emplace_back(std::make_tuple(button, state, std::move(commandPtr)));
 		}
@@ -26,19 +26,19 @@ namespace amu
 			{
 				switch (state)
 				{
-				case amu::InputManager::InputState::Pressed:
+				case pacman::InputManager::InputState::Pressed:
 					if (buttonsPressedThisFrameController & button)
 					{
 						command->Execute();
 					}
 					break;
-				case amu::InputManager::InputState::Released:
+				case pacman::InputManager::InputState::Released:
 					if (buttonsReleasedThisFrameController & button)
 					{
 						command->Execute();
 					}
 					break;
-				case amu::InputManager::InputState::Held:
+				case pacman::InputManager::InputState::Held:
 					if (m_CurrentStateController.Gamepad.wButtons & button)
 					{
 						command->Execute();
@@ -51,28 +51,28 @@ namespace amu
 		XINPUT_STATE m_PreviousStateController;
 		XINPUT_STATE m_CurrentStateController;
 	
-		std::vector<std::tuple<unsigned int, amu::InputManager::InputState, std::unique_ptr<amu::Command>>> m_ControllerCommandPtrVec;
+		std::vector<std::tuple<unsigned int, pacman::InputManager::InputState, std::unique_ptr<pacman::Command>>> m_ControllerCommandPtrVec;
 	};
 
 }
 
-amu::Controller::Controller(int controllerIndex)
+pacman::Controller::Controller(int controllerIndex)
 	: m_ControllerImplPtr{ std::make_unique<ControllerImpl>() }
 	, m_ControllerIndex{ controllerIndex }
 {
 }
 
-amu::Controller::~Controller()
+pacman::Controller::~Controller()
 {
 
 }
 
-void amu::Controller::AddCommand(unsigned int button, amu::InputManager::InputState state, std::unique_ptr<Command> commandPtr)
+void pacman::Controller::AddCommand(unsigned int button, pacman::InputManager::InputState state, std::unique_ptr<Command> commandPtr)
 {
 	m_ControllerImplPtr->AddCommand(button, state, std::move(commandPtr));
 }
 
-void amu::Controller::ProcessControllerInput()
+void pacman::Controller::ProcessControllerInput()
 {
 	m_ControllerImplPtr->ProcessControllerInput(m_ControllerIndex);
 }

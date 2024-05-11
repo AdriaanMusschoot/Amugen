@@ -2,7 +2,7 @@
 #include "Observer.h"
 #include <vector>
 #include "GameObject.h"
-namespace amu
+namespace pacman
 {
 
 	class Subject

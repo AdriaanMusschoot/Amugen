@@ -2,7 +2,7 @@
 #include <SDL.h>
 #include "Singleton.h"
 
-namespace amu
+namespace pacman
 {
 
 	class Texture2D;

@@ -7,7 +7,7 @@
 #include "Font.h"
 #include "Texture2D.h"
 
-namespace amu
+namespace pacman
 {
 
 	class TextComponent final : public Component
@@ -29,7 +29,7 @@ namespace amu
 
 		std::string m_Text{ "" };
 
-		std::unique_ptr<amu::Font> m_FontUPtr{ nullptr };
+		std::unique_ptr<pacman::Font> m_FontUPtr{ nullptr };
 
 		TransformComponent* m_TransformPtr{ nullptr };
 

@@ -1,14 +1,14 @@
 #include "ServiceLocator.h"
 #include "SoundSystem.h"
 
-std::unique_ptr<amu::ISoundSystem> amu::ServiceLocator::m_SoundSystemUPtr{ std::make_unique<NullSoundSystem>() };
+std::unique_ptr<pacman::ISoundSystem> pacman::ServiceLocator::m_SoundSystemUPtr{ std::make_unique<NullSoundSystem>() };
 
-amu::ISoundSystem* amu::ServiceLocator::GetSoundSystem()
+pacman::ISoundSystem* pacman::ServiceLocator::GetSoundSystem()
 {
 	return m_SoundSystemUPtr.get();
 }
 
-void amu::ServiceLocator::RegisterSoundSystem(std::unique_ptr<ISoundSystem>&& soundSystemUPtr)
+void pacman::ServiceLocator::RegisterSoundSystem(std::unique_ptr<ISoundSystem>&& soundSystemUPtr)
 {
 	if (soundSystemUPtr)
 	{

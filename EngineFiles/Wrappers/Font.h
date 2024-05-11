@@ -3,7 +3,7 @@
 
 struct _TTF_Font;
 
-namespace amu
+namespace pacman
 {
 
 	/**

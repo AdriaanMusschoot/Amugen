@@ -4,7 +4,7 @@
 #include <Singleton.h>
 #include "SoundSystem.h"
 
-namespace amu
+namespace pacman
 {
 
 	class ServiceLocator final : public Singleton<ServiceLocator>

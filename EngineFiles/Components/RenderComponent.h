@@ -6,7 +6,7 @@
 #include "Texture2D.h"
 #include "TransformComponent.h"
 
-namespace amu
+namespace pacman
 {
 
 	class RenderComponent final : public Component
@@ -27,7 +27,7 @@ namespace amu
 		void SetTexture(std::string_view const& fileName);
 		void SetTexture(std::unique_ptr<Texture2D> textureUPtr);
 	private:
-		std::unique_ptr<amu::Texture2D> m_TextureUPtr = nullptr;
+		std::unique_ptr<pacman::Texture2D> m_TextureUPtr = nullptr;
 
 		TransformComponent* m_TransformPtr = nullptr;
 	};

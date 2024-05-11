@@ -6,17 +6,17 @@
 #include "Renderer.h"
 #include "GameObject.h"
 
-amu::TextComponent::TextComponent(GameObject * ownerObjectPtr, std::string_view const& textToDisplay, std::string_view const& fontPath, const unsigned size)
+pacman::TextComponent::TextComponent(GameObject * ownerObjectPtr, std::string_view const& textToDisplay, std::string_view const& fontPath, const unsigned size)
 	: Component(ownerObjectPtr)
 	, m_Text{ textToDisplay }
-	, m_FontUPtr{ amu::ResourceManager::GetInstance().LoadFont(fontPath, size) }
+	, m_FontUPtr{ pacman::ResourceManager::GetInstance().LoadFont(fontPath, size) }
 	, m_TransformPtr{ GetComponentOwner()->GetComponent<TransformComponent>() }
 {
 	GetComponentOwner()->AddComponent<RenderComponent>(GetComponentOwner());
 	m_TextureComponentPtr = GetComponentOwner()->GetComponent<RenderComponent>();
 }
 
-void amu::TextComponent::Update()
+void pacman::TextComponent::Update()
 {
 	if (m_NeedsUpdate)
 	{
@@ -26,7 +26,7 @@ void amu::TextComponent::Update()
 		{
 			throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());
 		}
-		auto texture = SDL_CreateTextureFromSurface(amu::Renderer::GetInstance().GetSDLRenderer(), surf);
+		auto texture = SDL_CreateTextureFromSurface(pacman::Renderer::GetInstance().GetSDLRenderer(), surf);
 		if (texture == nullptr)
 		{
 			throw std::runtime_error(std::string("Create text texture from surface failed: ") + SDL_GetError());
@@ -37,12 +37,12 @@ void amu::TextComponent::Update()
 	}
 }
 
-void amu::TextComponent::Render() const
+void pacman::TextComponent::Render() const
 {
 	m_TextureComponentPtr->Render();
 }
 
-void amu::TextComponent::SetText(std::string_view const& textToDisplay)
+void pacman::TextComponent::SetText(std::string_view const& textToDisplay)
 {
 	m_Text = textToDisplay;
 	m_NeedsUpdate = true;

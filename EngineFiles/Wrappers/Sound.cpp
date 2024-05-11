@@ -2,13 +2,13 @@
 #include "SDL_mixer.h"
 #include <stdexcept>
 
-amu::SoundEffect::SoundEffect(std::string_view const& fullPath)
+pacman::SoundEffect::SoundEffect(std::string_view const& fullPath)
 	: m_FilePath{ fullPath }
 {
 
 }
 
-void amu::SoundEffect::PlaySoundEffect(int volume)
+void pacman::SoundEffect::PlaySoundEffect(int volume)
 {
 	if (not m_SoundEffectPtr)
 	{
@@ -20,7 +20,7 @@ void amu::SoundEffect::PlaySoundEffect(int volume)
 	Mix_PlayChannel(-1, m_SoundEffectPtr, 0);
 }
 
-amu::SoundEffect::~SoundEffect()
+pacman::SoundEffect::~SoundEffect()
 {
 	Mix_FreeChunk(m_SoundEffectPtr);
 }

@@ -1,7 +1,7 @@
 #pragma once
 #include <memory>
 
-namespace amu
+namespace pacman
 {
 
 	class GameObject;

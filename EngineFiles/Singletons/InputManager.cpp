@@ -4,17 +4,17 @@
 
 #include "Controller.h"
 
-amu::InputManager::InputManager()
+pacman::InputManager::InputManager()
 	: m_ControllerArr{ std::make_unique<Controller>(0), std::make_unique<Controller>(1) }
 
 {
 }
 
-amu::InputManager::~InputManager()
+pacman::InputManager::~InputManager()
 {
 }
 
-void amu::InputManager::AddCommandController(unsigned int controllerIdx, unsigned int button, InputState state, std::unique_ptr<Command> commandPtr)
+void pacman::InputManager::AddCommandController(unsigned int controllerIdx, unsigned int button, InputState state, std::unique_ptr<Command> commandPtr)
 {
 	for (size_t idx{}; idx < m_ControllerArr.size(); ++idx)
 	{
@@ -25,12 +25,12 @@ void amu::InputManager::AddCommandController(unsigned int controllerIdx, unsigne
 	}
 }
 
-void amu::InputManager::AddCommandKeyboard(Key key, InputState state, std::unique_ptr<Command> commandPtr)
+void pacman::InputManager::AddCommandKeyboard(Key key, InputState state, std::unique_ptr<Command> commandPtr)
 {
 	m_KeyboardCommandPtrVec.emplace_back(std::make_tuple(static_cast<unsigned int>(key), state, std::move(commandPtr)));
 }
 
-bool amu::InputManager::ProcessInput()
+bool pacman::InputManager::ProcessInput()
 {
 	////////////////////////////////////////
 	///////////Xbox Input handling

@@ -2,7 +2,7 @@
 #include "Command.h"
 #include "GameObject.h"
 
-namespace amu
+namespace pacman
 {
 
 	class GameObjectCommand : public Command

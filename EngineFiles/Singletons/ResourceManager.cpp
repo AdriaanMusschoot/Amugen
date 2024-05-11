@@ -6,7 +6,7 @@
 #include "Texture2D.h"
 #include "Font.h"
 
-void amu::ResourceManager::Init(const std::filesystem::path& dataPath)
+void pacman::ResourceManager::Init(const std::filesystem::path& dataPath)
 {
 	m_DataPath = dataPath;
 
@@ -16,7 +16,7 @@ void amu::ResourceManager::Init(const std::filesystem::path& dataPath)
 	}
 }
 
-std::unique_ptr<amu::Texture2D> amu::ResourceManager::LoadTexture(const std::string_view& file) const
+std::unique_ptr<pacman::Texture2D> pacman::ResourceManager::LoadTexture(const std::string_view& file) const
 {
 	const auto fullPath = m_DataPath/file;
 	auto texture = IMG_LoadTexture(Renderer::GetInstance().GetSDLRenderer(), fullPath.string().c_str());
@@ -27,13 +27,13 @@ std::unique_ptr<amu::Texture2D> amu::ResourceManager::LoadTexture(const std::str
 	return std::make_unique<Texture2D>(texture);
 }
 
-std::unique_ptr<amu::Font> amu::ResourceManager::LoadFont(const std::string_view& file, unsigned int size) const
+std::unique_ptr<pacman::Font> pacman::ResourceManager::LoadFont(const std::string_view& file, unsigned int size) const
 {
 	const auto fullPath = m_DataPath/file;
 	return std::make_unique<Font>(fullPath.string(), size);
 }
 
-std::unique_ptr<amu::SoundEffect> amu::ResourceManager::LoadSoundEffect(const std::string_view& file) const
+std::unique_ptr<pacman::SoundEffect> pacman::ResourceManager::LoadSoundEffect(const std::string_view& file) const
 {
 	const auto fullPath = m_DataPath/file;
 	return std::make_unique<SoundEffect>(fullPath.string());

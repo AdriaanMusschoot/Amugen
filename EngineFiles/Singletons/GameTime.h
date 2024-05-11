@@ -4,7 +4,7 @@
 
 #include "Singleton.h"
 
-namespace amu
+namespace pacman
 {
 
 	class GameTime final : public Singleton<GameTime>

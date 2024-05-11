@@ -5,7 +5,7 @@
 #include "Singleton.h"
 #include "Sound.h"
 
-namespace amu
+namespace pacman
 {
 	class Texture2D;
 	class Font;

@@ -1,6 +1,6 @@
 #pragma once
 
-namespace amu
+namespace pacman
 {
 	class Subject;
 

@@ -1,6 +1,6 @@
 #include "SceneManager.h"
 #include "Scene.h"
-void amu::SceneManager::Update()
+void pacman::SceneManager::Update()
 {
 	for(auto& scene : m_ScenesUPtrVec)
 	{
@@ -8,7 +8,7 @@ void amu::SceneManager::Update()
 	}
 }
 
-void amu::SceneManager::Render()
+void pacman::SceneManager::Render()
 {
 	for (const auto& scene : m_ScenesUPtrVec)
 	{
@@ -16,7 +16,7 @@ void amu::SceneManager::Render()
 	}
 }
 
-void amu::SceneManager::CreateScene(std::string_view const& name, std::function<void(Scene*)> const& loadScene)
+void pacman::SceneManager::CreateScene(std::string_view const& name, std::function<void(Scene*)> const& loadScene)
 {
 	std::unique_ptr sceneUPtr = std::make_unique<Scene>(name);
 	loadScene(sceneUPtr.get());

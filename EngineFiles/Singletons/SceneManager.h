@@ -8,7 +8,7 @@
 #include "Scene.h"
 #include <functional>
 
-namespace amu
+namespace pacman
 {
 
 	class SceneManager final : public Singleton<SceneManager>

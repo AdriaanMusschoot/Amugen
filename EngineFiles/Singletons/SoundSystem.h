@@ -9,7 +9,7 @@
 #include <mutex>
 #include <future>
 
-namespace amu
+namespace pacman
 {
 	using SoundId = int;
 	class ISoundSystem //interface

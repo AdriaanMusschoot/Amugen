@@ -3,7 +3,7 @@
 #include <vector>
 #include "Component.h"
 
-namespace amu
+namespace pacman
 {
 	class GameObject final
 	{
