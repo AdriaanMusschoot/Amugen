@@ -1,4 +1,6 @@
-#pragma once
+#ifndef AMU_RENDERER_H
+#define AMU_RENDERER_H
+
 #include <SDL.h>
 #include "Singleton.h"
 
@@ -30,3 +32,4 @@ namespace pacman
 
 }
 
+#endif //AMU_RENDERER_H

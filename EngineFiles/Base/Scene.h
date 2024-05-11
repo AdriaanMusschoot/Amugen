@@ -1,4 +1,5 @@
-#pragma once
+#ifndef AMU_SCENE_H
+#define AMU_SCENE_H
 #include "GameObject.h"
 #include <vector>
 #include <memory>
@@ -12,9 +13,9 @@ namespace pacman
 		explicit Scene(std::string_view const& name);
 		~Scene();
 
-		Scene(const Scene& other) = delete;
+		Scene(Scene const& other) = delete;
 		Scene(Scene&& other) = delete;
-		Scene& operator=(const Scene& other) = delete;
+		Scene& operator=(Scene const& other) = delete;
 		Scene& operator=(Scene&& other) = delete;
 
 		void Add(std::unique_ptr<GameObject> object);
@@ -28,8 +29,10 @@ namespace pacman
 		std::string const m_Name = "";
 		std::vector<std::unique_ptr<GameObject>> m_GameObjectUPtrVec{};
 
-		static unsigned int m_idCounter; 
+		static unsigned int m_IdCounter; 
 		void Remove();
 	};
 
 }
+
+#endif //AMU_SCENE_H

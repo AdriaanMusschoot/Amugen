@@ -1,4 +1,5 @@
-#pragma once
+#ifndef AMU_COMPONENT_H
+#define AMU_COMPONENT_H
 #include <memory>
 
 namespace pacman
@@ -39,3 +40,5 @@ namespace pacman
 	};
 
 }
+
+#endif //AMU_COMPONENT_H

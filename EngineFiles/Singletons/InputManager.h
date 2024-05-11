@@ -1,5 +1,5 @@
-#ifndef _INPUT_MANAGER_
-#define _INPUT_MANAGER_
+#ifndef AMU_INPUT_MANAGER_H
+#define AMU_INPUT_MANAGER_H
 
 #include "Singleton.h"
 #include "GameObjectCommands.h"
@@ -55,4 +55,4 @@ namespace pacman
 
 }
 
-#endif
+#endif //AMU_INPUT_MANAGER_H

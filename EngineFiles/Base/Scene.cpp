@@ -3,7 +3,7 @@
 
 using namespace pacman;
 
-unsigned int Scene::m_idCounter = 0;
+unsigned int Scene::m_IdCounter = 0;
 
 Scene::Scene(std::string_view const& name) 
 	: m_Name{ name }
@@ -42,7 +42,7 @@ void Scene::Update()
 
 void Scene::Render() const
 {
-	for (const auto& object : m_GameObjectUPtrVec)
+	for (auto const& object : m_GameObjectUPtrVec)
 	{
 		object->Render();
 	}

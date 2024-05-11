@@ -24,4 +24,4 @@ namespace pacman
 	};
 }
 
-#endif 
+#endif //AMU_SINGLETON_IMPL

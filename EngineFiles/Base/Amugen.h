@@ -1,4 +1,6 @@
-#pragma once
+#ifndef AMU_AMUGEN_H
+#define AMU_AMUGEN_H
+
 #include <string>
 #include <functional>
 #include <filesystem>
@@ -25,3 +27,5 @@ namespace pacman
 		bool m_ShouldQuit{};
 	};
 }
+
+#endif //AMU_AMUGEN_H

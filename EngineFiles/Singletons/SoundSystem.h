@@ -1,5 +1,6 @@
 #ifndef AMU_SOUND_SYSTEM_H
 #define AMU_SOUND_SYSTEM_H
+
 #include <memory>
 #include <map>
 #include <string>
@@ -21,7 +22,6 @@ namespace pacman
 		virtual void SignalStart() = 0;
 		virtual void SignalEnd() = 0;
 	private:
-		//virtual void SignalEnd() = 0; //becomes a new method if you override private methods (unable to call)
 	};
 
 	class NullSoundSystem final : public ISoundSystem

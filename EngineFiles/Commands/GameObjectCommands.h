@@ -1,4 +1,5 @@
-#pragma once
+#ifndef AMU_GAME_OBJECT_COMMANDS_H
+#define AMU_GAME_OBJECT_COMMANDS_H
 #include "Command.h"
 #include "GameObject.h"
 
@@ -24,3 +25,5 @@ namespace pacman
 	};
 
 }
+
+#endif //AMU_GAME_OBJECT_COMMANDS_H

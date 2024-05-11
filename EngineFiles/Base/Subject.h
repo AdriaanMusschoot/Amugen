@@ -1,4 +1,6 @@
-#pragma once
+#ifndef AMU_SUBJECT_H
+#define AMU_SUBJECT_H
+
 #include "Observer.h"
 #include <vector>
 #include "GameObject.h"
@@ -18,21 +20,22 @@ namespace pacman
 		Subject& operator=(const Subject& other) = delete;
 		Subject& operator=(Subject&& other) = delete;
 
-		void AddObserver(Observer* observerToAddPtr)
+		void AddObserver(IObserver* observerToAddPtr)
 		{
 			m_ObserverPtrVec.emplace_back(observerToAddPtr);
 		}
 
-		void RemoveObserver(Observer* observerToRemovePtr)
+		void RemoveObserver(IObserver* observerToRemovePtr)
 		{
 			std::erase_if(m_ObserverPtrVec,
-				[&](const Observer* observerPtr)
+				[&](const IObserver* observerPtr)
 				{
 					return observerPtr == observerToRemovePtr;
 				});
 		}
 
-		void NotifyObservers(Observer::EventType eventType)
+		using Event = int;
+		void NotifyObservers(Event eventType)
 		{
 			for (const auto& observer : m_ObserverPtrVec)
 			{
@@ -50,7 +53,9 @@ namespace pacman
 		GameObject* GetSubjectOwner() { return  m_OwnerObjectPtr; }
 	private:
 		GameObject* m_OwnerObjectPtr;
-		std::vector<Observer*> m_ObserverPtrVec{};
+		std::vector<IObserver*> m_ObserverPtrVec{};
 	};
 
 }
+
+#endif //AMU_SUBJECT_H

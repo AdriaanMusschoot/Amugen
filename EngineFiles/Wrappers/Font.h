@@ -1,4 +1,5 @@
-#pragma once
+#ifndef AMU_FONT_WRAPPER_H
+#define AMU_FONT_WRAPPER_H
 #include <string>
 
 struct _TTF_Font;
@@ -25,3 +26,5 @@ namespace pacman
 	};
 
 }
+
+#endif //AMU_FONT_WRAPPER_H

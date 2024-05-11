@@ -26,4 +26,4 @@ namespace pacman
 
 }
 
-#endif
+#endif //AMU_SCENE_MANAGER_H

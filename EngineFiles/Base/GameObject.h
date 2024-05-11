@@ -1,4 +1,5 @@
-#pragma once
+#ifndef AMU_GAME_OBJECT_H
+#define AMU_GAME_OBJECT_H
 #include <memory>
 #include <vector>
 #include "Component.h"
@@ -15,9 +16,9 @@ namespace pacman
 		}
 
 		~GameObject() = default;
-		GameObject(const GameObject& other) = delete;
+		GameObject(GameObject const& other) = delete;
 		GameObject(GameObject&& other) = delete;
-		GameObject& operator=(const GameObject& other) = delete;
+		GameObject& operator=(GameObject const& other) = delete;
 		GameObject& operator=(GameObject&& other) = delete;
 
 		void Update();
@@ -96,3 +97,5 @@ namespace pacman
 	};
 	
 }
+
+#endif //AMU_GAME_OBJECT_H

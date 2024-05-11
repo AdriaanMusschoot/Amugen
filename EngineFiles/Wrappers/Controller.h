@@ -1,6 +1,6 @@
-#ifndef _CONTROLLER_WRAPPER_
+#ifndef AMU_CONTROLLER_WRAPPER_H
+#define AMU_CONTROLLER_WRAPPER_H
 
-#define _CONTROLLER_WRAPPER_
 #include <Windows.h>
 #include <Xinput.h>
 #include <vector>
@@ -34,4 +34,4 @@ namespace pacman
 
 }
 
-#endif
+#endif //AMU_CONTROLLER_WRAPPER_H

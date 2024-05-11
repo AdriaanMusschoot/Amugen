@@ -1,5 +1,6 @@
 #ifndef AMU_SERVICE_LOCATOR
 #define AMU_SERVICE_LOCATOR
+
 #include <memory>
 #include <Singleton.h>
 #include "SoundSystem.h"

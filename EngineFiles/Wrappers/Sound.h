@@ -1,5 +1,6 @@
 #ifndef AMU_SOUND_WRAPPER_H
 #define AMU_SOUND_WRAPPER_H
+
 #include <string>
 
 struct Mix_Chunk;

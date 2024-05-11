@@ -1,4 +1,6 @@
-#pragma once
+#ifndef AMU_RESOURCE_MANAGER_H
+#define AMU_RESOURCE_MANAGER_H
+
 #include <filesystem>
 #include <string>
 #include <memory>
@@ -22,3 +24,5 @@ namespace pacman
 		std::filesystem::path m_DataPath = "";
 	};
 }
+
+#endif AMU_RESOURCE_MANAGER_H

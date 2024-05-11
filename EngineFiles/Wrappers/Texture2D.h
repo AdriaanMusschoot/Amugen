@@ -1,4 +1,6 @@
-#pragma once
+#ifndef AMU_TEXTURE2D_WRAPPER_H
+#define AMU_TEXTURE2D_WRAPPER_H
+
 #include <glm/vec2.hpp>
 
 struct SDL_Texture;
@@ -26,3 +28,5 @@ namespace pacman
 	};
 
 }
+
+#endif //AMU_TEXTURE2D_WRAPPER_H

@@ -1,7 +1,7 @@
-#pragma once
+#ifndef AMU_GAME_TIME_H
+#define AMU_GAME_TIME_H
 
 #include <chrono>
-
 #include "Singleton.h"
 
 namespace pacman
@@ -22,3 +22,5 @@ namespace pacman
 	};
 
 }
+
+#endif //AMU_GAME_TIME_H
