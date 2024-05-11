@@ -12,13 +12,13 @@ namespace amu
 	class RenderComponent final : public Component
 	{
 	public:
-		explicit RenderComponent(GameObject *  ownerObjectPtr, const std::string_view& fileName = "");
+		explicit RenderComponent(GameObject *  ownerObjectPtr, std::string_view const& fileName = "");
 		virtual ~RenderComponent() override = default;
 	
-		RenderComponent(const RenderComponent&) = delete;
-		RenderComponent& operator= (const RenderComponent&) = delete;
+		RenderComponent(RenderComponent const&) = delete;
 		RenderComponent(RenderComponent&&) = delete;
-		RenderComponent& operator= (const RenderComponent&&) = delete;
+		RenderComponent& operator= (RenderComponent const&) = delete;
+		RenderComponent& operator= (RenderComponent&&) = delete;
 	
 		void Render() const override;
 

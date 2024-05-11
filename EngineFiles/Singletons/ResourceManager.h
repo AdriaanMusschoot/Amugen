@@ -18,6 +18,7 @@ namespace amu
 		std::unique_ptr<Texture2D> LoadTexture(const std::string_view& file) const;
 		std::unique_ptr<Font> LoadFont(const std::string_view& file, unsigned int size) const;
 		std::unique_ptr<SoundEffect> LoadSoundEffect(const std::string_view& file) const;
+		std::fstream OpenFile(std::string_view const& file) const;
 	private:
 		friend class Singleton<ResourceManager>;
 		ResourceManager() = default;
