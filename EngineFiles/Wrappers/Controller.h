@@ -17,10 +17,10 @@ namespace amu
 		Controller(int controllerIndex);
 		~Controller();
 
-		Controller(const Controller&) = delete;
-		Controller& operator= (const Controller&) = delete;
+		Controller(Controller const&) = delete;
 		Controller(Controller&&) = delete;
-		Controller& operator= (const Controller&&) = delete;
+		Controller& operator= (Controller const&) = delete;
+		Controller& operator= (Controller&&) = delete;
 
 		void AddCommand(unsigned int button, InputManager::InputState state, std::unique_ptr<Command> commandPtr);
 		void ProcessControllerInput();

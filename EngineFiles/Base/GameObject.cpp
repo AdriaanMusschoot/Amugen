@@ -31,6 +31,16 @@ void amu::GameObject::EnableToBeDestroyed()
     }
 }
 
+bool amu::GameObject::GetToBeDestroyed() const 
+{
+    return m_ToBeDestroyed; 
+}
+
+amu::GameObject* amu::GameObject::GetParent() const 
+{
+    return m_ParentObjectPtr;
+}
+
 void amu::GameObject::SetParent(GameObject* newParentObjectPtr, bool keepWorldPosition)
 {
     if(IsChild(newParentObjectPtr) || newParentObjectPtr == this || m_ParentObjectPtr == newParentObjectPtr)
@@ -68,13 +78,23 @@ void amu::GameObject::SetParent(GameObject* newParentObjectPtr, bool keepWorldPo
     }
 }
 
-bool amu::GameObject::IsChild(const GameObject* parentObjectPtr) const
+std::int64_t amu::GameObject::GetChildCount() const 
+{
+    return std::ssize(m_ChildObjectPtrVec);
+}
+
+amu::GameObject* amu::GameObject::GetChildAt(std::int64_t idx) const 
+{
+    return m_ChildObjectPtrVec.at(idx);
+}
+
+bool amu::GameObject::IsChild(GameObject const* parentObjectPtr) const
 {
     return std::ranges::any_of(m_ChildObjectPtrVec,
-    [&](const GameObject* childObjectPtr)
-    {
-    	return childObjectPtr->IsChild(parentObjectPtr);
-    });
+        [&](GameObject const* childObjectPtr)
+        {
+        	return childObjectPtr->IsChild(parentObjectPtr);
+        });
 }
 
 void amu::GameObject::RemoveChild(GameObject* gameObject)

@@ -14,10 +14,11 @@ namespace amu
 		}
 
 		virtual ~Singleton() = default;
-		Singleton(const Singleton& other) = delete;
-		Singleton(Singleton&& other) = delete;
-		Singleton& operator=(const Singleton& other) = delete;
-		Singleton& operator=(Singleton&& other) = delete;
+
+		Singleton(Singleton const&) = delete;
+		Singleton(Singleton&&) = delete;
+		Singleton& operator=(Singleton const&) = delete;
+		Singleton& operator=(Singleton&&) = delete;
 
 	protected:
 		Singleton() = default;

@@ -15,10 +15,10 @@ namespace amu
 		void PlaySoundEffect(int volume);
 		~SoundEffect();
 
-		SoundEffect(const SoundEffect&) = delete;
+		SoundEffect(SoundEffect const&) = delete;
 		SoundEffect(SoundEffect&&) = delete;
-		SoundEffect& operator= (const SoundEffect&) = delete;
-		SoundEffect& operator= (const SoundEffect&&) = delete;
+		SoundEffect& operator= (SoundEffect const&) = delete;
+		SoundEffect& operator= (SoundEffect&&) = delete;
 	private:
 		std::string const m_FilePath{};
 		//we still expose this type to whoever includes servicelocator who includes sound system which includes this 

@@ -14,6 +14,14 @@ namespace amu
 	class SceneManager final : public Singleton<SceneManager>
 	{
 	public:
+		virtual ~SceneManager() = default;
+
+		SceneManager(SceneManager const&) = delete;
+		SceneManager(SceneManager&&) = delete;
+		SceneManager& operator=(SceneManager const&) = delete;
+		SceneManager& operator=(SceneManager&&) = delete;
+
+
 		void CreateScene(std::string_view const& name, std::function<void(Scene*)> const& loadScene);
 
 		void Update();

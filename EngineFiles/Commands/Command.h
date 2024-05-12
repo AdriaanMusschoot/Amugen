@@ -3,7 +3,7 @@
 
 namespace amu
 {
-
+	//is only interface (no ctor or rule of 5)
 	class Command
 	{
 	public:

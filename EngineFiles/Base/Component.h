@@ -17,10 +17,10 @@ namespace amu
 		}
 		virtual ~Component() = default;
 	
-		Component(const Component& other) = delete;
-		Component(Component&& other) = delete;
-		Component& operator=(const Component& other) = delete;
-		Component& operator=(Component&& other) = delete;
+		Component(Component const&) = delete;
+		Component(Component&&) = delete;
+		Component& operator=(Component const&) = delete;
+		Component& operator=(Component&&) = delete;
 	
 	protected:
 	

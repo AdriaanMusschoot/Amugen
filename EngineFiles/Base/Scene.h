@@ -13,10 +13,10 @@ namespace amu
 		explicit Scene(std::string_view const& name);
 		~Scene();
 
-		Scene(Scene const& other) = delete;
-		Scene(Scene&& other) = delete;
-		Scene& operator=(Scene const& other) = delete;
-		Scene& operator=(Scene&& other) = delete;
+		Scene(Scene const&) = delete;
+		Scene(Scene&&) = delete;
+		Scene& operator=(Scene const&) = delete;
+		Scene& operator=(Scene&&) = delete;
 
 		void Add(std::unique_ptr<GameObject> object);
 		void RemoveAll();

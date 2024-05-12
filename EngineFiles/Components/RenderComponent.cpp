@@ -21,7 +21,7 @@ void amu::RenderComponent::Render() const
 	}
 }
 
-glm::ivec2 amu::RenderComponent::GetSize() const
+glm::vec2 amu::RenderComponent::GetSize() const
 {
 	return m_TextureUPtr->GetSize();
 }

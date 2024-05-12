@@ -12,7 +12,7 @@ Set(ENGINE_SOURCE_FILES
   "${SOURCE_DIR}/Base/Amugen.cpp"
   "${SOURCE_DIR}/Base/GameObject.cpp"
   "${SOURCE_DIR}/Base/Subject.h"
-  "EngineFiles/Base/IObserver.h"
+  "${SOURCE_DIR}/Base/IObserver.h"
 
   "${SOURCE_DIR}/Components/TransformComponent.cpp"
   "${SOURCE_DIR}/Components/TextComponent.cpp"

@@ -10,6 +10,14 @@ namespace amu
 	class GameTime final : public Singleton<GameTime>
 	{
 	public:
+
+		virtual ~GameTime() = default;
+
+		GameTime(GameTime const&) = delete;
+		GameTime(GameTime&&) = delete;
+		GameTime& operator=(GameTime const&) = delete;
+		GameTime& operator=(GameTime&&) = delete;
+
 		void Update();
 	
 		double GetDeltaTime() const;

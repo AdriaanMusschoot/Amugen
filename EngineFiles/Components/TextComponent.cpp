@@ -6,7 +6,7 @@
 #include "Renderer.h"
 #include "GameObject.h"
 
-amu::TextComponent::TextComponent(GameObject * ownerObjectPtr, std::string_view const& textToDisplay, std::string_view const& fontPath, const unsigned size)
+amu::TextComponent::TextComponent(GameObject * ownerObjectPtr, std::string_view const& textToDisplay, std::string_view const& fontPath, unsigned int size)
 	: Component(ownerObjectPtr)
 	, m_Text{ textToDisplay }
 	, m_FontUPtr{ amu::ResourceManager::GetInstance().LoadFont(fontPath, size) }

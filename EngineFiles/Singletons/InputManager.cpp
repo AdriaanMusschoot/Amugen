@@ -2,21 +2,19 @@
 #include "InputManager.h"
 #include "Controller.h"
 
-#include "Controller.h"
-
 amu::InputManager::InputManager()
 	: m_ControllerArr{ std::make_unique<Controller>(0), std::make_unique<Controller>(1) }
-
 {
 }
 
 amu::InputManager::~InputManager()
 {
+	//need empty for undefined controller
 }
 
 void amu::InputManager::AddCommandController(unsigned int controllerIdx, unsigned int button, InputState state, std::unique_ptr<Command> commandPtr)
 {
-	for (size_t idx{}; idx < m_ControllerArr.size(); ++idx)
+	for (std::int64_t idx{}; idx < std::ssize(m_ControllerArr); ++idx)
 	{
 		if (idx == controllerIdx)
 		{

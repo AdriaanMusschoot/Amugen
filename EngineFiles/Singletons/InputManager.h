@@ -8,6 +8,7 @@
 
 namespace amu
 {
+	//need forward decl for to avoid circular dependency 
 	class Controller;
 
 	class InputManager final : public Singleton<InputManager>
@@ -36,14 +37,20 @@ namespace amu
 			Held
 		};
 
-		InputManager();
-		~InputManager();
+		virtual ~InputManager();
+
+		InputManager(InputManager const&) = delete;
+		InputManager(InputManager&&) = delete;
+		InputManager& operator=(InputManager const&) = delete;
+		InputManager& operator=(InputManager&&) = delete;
 
 		void AddCommandController(unsigned int controllerIdx, unsigned int button, InputState state, std::unique_ptr<Command> commandPtr);
 		void AddCommandKeyboard(Key key, InputState state, std::unique_ptr<Command> commandPtr);
 
 		bool ProcessInput();
 	private:
+		friend class Singleton<InputManager>;
+
 		std::array<std::unique_ptr<Controller>, 2> m_ControllerArr{};
 
 
@@ -51,6 +58,8 @@ namespace amu
 
 		std::map<int, bool> m_PreviousStateKeyboard;
 		std::map<int, bool> m_CurrentStateKeyboard;
+
+		InputManager();
 	};
 
 }

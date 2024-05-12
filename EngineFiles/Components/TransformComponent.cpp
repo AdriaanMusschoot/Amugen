@@ -1,7 +1,7 @@
 #include "GameObject.h"
 #include "TransformComponent.h"
 
-amu::TransformComponent::TransformComponent(GameObject* ownerObjectPtr, const glm::vec2& pos)
+amu::TransformComponent::TransformComponent(GameObject* ownerObjectPtr, glm::vec2 const& pos)
 	: Component(ownerObjectPtr)
 	, m_LocalPosition{ pos }
 	, m_WorldPosition{ pos }
@@ -14,7 +14,7 @@ const glm::vec2& amu::TransformComponent::GetLocalPosition() const
 	return m_LocalPosition;
 }
 
-void amu::TransformComponent::SetLocalPosition(const glm::vec2& newPosition)
+void amu::TransformComponent::SetLocalPosition(glm::vec2 const& newPosition)
 {
 	m_LocalPosition = newPosition;
 
@@ -30,7 +30,7 @@ const glm::vec2& amu::TransformComponent::GetWorldPosition() const
 	return m_WorldPosition;
 }
 
-void amu::TransformComponent::Translate(const glm::vec2& offset)
+void amu::TransformComponent::Translate(glm::vec2 const& offset)
 {
     SetLocalPosition(GetLocalPosition() + offset);
 }
@@ -53,8 +53,8 @@ void amu::TransformComponent::SetTransformDirty()
     m_TransformDirty = true;
     const GameObject* ownerPtr = GetComponentOwner();
 
-    for(size_t idx{}; idx < ownerPtr->GetChildCount(); ++idx)
+    for(std::int64_t idx{}; idx < ownerPtr->GetChildCount(); ++idx)
     {
-        ownerPtr->GetChildAt(static_cast<unsigned int>(idx))->GetComponent<TransformComponent>()->SetTransformDirty();
+        ownerPtr->GetChildAt(idx)->GetComponent<TransformComponent>()->SetTransformDirty();
     }
 }

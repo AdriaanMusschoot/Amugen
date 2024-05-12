@@ -16,10 +16,10 @@ namespace amu
 		{}
 		virtual ~Subject() = default;
 
-		Subject(const Subject& other) = delete;
-		Subject(Subject&& other) = delete;
-		Subject& operator=(const Subject& other) = delete;
-		Subject& operator=(Subject&& other) = delete;
+		Subject(Subject const&) = delete;
+		Subject(Subject&&) = delete;
+		Subject& operator=(Subject const&) = delete;
+		Subject& operator=(Subject&&) = delete;
 
 		void AddObserver(IObserver* observerToAddPtr)
 		{
@@ -38,7 +38,7 @@ namespace amu
 		using Event = int;
 		void NotifyObservers(Event eventType)
 		{
-			for (const auto& observer : m_ObserverPtrVec)
+			for (IObserver* const observer : m_ObserverPtrVec)
 			{
 				observer->Notify(eventType, this);
 			}
@@ -46,7 +46,7 @@ namespace amu
 
 		void NotifyDestruction()
 		{
-			for (const auto& observer : m_ObserverPtrVec)
+			for (IObserver* const observer : m_ObserverPtrVec)
 			{
 				observer->NotifyDestruction();
 			}

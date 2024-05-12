@@ -13,15 +13,15 @@ namespace amu
 	class Amugen final
 	{
 	public:
-		explicit Amugen(const std::filesystem::path& dataPath, int width, int height);
+		explicit Amugen(std::filesystem::path const& dataPath, int width, int height);
 		~Amugen();
 		void Run();
 		void RunOneFrame();
 
-		Amugen(const Amugen& other) = delete;
-		Amugen(Amugen&& other) = delete;
-		Amugen& operator=(const Amugen& other) = delete;
-		Amugen& operator=(Amugen&& other) = delete;
+		Amugen(Amugen const&) = delete;
+		Amugen(Amugen&&) = delete;
+		Amugen& operator=(Amugen const&) = delete;
+		Amugen& operator=(Amugen&&) = delete;
 	private:
 		SDL_Window* m_WindowPtr{};
 		bool m_ShouldQuit{};

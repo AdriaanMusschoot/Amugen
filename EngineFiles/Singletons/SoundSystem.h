@@ -13,7 +13,7 @@
 namespace amu
 {
 	using SoundId = int;
-	class ISoundSystem //interface
+	class ISoundSystem //interface (no ctor, rule of 5)
 	{
 	public:
 		virtual ~ISoundSystem() = default;

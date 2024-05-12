@@ -64,7 +64,7 @@ amu::Controller::Controller(int controllerIndex)
 
 amu::Controller::~Controller()
 {
-
+	//need empty destructor for the uptr
 }
 
 void amu::Controller::AddCommand(unsigned int button, amu::InputManager::InputState state, std::unique_ptr<Command> commandPtr)

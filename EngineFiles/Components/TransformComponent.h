@@ -8,19 +8,19 @@ namespace amu
 	class TransformComponent final : public Component
 	{
 	public:
-		explicit TransformComponent(GameObject * ownerObjectPtr, const glm::vec2& pos);
+		explicit TransformComponent(GameObject * ownerObjectPtr, glm::vec2 const& pos);
 		virtual ~TransformComponent() override = default;
 
-		TransformComponent(const TransformComponent&) = delete;
-		TransformComponent& operator= (const TransformComponent&) = delete;
+		TransformComponent(TransformComponent const&) = delete;
 		TransformComponent(TransformComponent&&) = delete;
-		TransformComponent& operator= (const TransformComponent&&) = delete;
+		TransformComponent& operator= (TransformComponent const&) = delete;
+		TransformComponent& operator= (TransformComponent&&) = delete;
 
 		const glm::vec2& GetLocalPosition() const;
-		void SetLocalPosition(const glm::vec2& newPosition);
+		void SetLocalPosition(glm::vec2 const& newPosition);
 
 		const glm::vec2& GetWorldPosition() const;
-		void Translate(const glm::vec2& offset);
+		void Translate(glm::vec2 const& offset);
 
 		void SetTransformDirty();
 	private:

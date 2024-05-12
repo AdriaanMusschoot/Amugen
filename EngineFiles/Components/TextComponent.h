@@ -16,10 +16,10 @@ namespace amu
 		explicit TextComponent(GameObject * ownerObjectPtr, std::string_view const& textToDisplay, std::string_view const& fontPath, unsigned int size = 10);
 		virtual ~TextComponent() override = default;
 	
-		TextComponent(const TextComponent&) = delete;
-		TextComponent& operator= (const TextComponent&) = delete;
+		TextComponent(TextComponent const&) = delete;
 		TextComponent(TextComponent&&) = delete;
-		TextComponent& operator= (const TextComponent&&) = delete;
+		TextComponent& operator= (TextComponent const&) = delete;
+		TextComponent& operator= (TextComponent&&) = delete;
 	
 		void Update() override;
 		void Render() const override;

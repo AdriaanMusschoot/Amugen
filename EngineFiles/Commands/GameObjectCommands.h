@@ -14,10 +14,10 @@ namespace amu
 		{}
 		virtual ~GameObjectCommand() = default;
 
-		GameObjectCommand(const GameObjectCommand& other) = delete;
-		GameObjectCommand(GameObjectCommand&& other) = delete;
-		GameObjectCommand& operator=(const GameObjectCommand& other) = delete;
-		GameObjectCommand& operator=(GameObjectCommand&& other) = delete;
+		GameObjectCommand(const GameObjectCommand&) = delete;
+		GameObjectCommand(GameObjectCommand&&) = delete;
+		GameObjectCommand& operator=(const GameObjectCommand&) = delete;
+		GameObjectCommand& operator=(GameObjectCommand&&) = delete;
 	protected:
 		GameObject* GetGameObject() const { return m_ActorPtr; }
 	private:

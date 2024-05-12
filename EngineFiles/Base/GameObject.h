@@ -16,10 +16,10 @@ namespace amu
 		}
 
 		~GameObject() = default;
-		GameObject(GameObject const& other) = delete;
-		GameObject(GameObject&& other) = delete;
-		GameObject& operator=(GameObject const& other) = delete;
-		GameObject& operator=(GameObject&& other) = delete;
+		GameObject(GameObject const&) = delete;
+		GameObject(GameObject&&) = delete;
+		GameObject& operator=(GameObject const&) = delete;
+		GameObject& operator=(GameObject&&) = delete;
 
 		void Update();
 		void Render() const;
@@ -27,7 +27,7 @@ namespace amu
 		template <typename T, typename... Args>
 		void AddComponent(Args&&... args)
 		{
-			if (!ComponentAdded<T>())
+			if (not ComponentAdded<T>())
 			{
 				m_ComponentUPtrVec.emplace_back(std::make_unique<T>(std::forward<Args>(args)...));
 			}
@@ -76,12 +76,12 @@ namespace amu
 		}
 
 		void EnableToBeDestroyed();
-		bool GetToBeDestroyed() const { return m_ToBeDestroyed; }
+		bool GetToBeDestroyed() const;
 
-		GameObject* GetParent() const { return m_ParentObjectPtr; }
+		GameObject* GetParent() const;
 		void SetParent(GameObject* newParentObjectPtr, bool keepWorldPosition);
-		size_t GetChildCount() const { return m_ChildObjectPtrVec.size(); }
-		GameObject* GetChildAt(unsigned int idx) const{ return m_ChildObjectPtrVec.at(idx); }
+		std::int64_t GetChildCount() const;
+		GameObject* GetChildAt(std::int64_t idx) const;
 	private:
 		std::vector<std::unique_ptr<Component>> m_ComponentUPtrVec{};
 
@@ -91,7 +91,7 @@ namespace amu
 		GameObject* m_ParentObjectPtr = nullptr;
 		std::vector<GameObject*> m_ChildObjectPtrVec{};
 
-		bool IsChild(const GameObject* parentObjectPtr) const;
+		bool IsChild(GameObject const* parentObjectPtr) const;
 		void RemoveChild(GameObject* gameObjectPtr);
 		void AddChild(GameObject* gameObjectPtr);
 	};
