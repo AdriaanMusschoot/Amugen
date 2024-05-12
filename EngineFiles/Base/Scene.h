@@ -24,6 +24,7 @@ namespace amu
 		void Update();
 		void Render() const;
 
+		std::vector<GameObject*> GetObjectsOfType(std::string_view const& type);
 	private:
 		//when storing data need string otherwise if string_view goes out of scope data becomes invalid
 		std::string const m_Name = "";

@@ -88,6 +88,16 @@ amu::GameObject* amu::GameObject::GetChildAt(std::int64_t idx) const
     return m_ChildObjectPtrVec.at(idx);
 }
 
+void amu::GameObject::SetTag(std::string_view const& tag)
+{
+    m_Tag = tag;
+}
+
+std::string_view amu::GameObject::GetTag() const
+{
+    return m_Tag;
+}
+
 bool amu::GameObject::IsChild(GameObject const* parentObjectPtr) const
 {
     return std::ranges::any_of(m_ChildObjectPtrVec,

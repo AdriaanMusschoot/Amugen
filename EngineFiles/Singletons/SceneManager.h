@@ -26,6 +26,8 @@ namespace amu
 
 		void Update();
 		void Render();
+
+		Scene* GetCurrentScene() const;
 	private:
 		friend class Singleton<SceneManager>;
 		SceneManager() = default;

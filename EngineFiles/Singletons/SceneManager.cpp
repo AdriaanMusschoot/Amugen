@@ -10,10 +10,15 @@ void amu::SceneManager::Update()
 
 void amu::SceneManager::Render()
 {
-	for (const auto& scene : m_ScenesUPtrVec)
+	for (auto const& scene : m_ScenesUPtrVec)
 	{
 		scene->Render();
 	}
+}
+
+amu::Scene* amu::SceneManager::GetCurrentScene() const
+{
+	return m_ScenesUPtrVec[std::ssize(m_ScenesUPtrVec) - 1].get();
 }
 
 void amu::SceneManager::CreateScene(std::string_view const& name, std::function<void(Scene*)> const& loadScene)

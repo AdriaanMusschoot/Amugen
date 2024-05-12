@@ -1,23 +1,25 @@
 #include "Scene.h"
 #include <string>
+#include "CollisionComponent.h"
+#include <execution>
+#include <iterator>
+#include <algorithm>
 
-using namespace amu;
+unsigned int amu::Scene::m_IdCounter = 0;
 
-unsigned int Scene::m_IdCounter = 0;
-
-Scene::Scene(std::string_view const& name) 
+amu::Scene::Scene(std::string_view const& name) 
 	: m_Name{ name }
 {
 }
 
-Scene::~Scene() = default;
+amu::Scene::~Scene() = default;
 
-void Scene::Add(std::unique_ptr<GameObject> object)
+void amu::Scene::Add(std::unique_ptr<GameObject> object)
 {
 	m_GameObjectUPtrVec.emplace_back(std::move(object));
 }
 
-void Scene::Remove()
+void amu::Scene::Remove()
 {
 	std::erase_if(m_GameObjectUPtrVec,
 		[&](const std::unique_ptr<GameObject>& objectUPtr)
@@ -26,12 +28,12 @@ void Scene::Remove()
 		});
 }
 
-void Scene::RemoveAll()
+void amu::Scene::RemoveAll()
 {
 	m_GameObjectUPtrVec.clear();
 }
 
-void Scene::Update()
+void amu::Scene::Update()
 {
 	for(auto& object : m_GameObjectUPtrVec)
 	{
@@ -40,11 +42,30 @@ void Scene::Update()
 	Remove();
 }
 
-void Scene::Render() const
+void amu::Scene::Render() const
 {
 	for (auto const& object : m_GameObjectUPtrVec)
 	{
 		object->Render();
 	}
+}
+
+std::vector<amu::GameObject*> amu::Scene::GetObjectsOfType(std::string_view const& type)
+{
+	std::vector<GameObject*> foundObjPtrVec{};
+	for (auto const& objPtr : m_GameObjectUPtrVec)
+	{
+		if (objPtr->GetTag() == type)
+		{
+			foundObjPtrVec.emplace_back(objPtr.get());
+		}
+	}
+	//std::copy_if(m_GameObjectUPtrVec.begin(), m_GameObjectUPtrVec.end(),
+	//	std::back_inserter(foundObjects),
+	//	[&](std::unique_ptr<GameObject> objPtr) 
+	//	{
+	//		return objPtr->GetTag() == type;
+	//	});
+	return foundObjPtrVec;
 }
 

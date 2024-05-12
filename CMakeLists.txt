@@ -17,6 +17,8 @@ Set(ENGINE_SOURCE_FILES
   "${SOURCE_DIR}/Components/TransformComponent.cpp"
   "${SOURCE_DIR}/Components/TextComponent.cpp"
   "${SOURCE_DIR}/Components/RenderComponent.cpp"
+  "${SOURCE_DIR}/Components/CollisionComponent.cpp"
+  "${SOURCE_DIR}/Components/DistanceComponent.cpp"
 
   "${SOURCE_DIR}/Commands/Command.h"
   "${SOURCE_DIR}/Commands/GameObjectCommands.h" 
@@ -34,7 +36,7 @@ Set(ENGINE_SOURCE_FILES
   "${SOURCE_DIR}/Wrappers/Font.cpp"
   "${SOURCE_DIR}/Wrappers/Controller.cpp"
   "${SOURCE_DIR}/Wrappers/Sound.cpp"
-  )
+)
 
 add_library(${TARGET_NAME} STATIC
     ${ENGINE_SOURCE_FILES}

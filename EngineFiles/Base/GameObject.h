@@ -3,6 +3,7 @@
 #include <memory>
 #include <vector>
 #include "Component.h"
+#include <string>
 
 namespace amu
 {
@@ -82,9 +83,12 @@ namespace amu
 		void SetParent(GameObject* newParentObjectPtr, bool keepWorldPosition);
 		std::int64_t GetChildCount() const;
 		GameObject* GetChildAt(std::int64_t idx) const;
+
+		void SetTag(std::string_view const& tag);
+		std::string_view GetTag() const;
 	private:
 		std::vector<std::unique_ptr<Component>> m_ComponentUPtrVec{};
-
+		std::string m_Tag{ "empty" };
 		bool m_ToBeDestroyed = false;
 
 		//raw ptrs because transform logic, don't need to destroy
