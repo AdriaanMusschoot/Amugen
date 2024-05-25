@@ -25,6 +25,12 @@ void amu::GameObject::Render() const
 void amu::GameObject::EnableToBeDestroyed()
 {
     m_ToBeDestroyed = true;
+
+    if (m_ParentObjectPtr)
+    {
+        m_ParentObjectPtr->RemoveChild(this);
+    }
+
     for (const auto& childPtr : m_ChildObjectPtrVec)
     {
         childPtr->EnableToBeDestroyed();
