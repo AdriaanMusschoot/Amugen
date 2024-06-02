@@ -1,13 +1,25 @@
 #include "CollisionComponent.h"
 #include "SceneManager.h"
+#include "execution"
 #include <iostream>
 
-amu::CollisionComponent::CollisionComponent(GameObject* ownerObjectPtr, std::string_view const& tag)
+amu::CollisionComponent::CollisionComponent(GameObject* ownerObjectPtr, std::vector<std::string> const& tagVec)
 	: Component(ownerObjectPtr)
-	, m_OtherOverlapTag{ tag }
+	, m_OtherTagVec{ tagVec }
 {
 	GetComponentOwner()->AddComponent<DistanceComponent>(GetComponentOwner());
 	m_DistanceComponentPtr = GetComponentOwner()->GetComponent<DistanceComponent>();
+}
 
-	m_TransformPtr = GetComponentOwner()->GetComponent<TransformComponent>();
+bool amu::CollisionComponent::FindTag(std::string_view const& tagToFind)
+{
+	return std::any_of
+	( 
+		std::execution::par_unseq, 
+		m_OtherTagVec.begin(), m_OtherTagVec.end(),
+		[&](std::string const& tag)
+		{
+			return tag == tagToFind;
+		}
+	);
 }

@@ -24,6 +24,8 @@ namespace amu
 
 		void CreateScene(std::string_view const& name, std::function<void(Scene*)> const& loadScene);
 
+		void Collision();
+
 		void Update();
 		void Render();
 

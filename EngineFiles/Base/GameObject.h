@@ -2,7 +2,7 @@
 #define AMU_GAME_OBJECT_H
 #include <memory>
 #include <vector>
-#include "Component.h"
+#include "CollisionComponent.h"
 #include <string>
 
 namespace amu
@@ -76,8 +76,15 @@ namespace amu
 			return false;
 		}
 
-		void AddCollider();
-		amu::CollisionComponent* GetCollider() const;
+		void AddCollider(std::unique_ptr<amu::CollisionComponent> collisionComponentUPtr)
+		{
+			m_CollisionComponentUPtr = std::move(collisionComponentUPtr);
+		}
+
+		amu::CollisionComponent* GetCollider() const
+		{
+			return m_CollisionComponentUPtr.get();
+		}
 
 		void EnableToBeDestroyed();
 		bool GetToBeDestroyed() const;
@@ -98,7 +105,7 @@ namespace amu
 		GameObject* m_ParentObjectPtr = nullptr;
 		std::vector<GameObject*> m_ChildObjectPtrVec{};
 
-		std::unique_ptr<amu::CollisionComponent> m_CollisionComponent{ nullptr };
+		std::unique_ptr<amu::CollisionComponent> m_CollisionComponentUPtr{ nullptr };
 
 		bool IsChild(GameObject const* parentObjectPtr) const;
 		void RemoveChild(GameObject* gameObjectPtr);

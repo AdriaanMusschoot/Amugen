@@ -119,6 +119,8 @@ void amu::Amugen::RunOneFrame()
 {
 	GameTime::GetInstance().Update();
 
+	SceneManager::GetInstance().Collision();
+
 	m_ShouldQuit = !InputManager::GetInstance().ProcessInput();
 
 	SceneManager::GetInstance().Update();

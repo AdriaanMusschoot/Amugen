@@ -1,10 +1,11 @@
 #ifndef AMU_COLLISION_COMPONENT_H
 #define AMU_COLLISION_COMPONENT_H
+
 #include "Component.h"
 #include "DistanceComponent.h"
 #include "TransformComponent.h"
-#include "Subject.h"
 #include <string>
+#include <vector>
 
 namespace amu
 {
@@ -12,7 +13,7 @@ namespace amu
 	class CollisionComponent : public Component
 	{
 	public:
-		explicit CollisionComponent(GameObject* ownerObjectPtr, std::string_view const& tag);
+		explicit CollisionComponent(GameObject* ownerObjectPtr, std::vector<std::string> const& tagVec);
 		virtual ~CollisionComponent() override = default;
 
 		CollisionComponent(CollisionComponent const&) = delete;
@@ -20,11 +21,12 @@ namespace amu
 		CollisionComponent& operator= (CollisionComponent const&) = delete;
 		CollisionComponent& operator= (CollisionComponent&&) = delete;
 
+		bool FindTag(std::string_view const& tag);
+
 		virtual void OnCollision(amu::CollisionComponent* otherCollider) = 0;
 	private:
-		std::string const m_OtherOverlapTag{ "" };
+		std::vector<std::string> const m_OtherTagVec{ "" };
 		DistanceComponent* m_DistanceComponentPtr{ nullptr };
-		TransformComponent* m_TransformPtr{ nullptr };
 	};
 
 }

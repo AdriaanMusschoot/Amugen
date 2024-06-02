@@ -41,8 +41,10 @@ void amu::Scene::Collision()
 		{
 			continue;
 		}
+
 		for (auto& objectInner : m_GameObjectUPtrVec)
 		{
+
 			if (objectInner == objectOuter)
 			{
 				continue;
@@ -51,7 +53,16 @@ void amu::Scene::Collision()
 			{
 				continue;
 			}
-			
+			if (not objectInner->GetCollider()->FindTag(objectOuter->GetTag()))
+			{
+				continue;
+			}
+
+			bool overlapping = objectOuter->GetComponent<DistanceComponent>()->Check(objectOuter->GetComponent<TransformComponent>()->GetWorldPosition(), objectInner->GetComponent<TransformComponent>()->GetWorldPosition(), 1);
+			if (overlapping)
+			{
+				objectOuter->GetCollider()->OnCollision(objectInner->GetCollider());
+			}
 		}
 	}
 }
