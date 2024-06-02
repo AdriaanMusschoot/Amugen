@@ -76,6 +76,9 @@ namespace amu
 			return false;
 		}
 
+		void AddCollider();
+		amu::CollisionComponent* GetCollider() const;
+
 		void EnableToBeDestroyed();
 		bool GetToBeDestroyed() const;
 
@@ -94,6 +97,8 @@ namespace amu
 		//raw ptrs because transform logic, don't need to destroy
 		GameObject* m_ParentObjectPtr = nullptr;
 		std::vector<GameObject*> m_ChildObjectPtrVec{};
+
+		std::unique_ptr<amu::CollisionComponent> m_CollisionComponent{ nullptr };
 
 		bool IsChild(GameObject const* parentObjectPtr) const;
 		void RemoveChild(GameObject* gameObjectPtr);

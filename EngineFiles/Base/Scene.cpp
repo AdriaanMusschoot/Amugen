@@ -33,6 +33,29 @@ void amu::Scene::RemoveAll()
 	m_GameObjectUPtrVec.clear();
 }
 
+void amu::Scene::Collision()
+{
+	for (auto& objectOuter : m_GameObjectUPtrVec)
+	{
+		if (objectOuter->GetCollider() == nullptr)
+		{
+			continue;
+		}
+		for (auto& objectInner : m_GameObjectUPtrVec)
+		{
+			if (objectInner == objectOuter)
+			{
+				continue;
+			}
+			if (objectInner->GetCollider() == nullptr)
+			{
+				continue;
+			}
+			
+		}
+	}
+}
+
 void amu::Scene::Update()
 {
 	for(auto& object : m_GameObjectUPtrVec)

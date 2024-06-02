@@ -21,6 +21,7 @@ namespace amu
 		void Add(std::unique_ptr<GameObject> object);
 		void RemoveAll();
 
+		void Collision();
 		void Update();
 		void Render() const;
 
