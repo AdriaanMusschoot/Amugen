@@ -1,6 +1,7 @@
 #include "SoundSystem.h"
 #include "SoundSystem.h"
 #include "SoundSystem.h"
+#include "SoundSystem.h"
 #include "ResourceManager.h"
 #include <SDL_mixer.h>
 #include <iostream>
@@ -31,11 +32,14 @@ void amu::SDLSoundSystem::Update()
 		m_SoundFuture.get();
 
 		std::deque<SoundRequest> soundDequeToPlay{};
+		std::deque<SoundId> soundDequeToStop{};
 
 		{
 			std::lock_guard lock(m_SoundMutex);
 			soundDequeToPlay = m_SoundRequestDeque;
 			m_SoundRequestDeque.clear();
+			soundDequeToStop = m_SoundStopDeque;
+			m_SoundStopDeque.clear();
 
 			m_SoundPromise = std::promise<void>();
 			m_SoundFuture = m_SoundPromise.get_future();
@@ -47,6 +51,13 @@ void amu::SDLSoundSystem::Update()
 			auto [id, fileName, volume, loops] = soundDequeToPlay.front();
 			PlaySoundEffect(id, fileName, volume, loops);
 			soundDequeToPlay.pop_front();
+		}
+
+		while (not soundDequeToStop.empty())
+		{
+			int id = soundDequeToStop.front();
+			StopSoundEffect(id);
+			soundDequeToStop.pop_front();
 		}
 	}
 }
@@ -80,11 +91,16 @@ bool amu::SDLSoundSystem::RequestSoundEffect(SoundId id, std::string_view const&
 	return true;
 }
 
-bool amu::SDLSoundSystem::StopSoundEffect(SoundId id)
+bool amu::SDLSoundSystem::RequestStopSoundEffect(SoundId id)
 {
-	if (not m_SoundMap.contains(id)) return false;
-
-	m_SoundMap[id]->StopSoundEffect();
+	std::lock_guard lockStopping{ m_SoundMutex };
+	
+	m_SoundStopDeque.emplace_back(id);
+	if (not m_IsScheduled)
+	{
+		m_SoundPromise.set_value();
+		m_IsScheduled = true;
+	}
 
 	return true;
 }
@@ -118,6 +134,16 @@ void amu::SDLSoundSystem::PlaySoundEffect(SoundId id, std::string_view const& fi
 	m_SoundMap[id]->PlaySoundEffect(volume, loops);
 }
 
+void amu::SDLSoundSystem::StopSoundEffect(SoundId id)
+{
+	if (not m_SoundMap.contains(id))
+	{
+		return;
+	}
+
+	m_SoundMap[id]->StopSoundEffect();
+}
+
 //////////////////////////////
 /////////LOG SOUND SYSTEM
 //////////////////////////////
@@ -138,9 +164,9 @@ bool amu::LogSoundSystem::RequestSoundEffect(SoundId id, std::string_view const&
 	return false;
 }
 
-bool amu::LogSoundSystem::StopSoundEffect(SoundId id)
+bool amu::LogSoundSystem::RequestStopSoundEffect(SoundId id)
 {
-	if (m_ActualSoundSystemUPtr->StopSoundEffect(id))
+	if (m_ActualSoundSystemUPtr->RequestStopSoundEffect(id))
 	{
 		std::cout << "Stop Sound Effect\n";
 		return true;

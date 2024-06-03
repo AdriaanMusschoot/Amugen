@@ -19,7 +19,7 @@ namespace amu
 		virtual ~ISoundSystem() = default;
 
 		virtual bool RequestSoundEffect(SoundId id, std::string_view const& filePath, int volume, int loops) = 0;
-		virtual bool StopSoundEffect(SoundId id) = 0;
+		virtual bool RequestStopSoundEffect(SoundId id) = 0;
 
 		virtual void SignalStart() = 0;
 		virtual void SignalEnd() = 0;
@@ -38,7 +38,7 @@ namespace amu
 		NullSoundSystem& operator= (const NullSoundSystem&&) = delete;
 
 		bool RequestSoundEffect(SoundId, std::string_view const&, int, int) override { return false; };
-		bool StopSoundEffect(SoundId) override { return false; };
+		bool RequestStopSoundEffect(SoundId) override { return false; };
 
 		void SignalStart() override {};
 		void SignalEnd() override {};
@@ -58,7 +58,7 @@ namespace amu
 
 		void Update();
 		bool RequestSoundEffect(SoundId id, std::string_view const& filePath, int volume, int loops) override;
-		bool StopSoundEffect(SoundId id) override;
+		bool RequestStopSoundEffect(SoundId id) override;
 		
 		void SignalStart() override;
 		void SignalEnd() override;
@@ -73,6 +73,7 @@ namespace amu
 
 		std::map<int, std::unique_ptr<SoundEffect>> m_SoundMap{};
 		std::deque<SoundRequest> m_SoundRequestDeque{};
+		std::deque<SoundId> m_SoundStopDeque{};
 
 		std::thread m_SoundThread{};
 		std::mutex m_SoundMutex{};
@@ -84,6 +85,7 @@ namespace amu
 		bool m_IsScheduled{};
 
 		void PlaySoundEffect(SoundId id, std::string_view const& fileName, int volume, int loops);
+		void StopSoundEffect(SoundId id);
 	};
 
 	class LogSoundSystem final : public ISoundSystem
@@ -98,7 +100,7 @@ namespace amu
 		LogSoundSystem& operator= (const LogSoundSystem&&) = delete;
 
 		bool RequestSoundEffect(SoundId id, std::string_view const& filePath, int volume, int loops) override;
-		bool StopSoundEffect(SoundId id) override;
+		bool RequestStopSoundEffect(SoundId id) override;
 
 		void SignalStart() override;
 		void SignalEnd() override;
