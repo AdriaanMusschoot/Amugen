@@ -1,4 +1,6 @@
 #include "SoundSystem.h"
+#include "SoundSystem.h"
+#include "SoundSystem.h"
 #include "ResourceManager.h"
 #include <SDL_mixer.h>
 #include <iostream>
@@ -42,14 +44,14 @@ void amu::SDLSoundSystem::Update()
 	
 		while (not soundDequeToPlay.empty())
 		{
-			auto [id, fileName, volume] = soundDequeToPlay.front();
-			PlaySoundEffect(id, fileName, volume);
+			auto [id, fileName, volume, loops] = soundDequeToPlay.front();
+			PlaySoundEffect(id, fileName, volume, loops);
 			soundDequeToPlay.pop_front();
 		}
 	}
 }
 
-bool amu::SDLSoundSystem::RequestSoundEffect(SoundId id, std::string_view const& filePath, int volume)
+bool amu::SDLSoundSystem::RequestSoundEffect(SoundId id, std::string_view const& filePath, int volume, int loops)
 {
 	std::lock_guard lockPlaying{ m_SoundMutex };
 
@@ -67,13 +69,22 @@ bool amu::SDLSoundSystem::RequestSoundEffect(SoundId id, std::string_view const&
 		return false;
 	}
 
-	m_SoundRequestDeque.emplace_back(SoundRequest{ id, filePath, volume });
+	m_SoundRequestDeque.emplace_back(SoundRequest{ id, filePath, volume, loops });
 
 	if (not m_IsScheduled)
 	{
 		m_SoundPromise.set_value();
 		m_IsScheduled = true;
 	}
+
+	return true;
+}
+
+bool amu::SDLSoundSystem::StopSoundEffect(SoundId id)
+{
+	if (not m_SoundMap.contains(id)) return false;
+
+	m_SoundMap[id]->StopSoundEffect();
 
 	return true;
 }
@@ -97,14 +108,14 @@ void amu::SDLSoundSystem::SignalEnd()
 	}
 }
 
-void amu::SDLSoundSystem::PlaySoundEffect(SoundId id, std::string_view const& fileName, int volume)
+void amu::SDLSoundSystem::PlaySoundEffect(SoundId id, std::string_view const& fileName, int volume, int loops)
 {
 	if (not m_SoundMap.contains(id))
 	{
 		m_SoundMap[id] = ResourceManager::GetInstance().LoadSoundEffect(fileName);
 	}
 
-	m_SoundMap[id]->PlaySoundEffect(volume);
+	m_SoundMap[id]->PlaySoundEffect(volume, loops);
 }
 
 //////////////////////////////
@@ -116,12 +127,22 @@ amu::LogSoundSystem::LogSoundSystem(std::unique_ptr<ISoundSystem>&& actualSoundS
 {
 }
 
-bool amu::LogSoundSystem::RequestSoundEffect(SoundId id, std::string_view const& filePath, int volume)
+bool amu::LogSoundSystem::RequestSoundEffect(SoundId id, std::string_view const& filePath, int volume, int loops)
 {
-	if (m_ActualSoundSystemUPtr->RequestSoundEffect(id, filePath, volume))
+	if (m_ActualSoundSystemUPtr->RequestSoundEffect(id, filePath, volume, loops))
 	{
 		std::cout << "Requested sound id: " << id << " from dir " << filePath << "\n";
 		std::cout << "Requested sound id: " << id << " at volume " << volume << "\n";
+		return true;
+	}
+	return false;
+}
+
+bool amu::LogSoundSystem::StopSoundEffect(SoundId id)
+{
+	if (m_ActualSoundSystemUPtr->StopSoundEffect(id))
+	{
+		std::cout << "Stop Sound Effect\n";
 		return true;
 	}
 	return false;

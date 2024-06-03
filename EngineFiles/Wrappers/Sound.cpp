@@ -1,4 +1,5 @@
 #include "Sound.h"
+#include "Sound.h"
 #include "SDL_mixer.h"
 #include <stdexcept>
 
@@ -8,7 +9,7 @@ amu::SoundEffect::SoundEffect(std::string_view const& fullPath)
 
 }
 
-void amu::SoundEffect::PlaySoundEffect(int volume)
+void amu::SoundEffect::PlaySoundEffect(int volume, int loops)
 {
 	if (not m_SoundEffectPtr)
 	{
@@ -17,7 +18,12 @@ void amu::SoundEffect::PlaySoundEffect(int volume)
 
 	Mix_VolumeChunk(m_SoundEffectPtr, volume);
 
-	Mix_PlayChannel(-1, m_SoundEffectPtr, 0);
+	m_Channel = Mix_PlayChannel(-1, m_SoundEffectPtr, loops);
+}
+
+void amu::SoundEffect::StopSoundEffect()
+{
+	Mix_HaltChannel(m_Channel);
 }
 
 amu::SoundEffect::~SoundEffect()

@@ -22,12 +22,13 @@ namespace amu
 		Component& operator=(Component const&) = delete;
 		Component& operator=(Component&&) = delete;
 	
+		GameObject* GetComponentOwner() const { return m_OwnerGameObjectPtr; }
+
 	protected:
 	
 		virtual void Update() {}
 		virtual void Render() const {}
 
-		GameObject* GetComponentOwner() const { return m_OwnerGameObjectPtr; }
 
 		void EnableToBeDestroyed() { m_ToBeDestroyed = true; }
 		bool GetToBeDestroyed() const { return m_ToBeDestroyed; }

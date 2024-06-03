@@ -1,12 +1,19 @@
 #include "GameObject.h"
 #include <algorithm>
 #include "TransformComponent.h"
+
 void amu::GameObject::Update()
 {
     for (const auto& component : m_ComponentUPtrVec)
     {
         component->Update();
     }
+
+    if (m_CollisionComponentUPtr)
+    {
+        m_CollisionComponentUPtr->Update();
+    }
+
     std::erase_if(m_ComponentUPtrVec,
         [&](const std::unique_ptr<Component>& componentUPtr)
         {

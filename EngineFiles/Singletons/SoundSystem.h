@@ -18,7 +18,9 @@ namespace amu
 	public:
 		virtual ~ISoundSystem() = default;
 
-		virtual bool RequestSoundEffect(SoundId id, std::string_view const& filePath, int volume) = 0;
+		virtual bool RequestSoundEffect(SoundId id, std::string_view const& filePath, int volume, int loops) = 0;
+		virtual bool StopSoundEffect(SoundId id) = 0;
+
 		virtual void SignalStart() = 0;
 		virtual void SignalEnd() = 0;
 	private:
@@ -35,7 +37,9 @@ namespace amu
 		NullSoundSystem(NullSoundSystem&&) = delete;
 		NullSoundSystem& operator= (const NullSoundSystem&&) = delete;
 
-		bool RequestSoundEffect(SoundId, std::string_view const&, int) override { return false; };
+		bool RequestSoundEffect(SoundId, std::string_view const&, int, int) override { return false; };
+		bool StopSoundEffect(SoundId) override { return false; };
+
 		void SignalStart() override {};
 		void SignalEnd() override {};
 	private:
@@ -53,7 +57,9 @@ namespace amu
 		SDLSoundSystem& operator= (const SDLSoundSystem&&) = delete;
 
 		void Update();
-		bool RequestSoundEffect(SoundId id, std::string_view const& filePath, int volume) override;
+		bool RequestSoundEffect(SoundId id, std::string_view const& filePath, int volume, int loops) override;
+		bool StopSoundEffect(SoundId id) override;
+		
 		void SignalStart() override;
 		void SignalEnd() override;
 	private:
@@ -62,6 +68,7 @@ namespace amu
 			int ID;
 			std::string_view FilePath;
 			int Volume;
+			int Loops;
 		};
 
 		std::map<int, std::unique_ptr<SoundEffect>> m_SoundMap{};
@@ -76,7 +83,7 @@ namespace amu
 
 		bool m_IsScheduled{};
 
-		void PlaySoundEffect(SoundId id, std::string_view const& fileName, int volume);
+		void PlaySoundEffect(SoundId id, std::string_view const& fileName, int volume, int loops);
 	};
 
 	class LogSoundSystem final : public ISoundSystem
@@ -90,7 +97,9 @@ namespace amu
 		LogSoundSystem(LogSoundSystem&&) = delete;
 		LogSoundSystem& operator= (const LogSoundSystem&&) = delete;
 
-		bool RequestSoundEffect(SoundId id, std::string_view const& filePath, int volume) override;
+		bool RequestSoundEffect(SoundId id, std::string_view const& filePath, int volume, int loops) override;
+		bool StopSoundEffect(SoundId id) override;
+
 		void SignalStart() override;
 		void SignalEnd() override;
 	private:
