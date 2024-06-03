@@ -4,7 +4,7 @@
 #include <execution>
 #include <iterator>
 #include <algorithm>
-
+#include <iostream>
 unsigned int amu::Scene::m_IdCounter = 0;
 
 amu::Scene::Scene(std::string_view const& name) 
@@ -35,33 +35,31 @@ void amu::Scene::RemoveAll()
 
 void amu::Scene::Collision()
 {
-	for (auto& objectOuter : m_GameObjectUPtrVec)
+	for (int idxOuter{}; idxOuter < std::ssize(m_GameObjectUPtrVec); ++idxOuter)
 	{
-		if (objectOuter->GetCollider() == nullptr)
+		auto& objectOuter = m_GameObjectUPtrVec[idxOuter];
+
+		if (auto* outerCollider{ objectOuter->GetCollider() }; outerCollider != nullptr)
 		{
-			continue;
-		}
+			for (int idxInner{ idxOuter }; idxInner < std::ssize(m_GameObjectUPtrVec); ++idxInner)
+			{
+				auto& objectInner = m_GameObjectUPtrVec[idxInner];
 
-		for (auto& objectInner : m_GameObjectUPtrVec)
-		{
+				if (objectOuter == objectInner)
+				{
+					continue;
+				}
 
-			if (objectInner == objectOuter)
-			{
-				continue;
-			}
-			if (objectInner->GetCollider() == nullptr)
-			{
-				continue;
-			}
-			if (not objectInner->GetCollider()->FindTag(objectOuter->GetTag()))
-			{
-				continue;
-			}
+				if (auto* innerCollider{ objectInner->GetCollider() }; innerCollider != nullptr)
+				{
+					bool overlapping = objectOuter->GetComponent<DistanceComponent>()->Check(objectOuter->GetComponent<TransformComponent>()->GetWorldPosition(), objectInner->GetComponent<TransformComponent>()->GetWorldPosition(), 5);
 
-			bool overlapping = objectOuter->GetComponent<DistanceComponent>()->Check(objectOuter->GetComponent<TransformComponent>()->GetWorldPosition(), objectInner->GetComponent<TransformComponent>()->GetWorldPosition(), 1);
-			if (overlapping)
-			{
-				objectOuter->GetCollider()->OnCollision(objectInner->GetCollider());
+					if (overlapping)
+					{
+						outerCollider->OnCollision(innerCollider);
+						innerCollider->OnCollision(outerCollider);
+					}
+				}
 			}
 		}
 	}

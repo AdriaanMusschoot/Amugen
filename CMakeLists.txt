@@ -36,7 +36,7 @@ Set(ENGINE_SOURCE_FILES
   "${SOURCE_DIR}/Wrappers/Font.cpp"
   "${SOURCE_DIR}/Wrappers/Controller.cpp"
   "${SOURCE_DIR}/Wrappers/Sound.cpp"
- "EngineFiles/Base/IColliderObserver.h")
+ )
 
 add_library(${TARGET_NAME} STATIC
     ${ENGINE_SOURCE_FILES}
