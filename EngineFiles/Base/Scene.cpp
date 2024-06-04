@@ -41,6 +41,11 @@ void amu::Scene::Collision()
 
 		if (auto* outerCollider{ objectOuter->GetCollider() }; outerCollider != nullptr)
 		{
+			if (outerCollider->NumberOfTags() == 0)
+			{
+				continue;
+			}
+
 			for (int idxInner{ idxOuter }; idxInner < std::ssize(m_GameObjectUPtrVec); ++idxInner)
 			{
 				auto& objectInner = m_GameObjectUPtrVec[idxInner];

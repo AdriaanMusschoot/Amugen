@@ -21,11 +21,12 @@ namespace amu
 		CollisionComponent& operator= (CollisionComponent const&) = delete;
 		CollisionComponent& operator= (CollisionComponent&&) = delete;
 
+		std::int64_t NumberOfTags();
 		bool FindTag(std::string_view const& tag);
 
 		virtual void OnCollision(amu::CollisionComponent* otherCollider) = 0;
 	private:
-		std::vector<std::string> const m_OtherTagVec{ "" };
+		std::vector<std::string> const m_OtherTagVec{};
 		DistanceComponent* m_DistanceComponentPtr{ nullptr };
 	};
 

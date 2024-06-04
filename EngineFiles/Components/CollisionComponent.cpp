@@ -1,4 +1,5 @@
 #include "CollisionComponent.h"
+#include "CollisionComponent.h"
 #include "SceneManager.h"
 #include "execution"
 #include <iostream>
@@ -9,6 +10,11 @@ amu::CollisionComponent::CollisionComponent(GameObject* ownerObjectPtr, std::vec
 {
 	GetComponentOwner()->AddComponent<DistanceComponent>(GetComponentOwner());
 	m_DistanceComponentPtr = GetComponentOwner()->GetComponent<DistanceComponent>();
+}
+
+std::int64_t amu::CollisionComponent::NumberOfTags()
+{
+	return std::ssize(m_OtherTagVec);
 }
 
 bool amu::CollisionComponent::FindTag(std::string_view const& tagToFind)
