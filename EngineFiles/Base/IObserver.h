@@ -10,7 +10,7 @@ namespace amu
 		virtual ~IObserver() = default;
 
 		using Event = int;
-		virtual void Notify(Event eventType, Subject* subjectPtr) = 0;
+		virtual void OnNotify(Event eventType, Subject* subjectPtr) = 0;
 		virtual void NotifyDestruction() {};
 	private:
 

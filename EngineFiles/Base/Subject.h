@@ -40,7 +40,7 @@ namespace amu
 		{
 			for (IObserver* const observer : m_ObserverPtrVec)
 			{
-				observer->Notify(eventType, this);
+				observer->OnNotify(eventType, this);
 			}
 		}
 
