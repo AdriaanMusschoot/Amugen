@@ -51,25 +51,16 @@ void amu::Renderer::Destroy()
 	}
 }
 
-void amu::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y) const
+void amu::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y, SDL_Rect const& sourceRect) const
 {
 	SDL_Rect dst{};
 	dst.x = static_cast<int>(x);
 	dst.y = static_cast<int>(y);
-	SDL_QueryTexture(texture.GetSDLTexture(), nullptr, nullptr, &dst.w, &dst.h);
+	dst.w = sourceRect.w;
+	dst.h = sourceRect.h;
 	dst.x -= dst.w / 2;
 	dst.y -= dst.h / 2;
-	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
-}
-
-void amu::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y, const float width, const float height) const
-{
-	SDL_Rect dst{};
-	dst.x = static_cast<int>(x);
-	dst.y = static_cast<int>(y);
-	dst.w = static_cast<int>(width);
-	dst.h = static_cast<int>(height);
-	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst);
+	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), &sourceRect, &dst);
 }
 
 SDL_Renderer* amu::Renderer::GetSDLRenderer() const { return m_RendererPtr; }

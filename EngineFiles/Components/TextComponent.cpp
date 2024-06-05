@@ -33,6 +33,7 @@ void amu::TextComponent::Update()
 		}
 		SDL_FreeSurface(surf);
 		m_TextureComponentPtr->SetTexture(std::make_unique<Texture2D>(texture));
+		m_TextureComponentPtr->SetSourceRectangle(SDL_Rect{ 0, 0, m_TextureComponentPtr->GetSize().x, m_TextureComponentPtr->GetSize().y });
 		m_NeedsUpdate = false;
 	}
 }

@@ -26,12 +26,14 @@ namespace amu
 		void Render() const;
 
 		template <typename T, typename... Args>
-		void AddComponent(Args&&... args)
+		T* AddComponent(Args&&... args)
 		{
 			if (not ComponentAdded<T>())
 			{
 				m_ComponentUPtrVec.emplace_back(std::make_unique<T>(std::forward<Args>(args)...));
+				return dynamic_cast<T*>(m_ComponentUPtrVec[std::ssize(m_ComponentUPtrVec) - 1].get());
 			}
+			return nullptr;
 		}
 
 		template <typename T>

@@ -35,8 +35,7 @@ namespace amu
 				});
 		}
 
-		using Event = int;
-		void NotifyObservers(Event eventType)
+		void NotifyObservers(IObserver::Event eventType)
 		{
 			for (IObserver* const observer : m_ObserverPtrVec)
 			{

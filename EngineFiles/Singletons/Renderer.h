@@ -25,13 +25,12 @@ namespace amu
 		void Render() const;
 		void Destroy();
 
-		void RenderTexture(const Texture2D& texture, float x, float y) const;
-		void RenderTexture(const Texture2D& texture, float x, float y, float width, float height) const;
+		void RenderTexture(Texture2D const& texture, float x, float y, SDL_Rect const& sourceRect) const;
 
 		SDL_Renderer* GetSDLRenderer() const;
 
 		const SDL_Color& GetBackgroundColor() const { return m_ClearColor; }
-		void SetBackgroundColor(const SDL_Color& color) { m_ClearColor = color; }
+		void SetBackgroundColor(SDL_Color const& color) { m_ClearColor = color; }
 	private:
 		friend class Singleton<Renderer>;
 

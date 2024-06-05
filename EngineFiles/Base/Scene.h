@@ -18,7 +18,7 @@ namespace amu
 		Scene& operator=(Scene const&) = delete;
 		Scene& operator=(Scene&&) = delete;
 
-		void Add(std::unique_ptr<GameObject> object);
+		GameObject* Add(std::unique_ptr<GameObject> object);
 		void RemoveAll();
 
 		void Collision();

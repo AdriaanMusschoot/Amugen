@@ -14,9 +14,10 @@ amu::Scene::Scene(std::string_view const& name)
 
 amu::Scene::~Scene() = default;
 
-void amu::Scene::Add(std::unique_ptr<GameObject> object)
+amu::GameObject* amu::Scene::Add(std::unique_ptr<GameObject> object)
 {
 	m_GameObjectUPtrVec.emplace_back(std::move(object));
+	return m_GameObjectUPtrVec[std::ssize(m_GameObjectUPtrVec) - 1].get();
 }
 
 void amu::Scene::Remove()

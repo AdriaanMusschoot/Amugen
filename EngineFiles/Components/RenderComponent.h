@@ -22,10 +22,13 @@ namespace amu
 	
 		void Render() const override;
 
-		glm::vec2 GetSize() const;
+		glm::ivec2 GetSize() const;
 
 		void SetTexture(std::string_view const& fileName);
 		void SetTexture(std::unique_ptr<Texture2D> textureUPtr);
+
+		void SetSourceRectangle(SDL_Rect const& sourceRect);
+		SDL_Rect const& GetSourceRectangle() const;
 	private:
 		std::unique_ptr<amu::Texture2D> m_TextureUPtr = nullptr;
 
