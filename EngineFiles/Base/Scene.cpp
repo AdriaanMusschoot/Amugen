@@ -1,4 +1,5 @@
 #include "Scene.h"
+#include "Scene.h"
 #include <string>
 #include "CollisionComponent.h"
 #include <execution>
@@ -16,8 +17,8 @@ amu::Scene::~Scene() = default;
 
 amu::GameObject* amu::Scene::Add(std::unique_ptr<GameObject> object)
 {
-	m_GameObjectUPtrVec.emplace_back(std::move(object));
-	return m_GameObjectUPtrVec[std::ssize(m_GameObjectUPtrVec) - 1].get();
+	m_ToBeAddedUPtrVec.emplace_back(std::move(object));
+	return m_ToBeAddedUPtrVec[std::ssize(m_ToBeAddedUPtrVec) - 1].get();
 }
 
 void amu::Scene::Remove()
@@ -27,6 +28,15 @@ void amu::Scene::Remove()
 		{
 			return objectUPtr->GetToBeDestroyed();
 		});
+}
+
+void amu::Scene::AddPending()
+{
+	for (auto& toBeAddedUPtr : m_ToBeAddedUPtrVec)
+	{
+		m_GameObjectUPtrVec.emplace_back(std::move(toBeAddedUPtr));
+	}
+	m_ToBeAddedUPtrVec.clear();
 }
 
 void amu::Scene::RemoveAll()
@@ -46,7 +56,7 @@ void amu::Scene::Collision()
 			{
 				continue;
 			}
-
+			
 			for (int idxInner{ idxOuter }; idxInner < std::ssize(m_GameObjectUPtrVec); ++idxInner)
 			{
 				auto& objectInner = m_GameObjectUPtrVec[idxInner];
@@ -58,7 +68,11 @@ void amu::Scene::Collision()
 
 				if (auto* innerCollider{ objectInner->GetCollider() }; innerCollider != nullptr)
 				{
-					bool overlapping = objectOuter->GetComponent<DistanceComponent>()->Check(objectOuter->GetComponent<TransformComponent>()->GetWorldPosition(), objectInner->GetComponent<TransformComponent>()->GetWorldPosition(), 5);
+					auto* distanceComponentPtr = objectOuter->GetComponent<DistanceComponent>();
+					auto& posOuter = objectOuter->GetComponent<TransformComponent>()->GetWorldPosition();
+					auto& posInner = objectInner->GetComponent<TransformComponent>()->GetWorldPosition();
+
+					bool overlapping = distanceComponentPtr->Check(posOuter, posInner, 5);
 
 					if (overlapping)
 					{
@@ -73,6 +87,7 @@ void amu::Scene::Collision()
 
 void amu::Scene::Update()
 {
+	AddPending();
 	for(auto& object : m_GameObjectUPtrVec)
 	{
 		object->Update();
@@ -98,12 +113,6 @@ std::vector<amu::GameObject*> amu::Scene::GetObjectsOfType(std::string_view cons
 			foundObjPtrVec.emplace_back(objPtr.get());
 		}
 	}
-	//std::copy_if(m_GameObjectUPtrVec.begin(), m_GameObjectUPtrVec.end(),
-	//	std::back_inserter(foundObjects),
-	//	[&](std::unique_ptr<GameObject> objPtr) 
-	//	{
-	//		return objPtr->GetTag() == type;
-	//	});
 	return foundObjPtrVec;
 }
 

@@ -30,9 +30,11 @@ namespace amu
 		//when storing data need string otherwise if string_view goes out of scope data becomes invalid
 		std::string const m_Name = "";
 		std::vector<std::unique_ptr<GameObject>> m_GameObjectUPtrVec{};
+		std::vector<std::unique_ptr<amu::GameObject>> m_ToBeAddedUPtrVec{};
 
 		static unsigned int m_IdCounter; 
 		void Remove();
+		void AddPending();
 	};
 
 }
