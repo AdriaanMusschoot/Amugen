@@ -23,9 +23,9 @@ void amu::InputManager::AddCommandController(unsigned int controllerIdx, unsigne
 	}
 }
 
-void amu::InputManager::AddCommandKeyboard(Key key, InputState state, std::unique_ptr<Command> commandPtr)
+void amu::InputManager::AddCommandKeyboard(SDL_Scancode key, InputState state, std::unique_ptr<Command> commandPtr)
 {
-	m_KeyboardCommandPtrVec.emplace_back(std::make_tuple(static_cast<unsigned int>(key), state, std::move(commandPtr)));
+	m_KeyboardCommandPtrVec.emplace_back(std::make_tuple(key, state, std::move(commandPtr)));
 }
 
 bool amu::InputManager::ProcessInput()
@@ -52,11 +52,11 @@ bool amu::InputManager::ProcessInput()
 		}
 		if (e.type == SDL_KEYDOWN)
 		{
-			m_CurrentStateKeyboard[e.key.keysym.sym] = true;
+			m_CurrentStateKeyboard[e.key.keysym.scancode] = true;
 		}
 		if (e.type == SDL_KEYUP)
 		{
-			m_CurrentStateKeyboard[e.key.keysym.sym] = false;
+			m_CurrentStateKeyboard[e.key.keysym.scancode] = false;
 		}
 	}
 	

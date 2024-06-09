@@ -1,5 +1,6 @@
 #include "Scene.h"
 #include "Scene.h"
+#include "Scene.h"
 #include <string>
 #include "CollisionComponent.h"
 #include <execution>
@@ -101,6 +102,11 @@ void amu::Scene::Render() const
 	{
 		object->Render();
 	}
+}
+
+std::string_view amu::Scene::GetTag()
+{
+	return m_Name;
 }
 
 std::vector<amu::GameObject*> amu::Scene::GetObjectsOfType(std::string_view const& type)

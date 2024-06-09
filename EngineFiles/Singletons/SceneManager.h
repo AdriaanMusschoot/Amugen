@@ -24,16 +24,20 @@ namespace amu
 
 		void CreateScene(std::string_view const& name, std::function<void(Scene*)> const& loadScene);
 
+		void SetCurrentScene(std::string_view const& name);
+
 		void Collision();
 
 		void Update();
 		void Render();
 
-		Scene* GetCurrentScene() const;
+		Scene* GetSceneByName(std::string_view const& name) const;
 	private:
 		friend class Singleton<SceneManager>;
 		SceneManager() = default;
 		std::vector<std::unique_ptr<Scene>> m_ScenesUPtrVec{};
+
+		Scene* m_CurrentScenePtr{ nullptr };
 	};
 
 }

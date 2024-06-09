@@ -1,25 +1,20 @@
 #include "SceneManager.h"
 #include "SceneManager.h"
+#include "SceneManager.h"
 #include "Scene.h"
 void amu::SceneManager::Update()
 {
-	for(auto& scene : m_ScenesUPtrVec)
-	{
-		scene->Update();
-	}
+	m_CurrentScenePtr->Update();
 }
 
 void amu::SceneManager::Render()
 {
-	for (auto const& scene : m_ScenesUPtrVec)
-	{
-		scene->Render();
-	}
+	m_CurrentScenePtr->Render();
 }
 
-amu::Scene* amu::SceneManager::GetCurrentScene() const
+amu::Scene* amu::SceneManager::GetSceneByName(std::string_view const& name) const
 {
-	return m_ScenesUPtrVec[std::ssize(m_ScenesUPtrVec) - 1].get();
+	return (*std::find_if(m_ScenesUPtrVec.begin(), m_ScenesUPtrVec.end(), [&](auto const& scene) { return name == scene->GetTag(); })).get();
 }
 
 void amu::SceneManager::CreateScene(std::string_view const& name, std::function<void(Scene*)> const& loadScene)
@@ -29,10 +24,12 @@ void amu::SceneManager::CreateScene(std::string_view const& name, std::function<
 	m_ScenesUPtrVec.emplace_back(std::move(sceneUPtr));
 }
 
+void amu::SceneManager::SetCurrentScene(std::string_view const& name)
+{
+	m_CurrentScenePtr = GetSceneByName(name);
+}
+
 void amu::SceneManager::Collision()
 {
-	for (auto const& scene : m_ScenesUPtrVec)
-	{
-		scene->Collision();
-	}
+	m_CurrentScenePtr->Collision();
 }
