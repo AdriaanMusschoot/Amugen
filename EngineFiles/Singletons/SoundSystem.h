@@ -23,6 +23,8 @@ namespace amu
 
 		virtual void SignalStart() = 0;
 		virtual void SignalEnd() = 0;
+
+		virtual void Mute() = 0;
 	private:
 	};
 
@@ -42,6 +44,8 @@ namespace amu
 
 		void SignalStart() override {};
 		void SignalEnd() override {};
+
+		void Mute() override {};
 	private:
 	};
 
@@ -62,6 +66,8 @@ namespace amu
 		
 		void SignalStart() override;
 		void SignalEnd() override;
+
+		void Mute() override;
 	private:
 		struct SoundRequest 
 		{
@@ -83,6 +89,7 @@ namespace amu
 		bool m_ShouldQuit{};
 
 		bool m_IsScheduled{};
+		bool m_IsMuted{};
 
 		void PlaySoundEffect(SoundId id, std::string_view const& fileName, int volume, int loops);
 		void StopSoundEffect(SoundId id);
@@ -104,6 +111,8 @@ namespace amu
 
 		void SignalStart() override;
 		void SignalEnd() override;
+
+		void Mute() override;
 	private:
 		std::unique_ptr<ISoundSystem> m_ActualSoundSystemUPtr{};
 	};

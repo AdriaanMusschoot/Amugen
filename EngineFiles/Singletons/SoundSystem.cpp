@@ -2,6 +2,8 @@
 #include "SoundSystem.h"
 #include "SoundSystem.h"
 #include "SoundSystem.h"
+#include "SoundSystem.h"
+#include "SoundSystem.h"
 #include "ResourceManager.h"
 #include <SDL_mixer.h>
 #include <iostream>
@@ -66,6 +68,11 @@ bool amu::SDLSoundSystem::RequestSoundEffect(SoundId id, std::string_view const&
 {
 	std::lock_guard lockPlaying{ m_SoundMutex };
 
+	if (m_IsMuted)
+	{
+		return false;
+	}
+
 	if (bool hasFoundSimilar = std::any_of(m_SoundRequestDeque.begin(), m_SoundRequestDeque.end(),
 		[&](SoundRequest& req)
 		{
@@ -121,6 +128,32 @@ void amu::SDLSoundSystem::SignalEnd()
 	{
 		m_SoundPromise.set_value();
 		m_IsScheduled = true;
+	}
+}
+
+void amu::SDLSoundSystem::Mute()
+{
+	std::lock_guard muteLock{ m_SoundMutex };
+
+	m_IsMuted = not m_IsMuted;
+
+	for (int channelIdx{}; channelIdx < MIX_CHANNELS; ++channelIdx)
+	{
+		int volume
+		{
+			[&]() -> int
+			{
+				if (m_IsMuted)
+				{
+					return 0;
+				}
+				else
+				{
+					return MIX_MAX_VOLUME;
+				}
+			}()
+		};
+		Mix_Volume(channelIdx, volume);
 	}
 }
 
@@ -184,4 +217,10 @@ void amu::LogSoundSystem::SignalEnd()
 {
 	m_ActualSoundSystemUPtr->SignalEnd();
 	std::cout << "Sound execution should end\n";
+}
+
+void amu::LogSoundSystem::Mute()
+{
+	m_ActualSoundSystemUPtr->Mute();
+	std::cout << "Toggle soundthread muted\n";
 }

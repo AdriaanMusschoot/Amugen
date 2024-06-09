@@ -22,6 +22,7 @@ Set(ENGINE_SOURCE_FILES
 
   "${SOURCE_DIR}/Commands/Command.h"
   "${SOURCE_DIR}/Commands/GameObjectCommands.h" 
+  "${SOURCE_DIR}/Commands/MuteSoundCommand.h"           "${SOURCE_DIR}/Commands/MuteSoundCommand.cpp"
 
   "${SOURCE_DIR}/Singletons/Singleton.h"
   "${SOURCE_DIR}/Singletons/GameTime.cpp"
