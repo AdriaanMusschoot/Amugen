@@ -4,14 +4,18 @@
 
 void amu::GameObject::Update()
 {
-    for (const auto& component : m_ComponentUPtrVec)
+    if (m_ToBeDestroyed)
     {
-        component->Update();
+        return;
     }
 
-    if (m_CollisionComponentUPtr)
+    for (const auto& component : m_ComponentUPtrVec)
     {
-        m_CollisionComponentUPtr->Update();
+        if (component->GetToBeDestroyed())
+        {
+            continue;
+        }
+        component->Update();
     }
 
     std::erase_if(m_ComponentUPtrVec,
@@ -98,7 +102,7 @@ std::int64_t amu::GameObject::GetChildCount() const
 
 amu::GameObject* amu::GameObject::GetChildAt(std::int64_t idx) const 
 {
-    return m_ChildObjectPtrVec.at(idx);
+    return m_ChildObjectPtrVec.at(static_cast<unsigned int>(idx));
 }
 
 void amu::GameObject::SetTag(std::string_view const& tag)
