@@ -65,7 +65,7 @@ void PrintSDLVersion()
 	LogSDLVersion("We linked against SDL_mixer version ", version);
 }
 
-amu::Amugen::Amugen(const std::filesystem::path &dataPath, int width, int height)
+amu::Amugen::Amugen(const std::filesystem::path &dataPath, std::string_view const& windowName, int width, int height)
 {
 	PrintSDLVersion();
 	
@@ -75,7 +75,7 @@ amu::Amugen::Amugen(const std::filesystem::path &dataPath, int width, int height
 	}
 	
 	m_WindowPtr = SDL_CreateWindow(
-		"Programming 4 assignment",
+		windowName.data(),
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
 		width,

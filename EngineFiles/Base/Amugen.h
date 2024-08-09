@@ -13,7 +13,7 @@ namespace amu
 	class Amugen final
 	{
 	public:
-		explicit Amugen(std::filesystem::path const& dataPath, int width, int height);
+		explicit Amugen(std::filesystem::path const& dataPath, std::string_view const& windowName, int width, int height);
 		~Amugen();
 		void Run();
 		void RunOneFrame();
