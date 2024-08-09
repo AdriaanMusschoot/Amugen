@@ -48,8 +48,8 @@ namespace amu
 			}
 		}
 	private:
-		XINPUT_STATE m_PreviousStateController;
-		XINPUT_STATE m_CurrentStateController;
+		XINPUT_STATE m_PreviousStateController{};
+		XINPUT_STATE m_CurrentStateController{};
 	
 		std::vector<std::tuple<unsigned int, amu::InputManager::InputState, std::unique_ptr<amu::Command>>> m_ControllerCommandPtrVec;
 	};

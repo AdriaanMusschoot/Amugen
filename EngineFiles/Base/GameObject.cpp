@@ -4,14 +4,18 @@
 
 void amu::GameObject::Update()
 {
-    for (const auto& component : m_ComponentUPtrVec)
+    if (m_ToBeDestroyed)
     {
-        component->Update();
+        return;
     }
 
-    if (m_CollisionComponentUPtr)
+    for (const auto& component : m_ComponentUPtrVec)
     {
-        m_CollisionComponentUPtr->Update();
+        if (component->GetToBeDestroyed())
+        {
+            continue;
+        }
+        component->Update();
     }
 
     std::erase_if(m_ComponentUPtrVec,
