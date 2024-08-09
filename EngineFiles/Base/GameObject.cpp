@@ -91,14 +91,14 @@ void amu::GameObject::SetParent(GameObject* newParentObjectPtr, bool keepWorldPo
     }
 }
 
-std::int64_t amu::GameObject::GetChildCount() const 
+size_t amu::GameObject::GetChildCount() const 
 {
-    return std::ssize(m_ChildObjectPtrVec);
+    return std::size(m_ChildObjectPtrVec);
 }
 
-amu::GameObject* amu::GameObject::GetChildAt(std::int64_t idx) const 
+amu::GameObject* amu::GameObject::GetChildAt(unsigned int idx) const 
 {
-    return m_ChildObjectPtrVec.at(idx);
+    return m_ChildObjectPtrVec[idx];
 }
 
 void amu::GameObject::SetTag(std::string_view const& tag)

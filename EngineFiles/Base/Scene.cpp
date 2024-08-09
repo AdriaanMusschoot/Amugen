@@ -7,7 +7,6 @@
 #include <iterator>
 #include <algorithm>
 #include <iostream>
-unsigned int amu::Scene::m_IdCounter = 0;
 
 amu::Scene::Scene(std::string_view const& name) 
 	: m_Name{ name }

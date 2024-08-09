@@ -34,7 +34,6 @@ namespace amu
 		std::vector<std::unique_ptr<GameObject>> m_GameObjectUPtrVec{};
 		std::vector<std::unique_ptr<amu::GameObject>> m_ToBeAddedUPtrVec{};
 
-		static unsigned int m_IdCounter; 
 		void Remove();
 		void AddPending();
 	};

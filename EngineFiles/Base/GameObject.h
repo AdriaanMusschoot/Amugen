@@ -93,8 +93,8 @@ namespace amu
 
 		GameObject* GetParent() const;
 		void SetParent(GameObject* newParentObjectPtr, bool keepWorldPosition);
-		std::int64_t GetChildCount() const;
-		GameObject* GetChildAt(std::int64_t idx) const;
+		size_t GetChildCount() const;
+		GameObject* GetChildAt(unsigned int idx) const;
 
 		void SetTag(std::string_view const& tag);
 		std::string_view GetTag() const;

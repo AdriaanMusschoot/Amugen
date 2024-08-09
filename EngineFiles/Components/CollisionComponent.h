@@ -21,7 +21,7 @@ namespace amu
 		CollisionComponent& operator= (CollisionComponent const&) = delete;
 		CollisionComponent& operator= (CollisionComponent&&) = delete;
 
-		std::int64_t NumberOfTags();
+		size_t NumberOfTags();
 		bool FindTag(std::string_view const& tag);
 
 		virtual void OnCollision(amu::CollisionComponent* otherCollider) = 0;

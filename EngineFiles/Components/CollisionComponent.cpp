@@ -12,9 +12,9 @@ amu::CollisionComponent::CollisionComponent(GameObject* ownerObjectPtr, std::vec
 	m_DistanceComponentPtr = GetComponentOwner()->GetComponent<DistanceComponent>();
 }
 
-std::int64_t amu::CollisionComponent::NumberOfTags()
+size_t amu::CollisionComponent::NumberOfTags()
 {
-	return std::ssize(m_OtherTagVec);
+	return std::size(m_OtherTagVec);
 }
 
 bool amu::CollisionComponent::FindTag(std::string_view const& tagToFind)

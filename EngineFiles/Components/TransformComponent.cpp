@@ -51,10 +51,10 @@ void amu::TransformComponent::UpdateWorldPosition()
 void amu::TransformComponent::SetTransformDirty()
 {
     m_TransformDirty = true;
-    const GameObject* ownerPtr = GetComponentOwner();
+    GameObject const* ownerPtr{ GetComponentOwner() };
 
-    for(std::int64_t idx{}; idx < ownerPtr->GetChildCount(); ++idx)
+    for(size_t idx{}; idx < ownerPtr->GetChildCount(); ++idx)
     {
-        ownerPtr->GetChildAt(idx)->GetComponent<TransformComponent>()->SetTransformDirty();
+        ownerPtr->GetChildAt(static_cast<unsigned int>(idx))->GetComponent<TransformComponent>()->SetTransformDirty();
     }
 }

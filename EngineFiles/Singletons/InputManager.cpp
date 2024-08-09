@@ -14,7 +14,7 @@ amu::InputManager::~InputManager()
 
 void amu::InputManager::AddCommandController(unsigned int controllerIdx, unsigned int button, InputState state, std::unique_ptr<Command> commandPtr)
 {
-	for (std::int64_t idx{}; idx < std::ssize(m_ControllerArr); ++idx)
+	for (unsigned int idx{}; idx < std::size(m_ControllerArr); ++idx)
 	{
 		if (idx == controllerIdx)
 		{
