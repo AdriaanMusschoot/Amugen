@@ -10,7 +10,6 @@ namespace amu
 	class GameTime final : public Singleton<GameTime>
 	{
 	public:
-
 		virtual ~GameTime() = default;
 
 		GameTime(GameTime const&) = delete;
@@ -23,7 +22,7 @@ namespace amu
 		double GetDeltaTime() const;
 	private:
 		friend class Singleton<GameTime>;
-		GameTime() = default;
+		explicit GameTime() = default;
 		std::chrono::high_resolution_clock::time_point m_PreviousTimePoint;
 	
 		double m_DeltaTime = 0;

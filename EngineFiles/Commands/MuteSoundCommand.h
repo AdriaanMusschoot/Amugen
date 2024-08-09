@@ -8,7 +8,7 @@ namespace amu
 	class MuteSoundCommand final : public amu::Command
 	{
 	public:
-		MuteSoundCommand() = default;
+		explicit MuteSoundCommand() = default;
 		virtual ~MuteSoundCommand() override = default;
 
 		MuteSoundCommand(MuteSoundCommand const& other) = delete;

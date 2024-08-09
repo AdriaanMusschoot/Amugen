@@ -34,7 +34,7 @@ namespace amu
 	private:
 		friend class Singleton<Renderer>;
 
-		Renderer() = default;
+		explicit Renderer() = default;
 
 		SDL_Renderer* m_RendererPtr = nullptr;
 		SDL_Window* m_WindowPtr = nullptr;

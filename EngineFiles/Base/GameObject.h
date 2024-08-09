@@ -10,7 +10,7 @@ namespace amu
 	class GameObject final
 	{
 	public:
-		GameObject()
+		explicit GameObject()
 			: m_ToBeDestroyed{ false }
 			, m_ParentObjectPtr{ nullptr }
 		{

@@ -9,7 +9,7 @@ namespace amu
 	class DistanceComponent final : public Component
 	{
 	public:
-		DistanceComponent(GameObject* ownerObjectPtr);
+		explicit DistanceComponent(GameObject* ownerObjectPtr);
 		virtual ~DistanceComponent() override = default;
 
 		DistanceComponent(DistanceComponent const&) = delete;

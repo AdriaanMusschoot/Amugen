@@ -23,7 +23,7 @@ namespace amu
 	private:
 		friend class Singleton<ServiceLocator>;
 
-		ServiceLocator() = default;
+		explicit ServiceLocator() = default;
 
 		static std::unique_ptr<ISoundSystem> m_SoundSystemUPtr;
 	};

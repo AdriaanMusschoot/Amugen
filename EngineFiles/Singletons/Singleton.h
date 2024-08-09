@@ -21,7 +21,7 @@ namespace amu
 		Singleton& operator=(Singleton&&) = delete;
 
 	protected:
-		Singleton() = default;
+		explicit Singleton() = default;
 	};
 }
 

@@ -34,7 +34,7 @@ namespace amu
 		Scene* GetSceneByName(std::string_view const& name) const;
 	private:
 		friend class Singleton<SceneManager>;
-		SceneManager() = default;
+		explicit SceneManager() = default;
 		std::vector<std::unique_ptr<Scene>> m_ScenesUPtrVec{};
 
 		Scene* m_CurrentScenePtr{ nullptr };

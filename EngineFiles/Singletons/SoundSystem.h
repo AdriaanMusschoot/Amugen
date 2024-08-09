@@ -31,7 +31,7 @@ namespace amu
 	class NullSoundSystem final : public ISoundSystem
 	{
 	public:
-		NullSoundSystem() = default;
+		explicit NullSoundSystem() = default;
 		~NullSoundSystem() override = default;
 
 		NullSoundSystem(const NullSoundSystem&) = delete;
@@ -52,7 +52,7 @@ namespace amu
 	class SDLSoundSystem final : public ISoundSystem
 	{
 	public:
-		SDLSoundSystem();
+		explicit SDLSoundSystem();
 		~SDLSoundSystem() override;
 
 		SDLSoundSystem(const SDLSoundSystem&) = delete;
@@ -98,7 +98,7 @@ namespace amu
 	class LogSoundSystem final : public ISoundSystem
 	{
 	public:
-		LogSoundSystem(std::unique_ptr<ISoundSystem>&& actualSoundSystemUPtr);
+		explicit LogSoundSystem(std::unique_ptr<ISoundSystem>&& actualSoundSystemUPtr);
 		~LogSoundSystem() override = default;
 
 		LogSoundSystem(const LogSoundSystem&) = delete;

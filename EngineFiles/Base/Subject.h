@@ -11,7 +11,7 @@ namespace amu
 	class Subject
 	{
 	public:
-		Subject(GameObject* ownerObjectPtr)
+		explicit Subject(GameObject* ownerObjectPtr)
 			: m_OwnerObjectPtr{ ownerObjectPtr }
 		{}
 		virtual ~Subject() = default;

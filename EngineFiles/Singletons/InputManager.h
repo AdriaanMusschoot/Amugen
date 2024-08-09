@@ -52,7 +52,7 @@ namespace amu
 		std::map<int, bool> m_PreviousStateKeyboard;
 		std::map<int, bool> m_CurrentStateKeyboard;
 
-		InputManager();
+		 explicit InputManager();
 	};
 
 }

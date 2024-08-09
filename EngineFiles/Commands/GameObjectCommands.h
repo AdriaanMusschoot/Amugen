@@ -9,7 +9,7 @@ namespace amu
 	class GameObjectCommand : public Command
 	{
 	public:
-		GameObjectCommand(GameObject* actorPtr)
+		explicit GameObjectCommand(GameObject* actorPtr)
 			: m_ActorPtr{ actorPtr }
 		{}
 		virtual ~GameObjectCommand() = default;

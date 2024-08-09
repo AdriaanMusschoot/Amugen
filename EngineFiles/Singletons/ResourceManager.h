@@ -27,7 +27,7 @@ namespace amu
 		std::unique_ptr<SoundEffect> LoadSoundEffect(const std::string_view& file) const;
 	private:
 		friend class Singleton<ResourceManager>;
-		ResourceManager() = default;
+		explicit ResourceManager() = default;
 		std::filesystem::path m_DataPath = "";
 	};
 }

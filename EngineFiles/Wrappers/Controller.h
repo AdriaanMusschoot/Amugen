@@ -14,7 +14,7 @@ namespace amu
 	class Controller final
 	{
 	public:
-		Controller(int controllerIndex);
+		explicit Controller(int controllerIndex);
 		~Controller();
 
 		Controller(Controller const&) = delete;
