@@ -58,8 +58,6 @@ void amu::Renderer::RenderTexture(const Texture2D& texture, const float x, const
 	dst.y = static_cast<int>(y);
 	dst.w = sourceRect.w;
 	dst.h = sourceRect.h;
-	dst.x -= dst.w / 2;
-	dst.y -= dst.h / 2;
 	SDL_RenderCopy(GetSDLRenderer(), texture.GetSDLTexture(), &sourceRect, &dst);
 }
 
