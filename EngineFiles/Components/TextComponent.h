@@ -24,6 +24,8 @@ namespace amu
 		void Update() override;
 		void Render() const override;
 		
+		glm::ivec2 GetSize() const;
+
 		void SetText(std::string_view const& textToDisplay);
 	private:
 
@@ -36,6 +38,8 @@ namespace amu
 		RenderComponent* m_TextureComponentPtr{ nullptr };
 
 		bool m_NeedsUpdate{ true };
+
+		void CreateTexture();
 	};
 
 }
