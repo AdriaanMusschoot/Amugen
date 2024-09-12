@@ -1,12 +1,14 @@
 #ifndef AMU_SCENE_H
 #define AMU_SCENE_H
-#include "GameObject.h"
 #include <vector>
 #include <memory>
 #include <string>
 
+#include "GameObject.h"
+
 namespace amu
 {
+
 	class Scene final
 	{
 	public:

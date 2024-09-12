@@ -1,8 +1,9 @@
-#include "CollisionComponent.h"
-#include "CollisionComponent.h"
-#include "SceneManager.h"
-#include "execution"
+#include <execution>
 #include <iostream>
+
+#include "CollisionComponent.h"
+#include "DistanceComponent.h"
+#include "GameObject.h"
 
 amu::CollisionComponent::CollisionComponent(GameObject* ownerObjectPtr, std::vector<std::string> const& tagVec)
 	: Component(ownerObjectPtr)

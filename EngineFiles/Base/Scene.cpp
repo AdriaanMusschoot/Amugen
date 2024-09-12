@@ -1,19 +1,22 @@
 #include "Scene.h"
-#include "Scene.h"
-#include "Scene.h"
 #include <string>
-#include "CollisionComponent.h"
 #include <execution>
 #include <iterator>
 #include <algorithm>
 #include <iostream>
+
+#include "GameObject.h"
+#include "CollisionComponent.h"
 
 amu::Scene::Scene(std::string_view const& name) 
 	: m_Name{ name }
 {
 }
 
-amu::Scene::~Scene() = default;
+amu::Scene::~Scene()
+{
+	//need empty to destroy undefined type for uptrs
+}
 
 amu::GameObject* amu::Scene::Add(std::unique_ptr<GameObject> object)
 {
