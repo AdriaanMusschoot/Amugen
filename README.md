@@ -56,7 +56,7 @@ T* AddComponent(Args&&... args)
 }
 ```
 Here I don't allow for multiple components to be added. If it is really the case that you needed the same component twice, you can make use of the engine's scene graph and parent a second object (containing that double component) to the first one. 
-Once you have hooked up all the logic to the game object you'll have to hand it of to one of the scenes like you saw in main
+Once you have hooked up all the logic to the game object you'll have to hand it of to one of the scenes. This should be done in the method provided to create the scene like so.
 ```cpp
 amu::SceneManager::GetInstance().CreateScene(pacman::tags::MAIN_SCENE, pacman::LoadMainScene);
 
