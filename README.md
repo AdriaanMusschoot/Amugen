@@ -32,6 +32,14 @@ int main(int, char*[])
 }
 ```
 The user has to create at least one scene and provide a method that takes in the scene to add game objects to.
+```cpp
+void amu::SceneManager::CreateScene(std::string_view const& name, std::function<void(Scene*)> const& loadScene)
+{
+	std::unique_ptr sceneUPtr = std::make_unique<Scene>(name);
+	loadScene(sceneUPtr.get());
+	m_ScenesUPtrVec.emplace_back(std::move(sceneUPtr));
+}
+```
 
 The backbone of any game engine is the entities for your game, in Amugen I use the game object component system for its simplicity and ease of use (inspired by the unit prefab concept).
 Every game object needs components, the user can create their own version of these game objects by inheriting from amu::Component, which can be attached to game objects upon creation through a templated method like so
