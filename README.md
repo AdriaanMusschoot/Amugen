@@ -4,6 +4,36 @@ Amugen is a custom 2D game engine, that I have developed in C++. This project re
 ## Details
 All the utilities provided by the engine are in the namespace amu, to allow the user to seperate the game from the engine.
 
+To start of the user needs to fill in its detail for main. My implementation for pacman looked like the following.
+```cpp
+#include "SceneManager.h"
+#include "LoadFunctions.h"
+#include "Configuration.h"
+
+namespace fs = std::filesystem;
+
+int main(int, char*[]) 
+{
+		fs::path data_location = "./Resources/";
+	if(!fs::exists(data_location))
+		data_location = "../Resources/";
+
+	amu::Amugen engine(data_location, pacman::config::WINDOW_WIDTH, pacman::config::WINDOW_HEIGHT);
+
+	amu::SceneManager::GetInstance().CreateScene(pacman::tags::MAIN_SCENE, pacman::LoadMainScene);
+
+	amu::SceneManager::GetInstance().CreateScene(pacman::tags::MENU_SCENE, pacman::LoadMenuScene);
+
+	amu::SceneManager::GetInstance().CreateScene(pacman::tags::HIGHSCORE_SCENE, pacman::LoadHighscoreScene);
+
+	amu::SceneManager::GetInstance().SetCurrentScene(pacman::tags::MENU_SCENE);
+
+	engine.Run();
+
+    return 0;
+}
+```
+
 The backbone of any game engine is the entities for your game, in Amugen I use the game object component system for its simplicity and ease of use (inspired by the unit prefab concept).
 Every game object needs components, the user can create their own version of these game objects by inheriting from amu::Component, which can be attached to game objects upon creation through a templated method like so
 ```cpp
