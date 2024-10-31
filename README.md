@@ -102,7 +102,7 @@ namespace amu
 ``` 
 
 
-To handle the mathematics and positions behind the scene graph I am using GLM.
+To handle the mathematics and positions behind the scene graph the engine uses GLM.
 
 Most dependecies for rendering are nicely put away in RAII wrappers. The command pattern is used to provide an easy way for the user to handle input. Audio, provided through a service locator, is managed on a seperate thread to not uphold the main threads update loop.
 
