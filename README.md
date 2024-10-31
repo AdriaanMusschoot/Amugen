@@ -31,6 +31,7 @@ int main(int, char*[])
     return 0;
 }
 ```
+The user has to create at least one scene and provide a method that takes in the scene to add game objects to.
 
 The backbone of any game engine is the entities for your game, in Amugen I use the game object component system for its simplicity and ease of use (inspired by the unit prefab concept).
 Every game object needs components, the user can create their own version of these game objects by inheriting from amu::Component, which can be attached to game objects upon creation through a templated method like so
@@ -46,8 +47,8 @@ T* AddComponent(Args&&... args)
 	return nullptr;
 }
 ```
-Here I don't allow for multiple components to be added. If it is really the case that you needed the same component twice, you can make use of the engine's scene graph and parent a second object (containing that extra component) to the first one. 
-Once you have hooked up all the logic to the game object you'll have to hand it of to one of the scenes like this so
+Here I don't allow for multiple components to be added. If it is really the case that you needed the same component twice, you can make use of the engine's scene graph and parent a second object (containing that double component) to the first one. 
+Once you have hooked up all the logic to the game object you'll have to hand it of to one of the scenes like you saw in main
 ```cpp
 amu::SceneManager::GetInstance().CreateScene(pacman::tags::MAIN_SCENE, pacman::LoadMainScene);
 
