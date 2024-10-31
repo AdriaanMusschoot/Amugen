@@ -71,7 +71,7 @@ void LoadMainScene(amu::Scene* scenePtr)
 }
 ```
 
-The rendering, input and audio are all handled by SDL. All of these dependencies are nicely put away into RAII wrappers. Here is an example of the sound effect.
+The rendering, input and audio are all handled by SDL. All of these dependencies are nicely put away into RAII wrappers. Here is an example of the sound effect:
 ```cpp
 #ifndef AMU_SOUND_WRAPPER_H
 #define AMU_SOUND_WRAPPER_H
