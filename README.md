@@ -5,8 +5,7 @@ Amugen is a custom 2D game engine, that I have developed in C++. This project re
 
 The backbone of any engine are the entities for your game, in Amugen I use the game object component system for its simplicity and ease of use (inspired by the unit prefab concept).
 Every game object needs components, which can be attached to game objects upon creation through a templated method like so
-```
-cpp
+```cpp
 template <typename T, typename... Args>
 T* AddComponent(Args&&... args)
 {
