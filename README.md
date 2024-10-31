@@ -71,7 +71,38 @@ void LoadMainScene(amu::Scene* scenePtr)
 }
 ```
 
-The rendering, input and audio are all handled by SDL. To handle the mathematics and positions behind the scene graph I am using GLM.
+The rendering, input and audio are all handled by SDL. All of these dependencies are nicely put away into RAII wrappers.
+```cpp
+#ifndef AMU_SOUND_WRAPPER_H
+#define AMU_SOUND_WRAPPER_H
+#include <string>
+struct Mix_Chunk;
+namespace amu
+{
+	class SoundEffect final
+	{
+	public:
+		explicit SoundEffect(std::string_view const& fullPath);
+		~SoundEffect();
+
+		SoundEffect(SoundEffect const&) = delete;
+		SoundEffect(SoundEffect&&) = delete;
+		SoundEffect& operator= (SoundEffect const&) = delete;
+		SoundEffect& operator= (SoundEffect&&) = delete;
+
+		void PlaySoundEffect(int volume, int loops);
+		void StopSoundEffect();
+	private:
+		std::string const m_FilePath{};
+		Mix_Chunk* m_SoundEffectPtr{};
+		int m_Channel{};
+	};
+}
+#endif
+``` 
+
+
+To handle the mathematics and positions behind the scene graph I am using GLM.
 
 Most dependecies for rendering are nicely put away in RAII wrappers. The command pattern is used to provide an easy way for the user to handle input. Audio, provided through a service locator, is managed on a seperate thread to not uphold the main threads update loop.
 
