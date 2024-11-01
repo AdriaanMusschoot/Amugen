@@ -31,7 +31,7 @@ int main(int, char*[])
     return 0;
 }
 ```
-The user has to create at least one scene and provide a method that takes in the scene to add game objects to.
+The user has to create at least one scene and provide a method that takes in the scene as an argument to add game objects to.
 ```cpp
 void amu::SceneManager::CreateScene(std::string_view const& name, std::function<void(Scene*)> const& loadScene)
 {
