@@ -129,10 +129,35 @@ namespace amu
 
 Audio, provided through a service locator, is managed on a seperate thread to not uphold the main threads update loop.
 
-Through the component system the user has access to the update loop and can define their own unique behaviour. Some pre-defined components include RenderComponent, TextComponent, TransformComponent, CollisionComponent. The collision system uses a simple distance check and triggers the appropriate methods. To decouple as much as possible but still allow the components to communicate with one another, the Subject-Observer relationship is used.
+Through the component system the user has access to the update loop and can define their own unique behaviour. Some pre-defined components include RenderComponent, TextComponent, TransformComponent, CollisionComponent. By inheriting from any of these or the base component the user can create any behaviour. 
+
+The collision system uses a simple distance check and triggers the appropriate methods. 
+
+To decouple as much as possible but still allow the components to communicate with one another, the Subject-Observer relationship is used.
+
+```cpp
+#ifndef AMU_IOBSERVER_H
+#define AMU_IOBSERVER_H
+namespace amu
+{
+	class Subject;
+	class IObserver
+	{
+	public:
+		virtual ~IObserver() = default;
+
+		using Event = int;
+		virtual void OnNotify(Event eventType, Subject* subjectPtr) = 0;
+		virtual void NotifyDestruction() {};
+	private:
+	};
+}
+#endif //AMU_IOBSERVER_H
+```
 All of the used patterns are applied from the book "Game Programming Patterns" by Bob Nystrom.
 
 The engine is set up using CMake and can be deployed as a github submodule.
+For an example of how the engine can be used check out: https://github.com/AdriaanMusschoot/Pacman. 
 
-Troughout the project I followed the C++ Core Guidelines and coding standards. Next to that I applied guidelines from the book "Beautiful C++" by J. Guy Davidson / Kate Gregory. It was a great guide and learner throughout the project.
+Troughout the project I followed the C++ Core Guidelines and coding standards. Next to that I applied guidelines from the book "Beautiful C++" by J. Guy Davidson / Kate Gregory. It was a great guide and learner throughout the creation of this engine.
 
