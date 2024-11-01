@@ -31,6 +31,8 @@ int main(int, char*[])
     return 0;
 }
 ```
+There is one scene current that references one from a vector, this way only one scene is updated and rendered at the time. 
+This allows me to easily switch between existing scene without loading a whole new scene everytime.
 The user has to create at least one scene and provide a method that takes in the scene as an argument to add game objects to.
 ```cpp
 void amu::SceneManager::CreateScene(std::string_view const& name, std::function<void(Scene*)> const& loadScene)
