@@ -99,12 +99,35 @@ namespace amu
 	};
 }
 #endif
-``` 
+```
+The command pattern is used to provide an easy way for the user to handle input. You need to add a command like so. 
+```cpp
+std::unique_ptr downCommandKeyUPtr{ std::make_unique<MovePacmanCommand>(pacmanUPtr.get(), config::VEC_DOWN) };
+inputManager.AddCommandKeyboard(SDL_SCANCODE_S, InpMan::InputState::Pressed, std::move(downCommandKeyUPtr));
+```
+There is a pure virtual method to override for the user to implement some logic to a binding. A basic game object command is also present to let the user apply it directly on a game object.  
+```cpp
+#ifndef AMU_COMMANDS_H
+#define AMU_COMMANDS_H
+
+namespace amu
+{
+	//is only interface (no ctor or rule of 5)
+	class Command
+	{
+	public:
+		virtual ~Command() = default;
+		virtual void Execute() = 0;
+	};
+
+}
+
+#endif //AMU_COMMANDS_H
+```
 
 
 
-
-Most dependecies for rendering are nicely put away in RAII wrappers. The command pattern is used to provide an easy way for the user to handle input. Audio, provided through a service locator, is managed on a seperate thread to not uphold the main threads update loop.
+Audio, provided through a service locator, is managed on a seperate thread to not uphold the main threads update loop.
 
 Through the component system the user has access to the update loop and can define their own unique behaviour. Some pre-defined components include RenderComponent, TextComponent, TransformComponent, CollisionComponent. The collision system uses a simple distance check and triggers the appropriate methods. To decouple as much as possible but still allow the components to communicate with one another, the Subject-Observer relationship is used.
 All of the used patterns are applied from the book "Game Programming Patterns" by Bob Nystrom.
