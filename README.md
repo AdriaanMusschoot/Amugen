@@ -55,7 +55,7 @@ T* AddComponent(Args&&... args)
 	return nullptr;
 }
 ```
-Here I don't allow for multiple components to be added. If it is really the case that you needed the same component twice, you can make use of the engine's scene graph and parent a second object (containing that double component) to the first one. 
+Here I don't allow for multiple components to be added. If it is really the case that you needed the same component twice, you can make use of the engine's scene graph and parent a second object (containing that double component) to the first one. To handle the mathematics and positions behind the scene graph the engine uses GLM. 
 Once you have hooked up all the logic to the game object you'll have to hand it of to one of the scenes. This should be done in the method provided to create the scene like so.
 ```cpp
 amu::SceneManager::GetInstance().CreateScene(pacman::tags::MAIN_SCENE, pacman::LoadMainScene);
@@ -102,7 +102,7 @@ namespace amu
 ``` 
 
 
-To handle the mathematics and positions behind the scene graph the engine uses GLM.
+
 
 Most dependecies for rendering are nicely put away in RAII wrappers. The command pattern is used to provide an easy way for the user to handle input. Audio, provided through a service locator, is managed on a seperate thread to not uphold the main threads update loop.
 
